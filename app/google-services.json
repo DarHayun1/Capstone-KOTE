@@ -1,0 +1,64 @@
+{
+  "project_info": {
+    "project_number": "694109626378",
+    "firebase_url": "https://kote-king-of-the-ear-2026038.firebaseio.com",
+    "project_id": "kote---king-of-the-ear-2026038",
+    "storage_bucket": "kote---king-of-the-ear-2026038.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:694109626378:android:6116dda6820fdc9c23fff3",
+        "android_client_info": {
+          "package_name": "dar.games.music.capstonekote"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "694109626378-nclel3n93lb59moub766ki2m5a4b4plf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dar.games.music.capstonekote",
+            "certificate_hash": "e7b3ce80881feab0dcf806d2b1d583ecb0835b17"
+          }
+        },
+        {
+          "client_id": "694109626378-9k6trcps92afrdngo5japn8jgbhllr5i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dar.games.music.capstonekote",
+            "certificate_hash": "f6a546a28924545e16e1e8aae27748aca0f0abdb"
+          }
+        },
+        {
+          "client_id": "694109626378-8s5deo5elq8iqje007n30cup4jrpaedg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dar.games.music.capstonekote",
+            "certificate_hash": "1dcb7d1361dec4544a6d44263d1c7e1dc8f04602"
+          }
+        },
+        {
+          "client_id": "694109626378-mngruupjtoltfob4fq95lqcjt1b4l5d0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvjDAXnP0egF3XrW3EpaZ8HYkdhvyvdOU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "694109626378-mngruupjtoltfob4fq95lqcjt1b4l5d0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,109 @@
+<resources>
+    <string name="app_name">King Of The Ear</string>
+    <string name="app_logo_text">KOTE</string>
+    <string name="start_game">START GAME</string>
+    <string name="saved_difficulty_key">saved_diff_key</string>
+    <string name="resulttextHint">resultText</string>
+    <string name="difficulty_label">Difficulty:</string>
+    <string name="highscore_label">Highscore:</string>
+    <string name="highscore_hint">Highscore</string>
+    <string name="instructions_label">Instructions</string>
+    <string name="leaderboard_label">Leaderboard</string>
+    <string name="last_games_label">Last games</string>
+    <string name="default_hello_text">Hey guest!</string>
+    <string name="start_game_content_desc">start-game button</string>
+    <string name="close_button">Close</string>
+    <string name="vs_label">Vs.</string>
+    <string name="firest_note">First note</string>
+    <string name="play_1st_note_content_desc">play first note</string>
+    <string name="stop_player_record">STOP</string>
+
+    <string name="record_btn_label">Record</string>
+    <string name="ready_btn_label_text">Ready for</string>
+    <string name="ready_btn_text">Round </string>
+    <string name="easy_diff">EASY</string>
+    <string name="hard_diff">HARD</string>
+    <string name="extreme_diff">EXTREME</string>
+    <string name="signin_other_error">Unsuccessful Google sign-in attempt</string>
+
+    <string name="leaderboard_easy_id">CggI1ajFoEwQAhAB</string>
+    <string name="leaderboard_hard_id">CggI1ajFoEwQAhAC</string>
+    <string name="leaderboard_extreme_id">CggI1ajFoEwQAhAD</string>
+    <string name="now_recording_label">Recording...</string>
+    <string name="record_label">Record</string>
+    <string name="record_icon_content">record icon</string>
+    <string name="round_label_text">Round</string>
+    <string name="default_round_text">0</string>
+    <string name="score_label_text">Score</string>
+    <string name="welcome_base_text">Hey, </string>
+    <string name="last_games_icon">last games icon</string>
+    <string name="result_label_def_text_">Round 1 Score</string>
+    <string name="ready_text_default">Stage 1</string>
+    <string name="new_highscore">New Highscore!</string>
+
+    <string name="skip_sign_in_btn">Skip Sign-in</string>
+    <string name="guest_name">Guest</string>
+    <string name="plays_left_base_text">Plays left:</string>
+    <string name="default_difficulty_txt">Difficulty</string>
+    <string name="default_score_txt">score</string>
+    <string name="intructions_label">Intructions</string>
+    <string name="general_label">How To play</string>
+    <string name="general_instructions_text">
+        Each round the game plays a different melody.
+        \n
+        \nClick the "1st Note" button to play the first note of the melody unlimited amount of times.
+        \nThe melody is in the major scale of the first note.
+        \nFor beginners, the notes in the scale (The notes that can be in the melody) will be displayed in the "EASY" games on the piano with blue dots.
+        \n
+        \nClick the "Play Melody" button to play the melody, and try to remember and imitate it with your own musical instrument.
+        \nBut be careful! you only get to play the melody 3 times per round!
+        \n
+        \nOnce you are ready, click the "Record" button and try to play the exact melody played by the game with your own musical instrument!\n
+    </string>
+    <string name="use_headphones_instructions_text">
+        For best game experience\nUse headphones
+    </string>
+    <string name="scoring_system_label">Score</string>
+    <string name="scoring_system_text">
+        The main 2 components of the scoring system is TIMING and NOTE ACCURACY
+        \nDifferent tempo is considered OK if the timing of the notes relative to the tempo remains the same.
+    </string>
+    <string name="log_success">Success</string>
+    <string name="log_failure">Failure</string>
+    <string name="default_highscore">0</string>
+    <string name="leaderboard_content_desc">Leaderboard icon</string>
+    <string name="instructions_content_desc">Instructions butoon</string>
+    <string name="play_melody_content_desc">Play melody button</string>
+    <string name="difficulty_easy_content_desc">Difficulty easy</string>
+    <string name="difficulty_hard_content_desc">Difficulty hard</string>
+    <string name="difficulty_extreme_content_desc">Difficulty extreme</string>
+    <string name="next_difficulty_content_desc">Next difficulty button</string>
+    <string name="previous_difficulty_content_desc">Previous difficulty button</string>
+    <string name="play_content_desc">Play button</string>
+    <string name="piano_image_content_desc">Piano image</string>
+    <string name="icon_content_desc">King of the ear icon</string>
+    <string name="main_menu_label">Main Menu</string>
+    <string name="play_again_label">Play Again</string>
+    <string name="final_score_highscore">Highscore</string>
+    <string name="quit_game_dialog_title">Quit Game</string>
+    <string name="quit_game_dialog_message">Are you sure you want to quit? Your game progress will be lost.</string>
+    <string name="quit_game_dialog_yes">Yes</string>
+    <string name="quit_game_dialog_not">Omg, No!</string>
+    <string name="round">Round </string>
+    <string name="result"> Result</string>
+    <string name="round_score_text">The score is: </string>
+    <string name="finish">Finish</string>
+    <string name="record_interrupted_message">Record interrupted\nTry again.</string>
+    <string name="note"> note</string>
+    <string name="invalid_record_text">Invalid record\nMove away from noise and try again</string>
+    <string name="no_more_plays_text">No more plays available\nIt\'s your turn now!</string>
+    <string name="gms_connection_problem">Google Play Games connectivity problem</string>
+    <string name="not_connected_title">Sorry</string>
+    <string name="not_connected_message">You are not connected to Google Play.</string>
+    <string name="no_connection_dialog_yes">Sign me in!</string>
+    <string name="no_connection_dialog_no">Dismiss</string>
+    <string name="signed_out_message">Signed Out!</string>
+    <string name="sign_out_text">Sign Out</string>
+
+
+</resources>

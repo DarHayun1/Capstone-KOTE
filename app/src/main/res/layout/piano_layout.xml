@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_marginStart="@dimen/screen_shoulders_margin"
+    android:layout_marginEnd="@dimen/screen_shoulders_margin"
+    android:maxWidth="@dimen/max_piano_width"
+    android:layout_height="wrap_content"
+    app:layout_constraintBottom_toBottomOf="@id/game_hor_guideline"
+    app:layout_constraintTop_toTopOf="@id/game_hor_guideline"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent">
+
+    <ImageView
+        android:id="@+id/sample_piano_iv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:elevation="12dp"
+        android:src="@drawable/pian_empty"
+        android:contentDescription="@string/piano_image_content_desc"/>
+
+    <FrameLayout
+        android:id="@+id/piano_board_frame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#707070"
+        android:elevation="4dp">
+
+        <include
+            android:id="@+id/piano_board_player"
+            layout="@layout/not_recording_layout"
+            android:visibility="visible" />
+
+        <include
+            android:id="@+id/piano_board_recording"
+            layout="@layout/now_recording_layout"
+            android:visibility="gone" />
+
+    </FrameLayout>
+</LinearLayout>
