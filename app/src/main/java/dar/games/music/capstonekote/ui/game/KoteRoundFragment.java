@@ -347,6 +347,7 @@ public class KoteRoundFragment extends Fragment {
 
     private void playSample() {
 
+//        String uri1 = "android.resource://" + mContext.getPackageName() + "/raw/" + mGameViewModel.getGame().ge
         mMediaPlayer = MediaPlayer.create(mContext, mGameViewModel.getGame()
                 .getCurrentSample().getSampleId());
         seekBar.setMax(mMediaPlayer.getDuration());

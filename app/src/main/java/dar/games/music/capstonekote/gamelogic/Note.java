@@ -9,6 +9,7 @@ import be.tarsos.dsp.util.PitchConverter;
 import dar.games.music.capstonekote.R;
 
 public class Note {
+
     private static final String[] notesNamesArray = {"C", "C#", "D", "D#", "E", "F", "F#",
             "G", "G#", "A", "A#", "B"};
     private static final String SILENCE_NOTE = "S";
@@ -22,14 +23,14 @@ public class Note {
     private boolean used = false;
     private double duration;
 
-    public Note(String name, int octave, double timeStamp, double probability) {
-        this.name = name;
-        this.octave = octave;
-        this.timeStamp = timeStamp;
-        this.probability = probability;
-        this.duration = 0.0;
-    }
-
+    /**
+     * A simple constructor
+     * @param name - The note symbol (from notesNamesArray) or SILENCE_NOTE if silence detected.
+     * @param octave - the note octave.
+     * @param timeStamp - The time stamp from the start of the note relative to the recording.
+     * @param probability - The note detection probability score from 0.0-1.0.
+     * @param duration - The note duration in seconds.
+     */
     Note(String name, int octave, double timeStamp, double probability, double duration) {
         this.name = name;
         this.octave = octave;
@@ -38,6 +39,14 @@ public class Note {
         this.duration = duration;
     }
 
+    /**
+     * Converting recording data to a Note Object.
+     * @param pitchInHz
+     * @param timeStamp
+     * @param prob
+     * @return A newly created Note object
+     */
+    @SuppressWarnings("JavaDoc")
     public static Note convertToNote(double pitchInHz, double timeStamp, double prob) {
 
         if (pitchInHz < 0)
@@ -45,52 +54,6 @@ public class Note {
         int midiKey = PitchConverter.hertzToMidiKey(pitchInHz);
         return new Note(notesNamesArray[midiKey % 12], ((midiKey / 12) - 2), timeStamp,
                 prob, NoteArrayList.FRAME_INTERVAL);
-    }
-
-    static boolean nullableEquals(Note noteA, Note noteB) {
-        if (noteA == null && noteB == null) {
-            return true;
-        } else if (noteA != null)
-            return noteA.equals(noteB);
-        else return false;
-    }
-
-    boolean isUsed() {
-        return used;
-    }
-
-    void setUsed() {
-        this.used = true;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getOctave() {
-        return octave;
-    }
-
-    double getDuration() {
-        return duration;
-    }
-
-    void setDuration(double duration) {
-        this.duration = duration;
-    }
-
-    private int getNoteValue() {
-        if (!this.isSilence())
-            for (int i = 0; i < notesNamesArray.length; i++) {
-                if (this.getName().equals(notesNamesArray[i])) {
-                    return i;
-                }
-            }
-        return SILENCE_NOTE_VALUE;
-    }
-
-    boolean isSilence(){
-        return this.name.equals(SILENCE_NOTE);
     }
 
     public int getAbsoluteNoteValue() {
@@ -267,6 +230,79 @@ public class Note {
         }
     }
 
+    /**
+     * Comparison method also allowing to compare two null objects as a success.
+     * @param noteA
+     * @param noteB
+     * @return true if both of the notes are null or getting true on the equals() method.
+     */
+    static boolean nullableEquals(Note noteA, Note noteB) {
+        if (noteA == null && noteB == null) {
+            return true;
+        } else if (noteA != null)
+            return noteA.equals(noteB);
+        else return false;
+    }
+
+
+    boolean isSilence() {
+        return this.name.equals(SILENCE_NOTE);
+    }
+    // ********************
+    // Getters and Setters
+    // ********************
+
+    boolean isUsed() {
+        return used;
+    }
+
+    void setUsed() {
+        this.used = true;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getOctave() {
+        return octave;
+    }
+
+    double getDuration() {
+        return duration;
+    }
+
+    void setDuration(double duration) {
+        this.duration = duration;
+    }
+
+    public double getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(double timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public double getProbability() {
+        return probability;
+    }
+
+    // ************************
+    // End of Getters and Setters
+    // ************************
+
+    private int getNoteValue() {
+        if (!this.isSilence())
+            for (int i = 0; i < notesNamesArray.length; i++) {
+                if (this.getName().equals(notesNamesArray[i])) {
+                    return i;
+                }
+            }
+        return SILENCE_NOTE_VALUE;
+    }
+
+
     @NonNull
     @Override
     public String toString() {
@@ -280,21 +316,8 @@ public class Note {
         if (obj == this)
             return true;
         if (obj instanceof Note) {
-            Note note = (Note) obj;
-            return note.getName().equals(this.name);
+            return ((Note)obj).getName().equals(this.name);
         }
         return false;
-    }
-
-    public double getTimeStamp() {
-        return timeStamp;
-    }
-
-    public void setTimeStamp(double timeStamp) {
-        this.timeStamp = timeStamp;
-    }
-
-    public double getProbability() {
-        return probability;
     }
 }

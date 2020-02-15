@@ -30,7 +30,6 @@ public class EndGameFragment extends Fragment {
     TextView highScoreTv;
     private OnGameFragInteractionListener mCallback;
 
-
     public EndGameFragment() {
     }
 
@@ -44,12 +43,6 @@ public class EndGameFragment extends Fragment {
                     + " must implement OnRoundFinishedListener");
         }
     }
-
-//    public static EndGameFragment newInstance() {
-//        //        Bundle args = new Bundle();
-////        fragment.setArguments(args);
-//        return new EndGameFragment();
-//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -14,12 +14,19 @@ import dar.games.music.capstonekote.R;
 import dar.games.music.capstonekote.gamelogic.KoteGame;
 import dar.games.music.capstonekote.ui.mainmenu.MainActivity;
 
+/**
+ * The activity where the games are created and played.
+ * Using the KoteGameViewModel managing games, changing the relevant fragments (Round, Result
+ * and EndGame) corresponding to game events.
+ */
 public class GamesActivity extends AppCompatActivity implements OnGameFragInteractionListener {
 
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
     private String[] permissions = {Manifest.permission.RECORD_AUDIO};
     private boolean recordPermissionGranted = false;
+
     private KoteGameViewModel mViewModel;
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

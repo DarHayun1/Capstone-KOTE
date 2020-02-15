@@ -55,28 +55,9 @@ public class KoteGame {
         currentSample = NoteArrayList.samplePairToNoteArray(mMusicalParts.get(0), this.difficulty);
     }
 
-    /**
-     * Moving the game to the next round if available.
-     * @return The New round or GAME_ENDED if there are not more rounds available.
-     */
-    public int nextRound() {
-        if (hasNextRound()) {
-            currentSample = NoteArrayList.samplePairToNoteArray(mMusicalParts.get(round), difficulty);
-            round++;
-            playsLeft.setValue(3);
-            return round;
-        } else {
-            return GAME_ENDED;
-        }
-    }
-
-    public boolean hasNextRound() {
-        return round < mMusicalParts.size();
-    }
-
-    public void addSamplePlay() {
-        playsLeft.setValue(playsLeft.getValue() - 1);
-    }
+    // ***************
+    // Public Methods
+    // ***************
 
     /**
      * The main method for the scoring process.
@@ -102,6 +83,76 @@ public class KoteGame {
         } else
             currentScore = -1;
     }
+
+    /**
+     * Moving the game to the next round if available.
+     * @return The New round or GAME_ENDED if there are not more rounds available.
+     */
+    public int nextRound() {
+        if (hasNextRound()) {
+            currentSample = NoteArrayList.samplePairToNoteArray(mMusicalParts.get(round), difficulty);
+            round++;
+            playsLeft.setValue(3);
+            return round;
+        } else {
+            return GAME_ENDED;
+        }
+    }
+
+    public boolean hasNextRound() {
+        return round < mMusicalParts.size();
+    }
+
+    public void addSamplePlay() {
+        playsLeft.setValue(playsLeft.getValue() - 1);
+    }
+
+    public MutableLiveData<Integer> samplePlayesLeft() {
+        return playsLeft;
+    }
+
+    /*** Getters ***/
+
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    public int getCurrentScore() {
+        return currentScore;
+    }
+
+    public NoteArrayList getCurrentSample() {
+        return currentSample;
+    }
+
+    public int getRound() {
+        return round;
+    }
+
+    public double getSampleLength() {
+        return currentSample.getTotalDuration();
+    }
+
+    public int getTotalScore() {
+        return totalScore;
+    }
+
+    /**
+     * @return A newly created GameResultModel Ready for DB insertion.
+     */
+    public GameResultModel getGameResult() {
+        return new GameResultModel(new Date(), totalScore, difficulty);
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return round + "\n" + totalScore + "\n" + difficulty + "\n" + mMusicalParts.toString();
+    }
+
+    // ***************
+    // Private methods
+    // ***************
 
     /**
      * Check if the player's recording has too many notes (trying to manipulate
@@ -365,48 +416,7 @@ public class KoteGame {
         }
     }
 
-    public MutableLiveData<Integer> samplePlayesLeft() {
-        return playsLeft;
-    }
 
-    /*** Getters ***/
-
-    public int getDifficulty() {
-        return difficulty;
-    }
-
-    public int getCurrentScore() {
-        return currentScore;
-    }
-
-    public NoteArrayList getCurrentSample() {
-        return currentSample;
-    }
-
-    public int getRound() {
-        return round;
-    }
-
-    public double getSampleLength() {
-        return currentSample.getTotalDuration();
-    }
-
-    public int getTotalScore() {
-        return totalScore;
-    }
-
-    /**
-     * @return A newly created GameResultModel Ready for DB insertion.
-     */
-    public GameResultModel getGameResult() {
-        return new GameResultModel(new Date(), totalScore, difficulty);
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return round + "\n" + totalScore + "\n" + difficulty + "\n" + mMusicalParts.toString();
-    }
 
 
 
