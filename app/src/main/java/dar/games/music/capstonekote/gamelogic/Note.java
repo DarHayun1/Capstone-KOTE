@@ -9,8 +9,10 @@ import be.tarsos.dsp.util.PitchConverter;
 import dar.games.music.capstonekote.R;
 
 public class Note {
-    public static final String[] notesNamesArray = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
-    public static final String SILENCE_NOTE = "S";
+    private static final String[] notesNamesArray = {"C", "C#", "D", "D#", "E", "F", "F#",
+            "G", "G#", "A", "A#", "B"};
+    private static final String SILENCE_NOTE = "S";
+    private static final int SILENCE_NOTE_VALUE = -6;
 
     private double probability;
     private String name;
@@ -28,7 +30,7 @@ public class Note {
         this.duration = 0.0;
     }
 
-    public Note(String name, int octave, double timeStamp, double probability, double duration) {
+    Note(String name, int octave, double timeStamp, double probability, double duration) {
         this.name = name;
         this.octave = octave;
         this.timeStamp = timeStamp;
@@ -45,7 +47,7 @@ public class Note {
                 prob, NoteArrayList.FRAME_INTERVAL);
     }
 
-    public static boolean nullableEquals(Note noteA, Note noteB) {
+    static boolean nullableEquals(Note noteA, Note noteB) {
         if (noteA == null && noteB == null) {
             return true;
         } else if (noteA != null)
@@ -53,11 +55,11 @@ public class Note {
         else return false;
     }
 
-    public boolean isUsed() {
+    boolean isUsed() {
         return used;
     }
 
-    public void setUsed() {
+    void setUsed() {
         this.used = true;
     }
 
@@ -69,22 +71,26 @@ public class Note {
         return octave;
     }
 
-    public double getDuration() {
+    double getDuration() {
         return duration;
     }
 
-    public void setDuration(double duration) {
+    void setDuration(double duration) {
         this.duration = duration;
     }
 
-    public int getNoteValue() {
-        if (this.getName() != SILENCE_NOTE)
+    private int getNoteValue() {
+        if (!this.isSilence())
             for (int i = 0; i < notesNamesArray.length; i++) {
                 if (this.getName().equals(notesNamesArray[i])) {
                     return i;
                 }
             }
-        return -6;
+        return SILENCE_NOTE_VALUE;
+    }
+
+    boolean isSilence(){
+        return this.name.equals(SILENCE_NOTE);
     }
 
     public int getAbsoluteNoteValue() {

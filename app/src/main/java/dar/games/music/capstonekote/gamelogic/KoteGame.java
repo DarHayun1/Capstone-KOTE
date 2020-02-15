@@ -12,6 +12,7 @@ import java.util.List;
 
 import dar.games.music.capstonekote.repository.GameResultModel;
 
+
 public class KoteGame {
 
     // Game constants
@@ -71,6 +72,10 @@ public class KoteGame {
 
     public boolean hasNextRound() {
         return round < mMusicalParts.size();
+    }
+
+    public void addSamplePlay() {
+        playsLeft.setValue(playsLeft.getValue() - 1);
     }
 
     /**
@@ -362,10 +367,6 @@ public class KoteGame {
 
     public MutableLiveData<Integer> samplePlayesLeft() {
         return playsLeft;
-    }
-
-    public void addSamplePlay() {
-        playsLeft.setValue(playsLeft.getValue() - 1);
     }
 
     /*** Getters ***/
