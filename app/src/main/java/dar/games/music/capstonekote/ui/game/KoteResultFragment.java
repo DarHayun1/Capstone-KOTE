@@ -19,11 +19,17 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+/**
+ * A fragment displaying the finished round score.
+ */
 public class KoteResultFragment extends Fragment {
 
     private OnGameFragInteractionListener mCallback;
     private Unbinder mUnbinder;
 
+    // ********
+    // Views
+    // ********
     @BindView(R.id.score_tv)
     TextView scoreTv;
     @BindView(R.id.result_score_label)
@@ -37,12 +43,11 @@ public class KoteResultFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static KoteResultFragment newInstance() {
-        KoteResultFragment fragment = new KoteResultFragment();
+    static KoteResultFragment newInstance() {
 //        Not necessary at the moment
 //        Bundle args = new Bundle();
 //        fragment.setArguments(args);
-        return fragment;
+        return new KoteResultFragment();
     }
 
     @Override
@@ -75,14 +80,17 @@ public class KoteResultFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         KoteGameViewModel gameViewModel =
                 new ViewModelProvider(getActivity()).get(KoteGameViewModel.class);
+
         String resultLabelText = getResources().getString(R.string.round)
                 + gameViewModel.getGame().getRound() + getResources().getString(R.string.result);
         resultLabelTv.setText(resultLabelText);
+
         int score = gameViewModel.getGame().getCurrentScore();
         String scoreText = score + "/100";
         scoreTv.setText(scoreText);
         String contentDescText = getResources().getString(R.string.round_score_text) + score;
         scoreTv.setContentDescription(contentDescText);
+
         String rdyBtnText;
         if (gameViewModel.getGame().hasNextRound()) {
             rdyBtnText = getResources().getString(R.string.ready_btn_text)

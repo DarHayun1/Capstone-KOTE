@@ -19,6 +19,9 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import dar.games.music.capstonekote.R;
 
+/**
+ * A fragment displaying the finished game summary.
+ */
 public class EndGameFragment extends Fragment {
 
     private KoteGameViewModel mViewModel;

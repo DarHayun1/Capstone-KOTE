@@ -35,22 +35,53 @@ import dar.games.music.capstonekote.R;
 import dar.games.music.capstonekote.gamelogic.Note;
 import dar.games.music.capstonekote.gamelogic.NoteArrayList;
 
+/**
+ * A fragment displaying the a round of the game.
+ * Playing the melodies, the first note and recording the player's attempt
+ */
 public class KoteRoundFragment extends Fragment {
 
-    private static final String TAG = KoteRoundFragment.class.getSimpleName();
+    // *****************
+    // Constants
+    // *****************
     private static final String RECORD_INTERRUPTED_KEY = "record_interrupted_key";
     private static final String EXTRA_PLAYER_POS = "extra_player_pos";
+    // *****************
+    // Member variables
+    // *****************
     private MediaPlayer mMediaPlayer;
     private NoteArrayList mPlayerTryArr;
     private AudioDispatcher mDispatcher;
     private int mPlayerPos = 0;
 
-
     private Context mContext;
     private OnGameFragInteractionListener mCallback;
 
-    private Unbinder mUnbinder;
+    private KoteGameViewModel mGameViewModel;
 
+    private boolean isRecording = false;
+    private boolean isPlayingSample;
+    private Handler mSeekbarUpdateHandler = new Handler();
+    private Runnable mUpdateSeekbar = new Runnable() {
+        @Override
+        public void run() {
+            if (mMediaPlayer != null) {
+                seekBar.setProgress(mMediaPlayer.getCurrentPosition());
+                mSeekbarUpdateHandler.postDelayed(this, 50);
+            } else
+                mSeekbarUpdateHandler.removeCallbacks(mUpdateSeekbar);
+        }
+    };
+    private Timer recordTimer;
+    private boolean recordInterrupted = false;
+    private boolean playInterrupted = false;
+    private int mPlaysLeft;
+
+    private ConstraintSet mConstraintSet;
+    private Unbinder mUnbinder;
+    // *****************
+    // Views
+    // *****************
     @BindView(R.id.sample_piano_iv)
     ImageView mSamplePianoIv;
     @BindView(R.id.note_name_tv)
@@ -74,27 +105,7 @@ public class KoteRoundFragment extends Fragment {
     @BindView(R.id.plays_left)
     TextView playsLeftTextView;
 
-    private ConstraintSet mConstraintSet;
 
-    private KoteGameViewModel mGameViewModel;
-
-    private boolean isRecording = false;
-    private boolean isPlayingSample;
-    private Handler mSeekbarUpdateHandler = new Handler();
-    private Runnable mUpdateSeekbar = new Runnable() {
-        @Override
-        public void run() {
-            if (mMediaPlayer != null) {
-                seekBar.setProgress(mMediaPlayer.getCurrentPosition());
-                mSeekbarUpdateHandler.postDelayed(this, 50);
-            } else
-                mSeekbarUpdateHandler.removeCallbacks(mUpdateSeekbar);
-        }
-    };
-    private Timer recordTimer;
-    private boolean recordInterrupted = false;
-    private boolean playInterrupted = false;
-    private int mPlaysLeft;
 
     public static KoteRoundFragment newInstance() {
 

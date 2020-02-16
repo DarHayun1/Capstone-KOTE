@@ -32,6 +32,7 @@ public class KoteGameViewModel extends AndroidViewModel {
             R.raw.extreme3, R.raw.extreme4, R.raw.extreme5,
             R.raw.extreme6, R.raw.extreme7, R.raw.extreme8, R.raw.extreme9, R.raw.extreme10};
 
+
     private final GamesHistoryRepository mGamesHistoryRepo;
     private KoteGame currentGame;
 
@@ -83,6 +84,9 @@ public class KoteGameViewModel extends AndroidViewModel {
         currentGame.addSamplePlay();
     }
 
+    /**
+     *  Creating a new game with the same difficulty.
+     */
     void restartGame() {
         if (currentGame != null) {
             int diff = currentGame.getDifficulty();
