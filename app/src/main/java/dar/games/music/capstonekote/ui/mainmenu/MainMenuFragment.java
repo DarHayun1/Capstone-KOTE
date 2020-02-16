@@ -43,12 +43,29 @@ import static dar.games.music.capstonekote.ui.login.LogInActivity.LOG_IN_EVENT;
 import static dar.games.music.capstonekote.ui.login.LogInActivity.RC_SIGN_IN;
 import static dar.games.music.capstonekote.ui.mainmenu.MainActivity.DIFFICULTY_EXTRA;
 
+/**
+ * The main screen fragment
+ */
 public class MainMenuFragment extends Fragment {
 
-    private static final String TAG = MainMenuFragment.class.getSimpleName();
     private static final int RC_LEADERBOARD_UI = 302;
     private static final int RC_ACCOUNT_DISCONNECTED = 10001;
+
+    // *****************
+    // Member variables
+    // *****************
     private FirebaseAnalytics mFirebaseAnalytics;
+
+    private MainMenuViewModel mViewModel;
+    private int mDifficulty;
+    private SharedPreferences mPreferences;
+    private GameResultsAdapter mResultsAdapter;
+    private Context mContext;
+    private Unbinder mUnbinder;
+
+    // *****************
+    // Views
+    // *****************
     @BindView(R.id.diff_name_tv)
     TextView diffNameTv;
     @BindView(R.id.diff_iv)
@@ -63,12 +80,6 @@ public class MainMenuFragment extends Fragment {
     RecyclerView lastGamesRv;
     @BindView(R.id.player_name_tv)
     TextView playerNameTv;
-    private MainMenuViewModel mViewModel;
-    private int mDifficulty;
-    private SharedPreferences mPreferences;
-    private GameResultsAdapter mResultsAdapter;
-    private Context mContext;
-    private Unbinder mUnbinder;
 
     public static MainMenuFragment newInstance() {
         return new MainMenuFragment();
@@ -85,7 +96,6 @@ public class MainMenuFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.main_menu_fragment, container, false);
-
 
         mUnbinder = ButterKnife.bind(this, rootView);
 
@@ -195,6 +205,9 @@ public class MainMenuFragment extends Fragment {
         }
     }
 
+    /**
+     * Starting a google sign-in intent
+     */
     private void googleSignIn() {
         GoogleSignInOptions signInOptions = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -214,12 +227,14 @@ public class MainMenuFragment extends Fragment {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             Bundle bundle = new Bundle();
             if (result.isSuccess()) {
+                //Logging a FireBase Analytics successful connection event.
                 bundle.putString(LOGIN_RESULT_KEY, getResources().getString(R.string.log_success));
                 mFirebaseAnalytics.logEvent(LOG_IN_EVENT, bundle);
                 mViewModel.setAccount(result.getSignInAccount());
                 mViewModel.updateDiff(mDifficulty);
                 showLeaderboard();
             } else {
+                //Logging a FireBase Analytics unsuccessful connection event.
                 bundle.putString(LOGIN_RESULT_KEY, getResources().getString(R.string.log_failure));
                 mFirebaseAnalytics.logEvent(LOG_IN_EVENT, bundle);
                 String message = result.getStatus().getStatusMessage();
@@ -231,6 +246,7 @@ public class MainMenuFragment extends Fragment {
                 mViewModel.setAccount(null);
             }
         }
+        //If the user disconnected from google play games inside the leaderboard screen.
         if (requestCode == RC_LEADERBOARD_UI) {
             if (resultCode == RC_ACCOUNT_DISCONNECTED) {
                 mViewModel.setAccount(null);
@@ -293,16 +309,6 @@ public class MainMenuFragment extends Fragment {
                 diffIv.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.easy_diff_icon));
                 diffIv.setContentDescription(getString(R.string.difficulty_easy_content_desc));
                 diffNameTv.setText(getString(R.string.easy_diff));
-        }
-    }
-
-    private void signOut() {
-        if (getActivity() != null) {
-            GoogleSignInClient signInClient = GoogleSignIn.getClient(getActivity(),
-                    GoogleSignInOptions.DEFAULT_SIGN_IN);
-            mViewModel.setAccount(null);
-            signInClient.signOut().addOnCompleteListener(getActivity(),
-                    task -> Toast.makeText(mContext, getString(R.string.signed_out_message), Toast.LENGTH_LONG).show());
         }
     }
 

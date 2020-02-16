@@ -23,12 +23,21 @@ import dar.games.music.capstonekote.utils.AppExecutors;
 import static com.google.android.gms.games.leaderboard.LeaderboardVariant.COLLECTION_PUBLIC;
 import static com.google.android.gms.games.leaderboard.LeaderboardVariant.TIME_SPAN_ALL_TIME;
 
+/**
+ * The app's repository, responsible of providing the correct synchronized data from the DB and
+ * Google Play Games server.
+ */
 public class GamesHistoryRepository {
 
     private static final String ACCOUNT_STATUS_KEY = "account_status_key";
     private static final String GAME_ENDED_EVENT = "game_ended";
+
+    //Holding the one and only instance of the repository.
     private static GamesHistoryRepository sInstance;
 
+    // *****************
+    // Member variables
+    // *****************
     private final KoteDao mDao;
     private final Context mAppContext;
     private LiveData<List<GameResultModel>> gameResults;
@@ -39,6 +48,11 @@ public class GamesHistoryRepository {
     private GoogleSignInAccount mGoogleAccount;
     private boolean mAppStarted;
 
+    /**
+     * A private constructor called by the newInstance method.
+     * Creating all of the Class variables.
+     * @param application
+     */
     private GamesHistoryRepository(Application application) {
 
         mAppContext = application.getApplicationContext();
@@ -81,6 +95,11 @@ public class GamesHistoryRepository {
         playerName.setValue(mAppContext.getString(R.string.guest_name));
     }
 
+    /**
+     * Creating an instance only once in an app lifetime. performed in a sync way.
+     * @param application = the App reference.
+     * @return The repository singleton instance.
+     */
     public static GamesHistoryRepository getInstance(Application application) {
         if (sInstance == null) {
             synchronized (GamesHistoryRepository.class) {
@@ -91,24 +110,37 @@ public class GamesHistoryRepository {
         return sInstance;
     }
 
-    private void updateGoogleGamesHighscore(int difficulty) {
+    /**
+     * Updating the Google Play Games highscore
+     * @param difficulty
+     */
+    public void updateGoogleGamesHighscore(int difficulty) {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(mAppContext);
-        if (GoogleSignIn.hasPermissions(account, Games.SCOPE_GAMES_LITE)) {
+        //Checking for the needed permission
+        if (GoogleSignIn.hasPermissions(account, Games.SCOPE_GAMES_LITE))
+        {
             LeaderboardsClient leaderboardsClient =
                     Games.getLeaderboardsClient(mAppContext, account);
+
             leaderboardsClient.loadCurrentPlayerLeaderboardScore(getLeaderboardId(difficulty),
                     TIME_SPAN_ALL_TIME, COLLECTION_PUBLIC)
-                    .addOnSuccessListener(leaderboardData -> {
+                    .addOnSuccessListener(leaderboardData ->
+                    {
                         MutableLiveData<Integer> highScoreObject = getHighScoreObject(difficulty);
                         if (leaderboardData.get() != null
-                                && highScoreObject.getValue() < leaderboardData.get().getRawScore())
-
+                                && highScoreObject.getValue() < leaderboardData.get().getRawScore()) {
                             highScoreObject.postValue((int) leaderboardData.get()
                                     .getRawScore());
+                        }
                     });
         }
     }
 
+    /**
+     * Return the Highscore object matching the specified difficulty.
+     * @param difficulty - the Highscore difficulty.
+     * @return the Highscore object matching the specified difficulty
+     */
     private MutableLiveData<Integer> getHighScoreObject(int difficulty) {
         switch (difficulty) {
             case KoteGame.HARD_DIFFICULTY:
@@ -126,15 +158,30 @@ public class GamesHistoryRepository {
         return gameResults;
     }
 
+    /**
+     * Return the LiveData highscore object and refreshing the Google score.
+     * @param difficulty - The requested difficulty.
+     * @return a LiveData highscore object.
+     */
     public MutableLiveData<Integer> getHighScore(int difficulty) {
         updateGoogleGamesHighscore(difficulty);
         return getHighScoreObject(difficulty);
     }
 
+    /**
+     * Saving a new GameResult to the database on a different thread
+     * @param gameResult - The game data.
+     */
     public void saveResultToDB(GameResultModel gameResult) {
         AppExecutors.getInstance().diskIO().execute(() -> mDao.insertGame(gameResult));
     }
 
+    /**
+     * Posting a new score the the google play games leaderboard (If not a highscore
+     * the server will ignore the score).
+     * @param difficulty - Define the correct leaderboard for the score.
+     * @param score - The posted score.
+     */
     public void uploadLeaderboardScore(int difficulty, int score) {
         String leaderboardId = getLeaderboardId(difficulty);
 
@@ -162,16 +209,15 @@ public class GamesHistoryRepository {
         }
     }
 
-    public void updateHighscoreForDifficulty(int difficulty) {
-        updateGoogleGamesHighscore(difficulty);
-    }
-
     public void setAccount(@Nullable GoogleSignInAccount account) {
         mGoogleAccount = account;
         accountUpdated();
 
     }
 
+    /**
+     * Updating the player's name.
+     */
     private void accountUpdated() {
         if (mGoogleAccount != null)
             playerName.postValue(mGoogleAccount.getDisplayName());
@@ -184,16 +230,15 @@ public class GamesHistoryRepository {
     }
 
     public MutableLiveData<String> getPlayerName() {
-        if (mGoogleAccount == null) {
-            playerName.setValue(mAppContext.getString(R.string.guest_name));
-            return playerName;
-        } else {
-            playerName.setValue(mGoogleAccount.getDisplayName());
-            return playerName;
-        }
+      accountUpdated();
+      return playerName;
     }
 
-    public boolean appStarted() {
+    /**
+     * Return true for the first time called only.
+     * @return true for the first time called only.
+     */
+    public boolean isAppStarted() {
         if (mAppStarted) {
             return true;
         }

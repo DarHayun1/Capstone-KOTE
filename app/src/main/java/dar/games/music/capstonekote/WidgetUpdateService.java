@@ -9,9 +9,12 @@ import android.content.Intent;
 import dar.games.music.capstonekote.gamelogic.KoteGame;
 
 
+/**
+ * IntentService for updating the Widget.
+ */
 public class WidgetUpdateService extends IntentService {
 
-    public static final String ACTION_UPDATE_HIGHSCORE = "dar.games.music.miriamsbakingapp.action.update_highscore";
+    public static final String ACTION_UPDATE_HIGHSCORE = "dar.games.music.capstonekote.action.update_highscore";
     public static final String EXTRA_DIFF_WIDGET = "extra_difficulty_widget";
     public static final String EXTRA_SCORE_WIDGET = "extra_score_widget";
 
@@ -28,6 +31,10 @@ public class WidgetUpdateService extends IntentService {
         context.startService(serviceIntent);
     }
 
+    /**
+     * An intent to update the highscore displayed
+     * @param intent
+     */
     @Override
     protected void onHandleIntent(Intent intent) {
         if (intent.getAction() != null) {

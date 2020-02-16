@@ -14,6 +14,9 @@ import java.util.List;
 import dar.games.music.capstonekote.repository.GameResultModel;
 import dar.games.music.capstonekote.repository.GamesHistoryRepository;
 
+/**
+ * AndroidViewModel for the main screen. Getting the information from the app's repository.
+ */
 public class MainMenuViewModel extends AndroidViewModel {
 
     private final GamesHistoryRepository mGamesHistoryRepository;
@@ -33,7 +36,7 @@ public class MainMenuViewModel extends AndroidViewModel {
     }
 
     void updateDiff(int difficulty) {
-        mGamesHistoryRepository.updateHighscoreForDifficulty(difficulty);
+        mGamesHistoryRepository.updateGoogleGamesHighscore(difficulty);
     }
 
     void setAccount(GoogleSignInAccount signInAccount) {

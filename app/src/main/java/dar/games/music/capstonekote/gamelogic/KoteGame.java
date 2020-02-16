@@ -20,11 +20,12 @@ public class KoteGame {
     public static final int HARD_DIFFICULTY = 1;
     public static final int EXTREME_DIFFICULTY = 2;
 
-    public static final int GAME_ENDED = -1;
+    public static final int GAME_ENDED = 101;
 
     private static final double RELATIVE_SCORE_FACTOR = 0.9;
 
     private static final int MAX_UNUSED_SCORE = 75;
+    public static final int INVALID_SCORE = 102;
 
     private int difficulty;
     private List<Pair<String, Integer>> mMusicalParts;
@@ -70,18 +71,18 @@ public class KoteGame {
         if (playerArray.size() > 0) {
             Note[][] syncedArray = playerArray.syncMusicalParts(currentSample, difficulty);
             if (checkInvalidAttemptLength(syncedArray)) {
-                currentScore = -1;
+                currentScore = INVALID_SCORE;
                 return;
             }
 
             int tempScore = analyzeOnce(syncedArray);
             currentScore = validateDuplicates(syncedArray, tempScore);
-            if (currentScore == -1)
+            if (currentScore == INVALID_SCORE)
                 return;
 
             totalScore += currentScore;
         } else
-            currentScore = -1;
+            currentScore = INVALID_SCORE;
     }
 
     /**
@@ -353,7 +354,7 @@ public class KoteGame {
      * marked "used".
      * @param syncedArray - The 2D melodies array
      * @param chkScore - The original generated score.
-     * @return -1 if the record is invalid, otherwise, the calculated score.
+     * @return INVALID_SCORE if the record is invalid, otherwise, the calculated score.
      */
     private int validateDuplicates(Note[][] syncedArray, int chkScore) {
 
@@ -367,7 +368,7 @@ public class KoteGame {
         if (chkScore > 70 && secondScore > 50) {
             //If there is a third good score it is an invalid record
             if (analyzeOnce(syncedArray) > 50) {
-                return -1;
+                return INVALID_SCORE;
             }
             return secondScore;
         }

@@ -8,6 +8,9 @@ import androidx.annotation.NonNull;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+/**
+ * A Class responsible for handling the app threads.
+ */
 public class AppExecutors {
 
     private static final Object LOCK = new Object();

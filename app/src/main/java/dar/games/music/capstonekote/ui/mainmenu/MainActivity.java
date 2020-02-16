@@ -16,6 +16,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 import dar.games.music.capstonekote.R;
 
+/**
+ * Main Activity for the main screen of the app, containing the main menu.
+ */
 public class MainActivity extends AppCompatActivity {
 
     public static final String DIFFICULTY_EXTRA = "difficulty_extra";
@@ -37,16 +40,21 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.action_sign_out) {
+        if (item.getItemId() == R.id.action_sign_out)
+        {
             signOut();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Disconnecting from Google Play Games.
+     */
     private void signOut() {
         GoogleSignInClient signInClient = GoogleSignIn.getClient(this,
                 GoogleSignInOptions.DEFAULT_SIGN_IN);
+        //Replacing the account information with null
         new ViewModelProvider(this).get(MainMenuViewModel.class).setAccount(null);
         signInClient.signOut().addOnCompleteListener(this,
                 task -> Toast.makeText(this, getString(R.string.signed_out_message),
@@ -56,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
+        // Slide animation with the LogIn Activity
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

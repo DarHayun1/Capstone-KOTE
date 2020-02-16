@@ -21,9 +21,13 @@ import dar.games.music.capstonekote.R;
 import dar.games.music.capstonekote.gamelogic.KoteGame;
 import dar.games.music.capstonekote.repository.GameResultModel;
 
+/**
+ * Adapter to display the last games saved on the device
+ */
 public class GameResultsAdapter extends RecyclerView.Adapter<GameResultsAdapter.ResultsVH> {
 
-    private static final String DATE_FORMAT = "MMMd";
+    private static final String DATE_FORMAT = "MMM d";
+
     static final int SORT_BY_DATE = 120;
     static final int SORT_BY_SCORE = 121;
 
@@ -85,6 +89,7 @@ public class GameResultsAdapter extends RecyclerView.Adapter<GameResultsAdapter.
         return mResults.size();
     }
 
+    //For future implementation.
     public void setSortOrder(int sortBy) {
         if (mSortBy != sortBy) {
             mSortBy = sortBy;

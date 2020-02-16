@@ -32,7 +32,7 @@
     <string name="now_recording_label">Recording...</string>
     <string name="record_label">Record</string>
     <string name="record_icon_content">record icon</string>
-    <string name="round_label_text">Round</string>
+    <string name="round_label_text">Round </string>
     <string name="default_round_text">0</string>
     <string name="score_label_text">Score</string>
     <string name="welcome_base_text">Hey, </string>

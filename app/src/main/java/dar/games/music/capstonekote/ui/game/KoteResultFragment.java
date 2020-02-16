@@ -82,7 +82,8 @@ public class KoteResultFragment extends Fragment {
                 new ViewModelProvider(getActivity()).get(KoteGameViewModel.class);
 
         String resultLabelText = getResources().getString(R.string.round)
-                + gameViewModel.getGame().getRound() + getResources().getString(R.string.result);
+                + " " + gameViewModel.getGame().getRound()
+                + " " +  getResources().getString(R.string.result);
         resultLabelTv.setText(resultLabelText);
 
         int score = gameViewModel.getGame().getCurrentScore();
@@ -93,7 +94,7 @@ public class KoteResultFragment extends Fragment {
 
         String rdyBtnText;
         if (gameViewModel.getGame().hasNextRound()) {
-            rdyBtnText = getResources().getString(R.string.ready_btn_text)
+            rdyBtnText = getResources().getString(R.string.ready_btn_text) + " "
                 + (gameViewModel.getGame().getRound() + 1);
         }else {
             readyBtnLabelTv.setVisibility(View.GONE);

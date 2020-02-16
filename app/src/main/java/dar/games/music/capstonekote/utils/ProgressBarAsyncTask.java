@@ -4,6 +4,9 @@ import android.os.AsyncTask;
 
 import java.lang.ref.WeakReference;
 
+/*
+A fake progress bar required by the project specifications.
+ */
 public class ProgressBarAsyncTask extends AsyncTask<Void, Void, Void> {
 
 
@@ -27,7 +30,7 @@ public class ProgressBarAsyncTask extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         final OnPbFinishedListener callback = mWeakRefCallback.get();
         if (callback != null)
-            callback.onFinished();
+            callback.onPbFinished();
     }
 }
 

@@ -1,5 +1,6 @@
 package dar.games.music.capstonekote.utils;
 
+//Progress bar listener
 public interface OnPbFinishedListener {
-    void onFinished();
+    void onPbFinished();
 }

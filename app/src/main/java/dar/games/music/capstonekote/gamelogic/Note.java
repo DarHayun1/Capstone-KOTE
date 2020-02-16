@@ -60,6 +60,10 @@ public class Note {
         return getNoteValue() + 12 * this.octave;
     }
 
+    /**
+     * finding the res for the note.
+     * @return
+     */
     public int getSoundRes() {
         if (this.getOctave() == 2) {
             switch (this.getNoteValue()) {
@@ -287,10 +291,6 @@ public class Note {
     public double getProbability() {
         return probability;
     }
-
-    // ************************
-    // End of Getters and Setters
-    // ************************
 
     private int getNoteValue() {
         if (!this.isSilence())

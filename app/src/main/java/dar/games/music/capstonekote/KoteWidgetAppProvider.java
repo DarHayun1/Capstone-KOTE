@@ -9,6 +9,9 @@ import android.widget.RemoteViews;
 
 import dar.games.music.capstonekote.ui.mainmenu.MainActivity;
 
+/**
+ * A widget displaying the highscore for the last difficulty shown in the app.
+ */
 public class KoteWidgetAppProvider extends AppWidgetProvider {
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
@@ -63,10 +66,5 @@ public class KoteWidgetAppProvider extends AppWidgetProvider {
     @Override
     public void onEnabled(Context context) {
 
-    }
-
-    @Override
-    public void onDisabled(Context context) {
-        // Enter relevant functionality for when the last widget is disabled
     }
 }

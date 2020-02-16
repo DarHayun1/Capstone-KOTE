@@ -29,22 +29,37 @@ import dar.games.music.capstonekote.ui.mainmenu.MainActivity;
 import dar.games.music.capstonekote.utils.OnPbFinishedListener;
 import dar.games.music.capstonekote.utils.ProgressBarAsyncTask;
 
-
+/**
+ * Launcher activity for logging in to google play games.
+ */
 public class LogInActivity extends AppCompatActivity implements OnPbFinishedListener {
+
+    // ****************
+    // Class constants
+    // ****************
 
     public static final int RC_SIGN_IN = 303;
     public static final String LOGIN_RESULT_KEY = "login_result_key";
     public static final String LOG_IN_EVENT = "log_in_attempt";
+
+    // *******
+    // Views
+    // *******
+
     @BindView(R.id.skip_log_in_btn)
     View skipButton;
     @BindView(R.id.sign_in_btn)
     View signInButton;
     @BindView(R.id.login_pb)
     ProgressBar loginProgressBar;
+
+    // ****************
+    // Member variables
+    // ****************
     private GoogleSignInClient signInClient;
     private boolean silentAttempted = false;
     private Unbinder mUnbinder;
-    private SignInViewModel signInViewModel;
+    private LogInViewModel logInViewModel;
     private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
@@ -58,8 +73,9 @@ public class LogInActivity extends AppCompatActivity implements OnPbFinishedList
     @Override
     protected void onResume() {
         super.onResume();
-        signInViewModel = new ViewModelProvider(this).get(SignInViewModel.class);
-        if (!signInViewModel.appStarted()) {
+        logInViewModel = new ViewModelProvider(this).get(LogInViewModel.class);
+        // Running a progressBar when the app runs for the first time.
+        if (!logInViewModel.appStarted()) {
             loginProgressBar.setVisibility(View.VISIBLE);
             new ProgressBarAsyncTask(this).execute();
         } else {
@@ -83,12 +99,14 @@ public class LogInActivity extends AppCompatActivity implements OnPbFinishedList
         }
     }
 
+    /**
+     * Trying to sign-in without user interaction.
+     */
     private void signInSilently() {
-
         GoogleSignInAccount mGoogleAccount = GoogleSignIn.getLastSignedInAccount(this);
         if (GoogleSignIn.hasPermissions(mGoogleAccount, Games.SCOPE_GAMES_LITE)) {
 
-            signInViewModel.setAccount(mGoogleAccount);
+            logInViewModel.setAccount(mGoogleAccount);
             continueToMainActivity();
         } else {
 
@@ -96,7 +114,7 @@ public class LogInActivity extends AppCompatActivity implements OnPbFinishedList
             silentSignInTask.addOnCompleteListener(this, task -> {
                 if (task.isSuccessful()) {
 
-                    signInViewModel.setAccount(task.getResult());
+                    logInViewModel.setAccount(task.getResult());
                     continueToMainActivity();
                 } else {
 
@@ -109,18 +127,19 @@ public class LogInActivity extends AppCompatActivity implements OnPbFinishedList
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //Getting a result from the Google Sign In intent
         if (requestCode == RC_SIGN_IN) {
-
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             Bundle bundle = new Bundle();
             if (result.isSuccess()) {
-
+                //Logging a FireBase Analytics successful connection event.
                 bundle.putString(LOGIN_RESULT_KEY, getResources().getString(R.string.log_success));
                 mFirebaseAnalytics.logEvent(LOG_IN_EVENT, bundle);
-                signInViewModel.setAccount(result.getSignInAccount());
+                logInViewModel.setAccount(result.getSignInAccount());
                 continueToMainActivity();
             } else {
 
+                //Logging a FireBase Analytics unsuccessful connection event.
                 bundle.putString(LOGIN_RESULT_KEY, getResources().getString(R.string.log_failure));
                 mFirebaseAnalytics.logEvent(LOG_IN_EVENT, bundle);
                 String message = result.getStatus().getStatusMessage();
@@ -134,14 +153,18 @@ public class LogInActivity extends AppCompatActivity implements OnPbFinishedList
         }
     }
 
+    /**
+     * Continue with the account set to null.
+     */
     @OnClick(R.id.skip_log_in_btn)
     void skipSignIn() {
-        signInViewModel.setAccount(null);
+        logInViewModel.setAccount(null);
         continueToMainActivity();
     }
 
     private void continueToMainActivity() {
         startActivity(new Intent(this, MainActivity.class));
+        // Slide animation with the MainActivity
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
@@ -157,8 +180,11 @@ public class LogInActivity extends AppCompatActivity implements OnPbFinishedList
         mUnbinder.unbind();
     }
 
+    /**
+     * Progress bar finished
+     */
     @Override
-    public void onFinished() {
+    public void onPbFinished() {
         if (loginProgressBar != null)
             loginProgressBar.setVisibility(View.INVISIBLE);
         if (signInButton != null)

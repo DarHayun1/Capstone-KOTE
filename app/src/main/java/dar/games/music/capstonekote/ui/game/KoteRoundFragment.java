@@ -32,8 +32,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import dar.games.music.capstonekote.R;
+import dar.games.music.capstonekote.gamelogic.KoteGame;
 import dar.games.music.capstonekote.gamelogic.Note;
 import dar.games.music.capstonekote.gamelogic.NoteArrayList;
+import dar.games.music.capstonekote.utils.AppExecutors;
 
 /**
  * A fragment displaying the a round of the game.
@@ -46,11 +48,12 @@ public class KoteRoundFragment extends Fragment {
     // *****************
     private static final String RECORD_INTERRUPTED_KEY = "record_interrupted_key";
     private static final String EXTRA_PLAYER_POS = "extra_player_pos";
+
     // *****************
     // Member variables
     // *****************
     private MediaPlayer mMediaPlayer;
-    private NoteArrayList mPlayerTryArr;
+    private NoteArrayList mPlayerAttemptArr;
     private AudioDispatcher mDispatcher;
     private int mPlayerPos = 0;
 
@@ -79,6 +82,7 @@ public class KoteRoundFragment extends Fragment {
 
     private ConstraintSet mConstraintSet;
     private Unbinder mUnbinder;
+
     // *****************
     // Views
     // *****************
@@ -107,7 +111,7 @@ public class KoteRoundFragment extends Fragment {
 
 
 
-    public static KoteRoundFragment newInstance() {
+    static KoteRoundFragment newInstance() {
 
 //        Bundle args = new Bundle();
         KoteRoundFragment fragment = new KoteRoundFragment();
@@ -137,8 +141,10 @@ public class KoteRoundFragment extends Fragment {
         mConstraintSet = new ConstraintSet();
         mConstraintSet.clone(pianoBoardConstraintPlayer);
 
-        mPlayerTryArr = new NoteArrayList(4000, NoteArrayList.PLAYER_ID);
+        mPlayerAttemptArr = new NoteArrayList(4000, NoteArrayList.PLAYER_ID);
 
+        /* If the app stopped while recording
+         */
         if (savedInstanceState != null) {
             if (savedInstanceState.getBoolean(RECORD_INTERRUPTED_KEY, false))
                 Toast.makeText(mContext,
@@ -167,6 +173,7 @@ public class KoteRoundFragment extends Fragment {
         totalScoreTv.setText(String.valueOf(mGameViewModel.getGame().getTotalScore()));
         roundTv.setText(String.valueOf(mGameViewModel.getGame().getRound()));
 
+        //Updating every time the game plays the melody.
         mGameViewModel.getPlaysLeft().observe(getViewLifecycleOwner(), numOfPlays -> {
             mPlaysLeft = numOfPlays;
             String tempText = getString(R.string.plays_left_base_text)
@@ -186,7 +193,6 @@ public class KoteRoundFragment extends Fragment {
         mUnbinder.unbind();
     }
 
-    //gets only valid samples with a note in the 2-4 octave
     @OnClick(R.id.first_note_btn)
     void playFirstNote() {
         if (!isPlayingSample) {
@@ -196,6 +202,7 @@ public class KoteRoundFragment extends Fragment {
 
             Note firstNote = mGameViewModel.getGame().getCurrentSample().get(0);
 
+            //Playing the first note with the MediaPlayer.
             releaseMediaPlayer();
             mMediaPlayer = MediaPlayer.create(mContext, firstNote.getSoundRes());
             mMediaPlayer.start();
@@ -208,6 +215,11 @@ public class KoteRoundFragment extends Fragment {
         }
     }
 
+    /**
+     * Displaying a piano image with the given note highlighted + the note's name and octave below
+     * the highlighted note.
+     * @param note - The note to display.
+     */
     private void showPianoNote(Note note) {
         mSamplePianoIv.setImageDrawable(ContextCompat.getDrawable(mContext, note.getImageRes()));
         String pianoContentDesc = note.getName()
@@ -216,32 +228,41 @@ public class KoteRoundFragment extends Fragment {
 
         String noteText = note.getName() + "(" + note.getOctave() + ")";
         mNoteNameTv.setText(noteText);
+        /*Setting the horizontal bias of the first note's text view based on the position of the
+         note on the 3 octaves piano. */
         mConstraintSet.setHorizontalBias(mNoteNameTv.getId(),
                 (float) (note.getAbsoluteNoteValue() - 24) / 36);
         mConstraintSet.applyTo(pianoBoardConstraintPlayer);
         mNoteNameTv.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Start to dispatch sound from the microphone and record the data to the mPlayerAttemptArr.
+     */
     private void startRecordPlay() {
-
         releaseMediaPlayer();
         releaseDispatcher();
         displayRecording();
         mDispatcher = AudioDispatcherFactory.fromDefaultMicrophone(44100, 2048, 0);
         isRecording = true;
 
+
         mDispatcher.addAudioProcessor(
                 new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN,
                         44100,
                         2048,
-                        (pitchDetectionResult, audioEvent) -> {
+                        (pitchDetectionResult, audioEvent) ->
+                        {
                             final double detectProb = pitchDetectionResult.getProbability();
                             final double pitchInHz = pitchDetectionResult.getPitch();
-                            if (pitchInHz > 0 && isRecording) {
-                                Objects.requireNonNull(getActivity()).runOnUiThread(() -> {
+                            if (pitchInHz > 0 && isRecording)
+                            {
+                                Objects.requireNonNull(getActivity()).runOnUiThread(() ->
+                                {
                                     Note note = Note.convertToNote(pitchInHz,
                                             audioEvent.getTimeStamp(), detectProb);
-                                    mPlayerTryArr.add(note);
+
+                                    mPlayerAttemptArr.add(note);
                                     if ((note.getAbsoluteNoteValue() - 24) < 36
                                             && note.getAbsoluteNoteValue() > 0
                                             && isRecording) {
@@ -250,7 +271,10 @@ public class KoteRoundFragment extends Fragment {
                                 });
                             }
                         }));
-        new Thread(mDispatcher, "Audio Dispatcher").start();
+        AppExecutors.getInstance().diskIO().execute(mDispatcher);
+
+        /* Stopping the record automatically after 2 times the length of the original
+        melody + 3 seconds */
         recordTimer = new Timer();
         recordTimer.schedule(new TimerTask() {
             @Override
@@ -261,6 +285,9 @@ public class KoteRoundFragment extends Fragment {
         }, (long) (mGameViewModel.getGame().getSampleLength() * 2 + 3) * 1000);
     }
 
+    /**
+     * Changes the display of the piano board.
+    */
     private void displayRecording() {
         pianoBoardConstraintPlayer.setVisibility(View.GONE);
         pianoBoardRecording.setVisibility(View.VISIBLE);
@@ -269,21 +296,26 @@ public class KoteRoundFragment extends Fragment {
     private void stopRecording() {
         recordTimer.cancel();
         releaseDispatcher();
+
         isRecording = false;
-        mGameViewModel.getGame().analyzePlayerAttempt(mPlayerTryArr);
-        if (mGameViewModel.getGame().getCurrentScore() != -1) {
+        //Sending the player attempt to the game to analyze
+        mGameViewModel.getGame().analyzePlayerAttempt(mPlayerAttemptArr);
+        if (mGameViewModel.getGame().getCurrentScore() != KoteGame.INVALID_SCORE) {
             mCallback.onRoundFinished();
         } else {
             invalidAttempt();
         }
     }
 
+    /**
+     * Cancel the recordings and prompt a message.
+     */
     private void invalidAttempt() {
         recordBtnIv.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.record_circle));
         recordBtnTv.setText(getResources().getString(R.string.record_btn_label));
         pianoBoardRecording.setVisibility(View.GONE);
         pianoBoardConstraintPlayer.setVisibility(View.VISIBLE);
-        mPlayerTryArr.clear();
+        mPlayerAttemptArr.clear();
         Toast.makeText(mContext, getString(R.string.invalid_record_text),
                 Toast.LENGTH_LONG)
                 .show();
