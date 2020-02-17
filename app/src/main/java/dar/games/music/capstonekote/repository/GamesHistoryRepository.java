@@ -51,6 +51,7 @@ public class GamesHistoryRepository {
     /**
      * A private constructor called by the newInstance method.
      * Creating all of the Class variables.
+     *
      * @param application
      */
     private GamesHistoryRepository(Application application) {
@@ -97,6 +98,7 @@ public class GamesHistoryRepository {
 
     /**
      * Creating an instance only once in an app lifetime. performed in a sync way.
+     *
      * @param application = the App reference.
      * @return The repository singleton instance.
      */
@@ -112,13 +114,13 @@ public class GamesHistoryRepository {
 
     /**
      * Updating the Google Play Games highscore
+     *
      * @param difficulty
      */
     public void updateGoogleGamesHighscore(int difficulty) {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(mAppContext);
         //Checking for the needed permission
-        if (GoogleSignIn.hasPermissions(account, Games.SCOPE_GAMES_LITE))
-        {
+        if (GoogleSignIn.hasPermissions(account, Games.SCOPE_GAMES_LITE)) {
             LeaderboardsClient leaderboardsClient =
                     Games.getLeaderboardsClient(mAppContext, account);
 
@@ -138,6 +140,7 @@ public class GamesHistoryRepository {
 
     /**
      * Return the Highscore object matching the specified difficulty.
+     *
      * @param difficulty - the Highscore difficulty.
      * @return the Highscore object matching the specified difficulty
      */
@@ -160,6 +163,7 @@ public class GamesHistoryRepository {
 
     /**
      * Return the LiveData highscore object and refreshing the Google score.
+     *
      * @param difficulty - The requested difficulty.
      * @return a LiveData highscore object.
      */
@@ -170,6 +174,7 @@ public class GamesHistoryRepository {
 
     /**
      * Saving a new GameResult to the database on a different thread
+     *
      * @param gameResult - The game data.
      */
     public void saveResultToDB(GameResultModel gameResult) {
@@ -179,8 +184,9 @@ public class GamesHistoryRepository {
     /**
      * Posting a new score the the google play games leaderboard (If not a highscore
      * the server will ignore the score).
+     *
      * @param difficulty - Define the correct leaderboard for the score.
-     * @param score - The posted score.
+     * @param score      - The posted score.
      */
     public void uploadLeaderboardScore(int difficulty, int score) {
         String leaderboardId = getLeaderboardId(difficulty);
@@ -230,12 +236,13 @@ public class GamesHistoryRepository {
     }
 
     public MutableLiveData<String> getPlayerName() {
-      accountUpdated();
-      return playerName;
+        accountUpdated();
+        return playerName;
     }
 
     /**
      * Return true for the first time called only.
+     *
      * @return true for the first time called only.
      */
     public boolean isAppStarted() {

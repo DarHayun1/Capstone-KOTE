@@ -25,11 +25,12 @@ public class Note {
 
     /**
      * A simple constructor
-     * @param name - The note symbol (from notesNamesArray) or SILENCE_NOTE if silence detected.
-     * @param octave - the note octave.
-     * @param timeStamp - The time stamp from the start of the note relative to the recording.
+     *
+     * @param name        - The note symbol (from notesNamesArray) or SILENCE_NOTE if silence detected.
+     * @param octave      - the note octave.
+     * @param timeStamp   - The time stamp from the start of the note relative to the recording.
      * @param probability - The note detection probability score from 0.0-1.0.
-     * @param duration - The note duration in seconds.
+     * @param duration    - The note duration in seconds.
      */
     Note(String name, int octave, double timeStamp, double probability, double duration) {
         this.name = name;
@@ -41,6 +42,7 @@ public class Note {
 
     /**
      * Converting recording data to a Note Object.
+     *
      * @param pitchInHz
      * @param timeStamp
      * @param prob
@@ -62,6 +64,7 @@ public class Note {
 
     /**
      * finding the res for the note.
+     *
      * @return
      */
     public int getSoundRes() {
@@ -236,6 +239,7 @@ public class Note {
 
     /**
      * Comparison method also allowing to compare two null objects as a success.
+     *
      * @param noteA
      * @param noteB
      * @return true if both of the notes are null or getting true on the equals() method.
@@ -316,7 +320,7 @@ public class Note {
         if (obj == this)
             return true;
         if (obj instanceof Note) {
-            return ((Note)obj).getName().equals(this.name);
+            return ((Note) obj).getName().equals(this.name);
         }
         return false;
     }

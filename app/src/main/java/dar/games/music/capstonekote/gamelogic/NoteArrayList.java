@@ -27,8 +27,9 @@ public class NoteArrayList extends ArrayList<Note> {
 
     /**
      * A simple constructor
+     *
      * @param initialCapacity - For the ArrayList initialization.
-     * @param id - The music file resource id.
+     * @param id              - The music file resource id.
      */
     public NoteArrayList(int initialCapacity, int id) {
         super(initialCapacity);
@@ -39,10 +40,11 @@ public class NoteArrayList extends ArrayList<Note> {
      * Syncing the current player's NoteArrayList with the original melody.
      * Shrinking / expanding the array in order to fit the beginning and the end of the
      * original melody for future comparison.
+     *
      * @param sampleArray - The original melody array.
-     * @param diff - the current difficulty.
+     * @param diff        - the current difficulty.
      * @return a synced 2D array of both of the melodies, every cell in the array representing
-     *          a part of a second (based on the SBPS - see class constants)
+     * a part of a second (based on the SBPS - see class constants)
      */
     Note[][] syncMusicalParts(NoteArrayList sampleArray, int diff) {
         double sbps = NORMAL_SBPS;
@@ -78,9 +80,10 @@ public class NoteArrayList extends ArrayList<Note> {
 
     /**
      * Takes a sample pair and converting it to a NoteArrayList.
+     *
      * @param samplePair - A Pair containing a String representing the notes and
-     *                  an Integer representing the music file id.
-     * @param diff - The sample difficulty.
+     *                   an Integer representing the music file id.
+     * @param diff       - The sample difficulty.
      * @return A newly created NoteArrayList.
      */
     static NoteArrayList samplePairToNoteArray(Pair<String, Integer> samplePair, int diff) {
@@ -133,8 +136,9 @@ public class NoteArrayList extends ArrayList<Note> {
     /**
      * Helper method to find note sequences, delete the spare notes,
      * change the first note duration to the total duration of the sequence.
+     *
      * @param syncedArr - The relevant 2D array
-     * @param sbps - semi beats per second, used to sync the array.
+     * @param sbps      - semi beats per second, used to sync the array.
      */
     private static void convertToNoteSequences(Note[][] syncedArr, double sbps) {
         Note[] plyNotes = syncedArr[1];
@@ -160,8 +164,9 @@ public class NoteArrayList extends ArrayList<Note> {
 
     /**
      * syncing the timeStamps of the notes by the first note.
+     *
      * @param additionalSyncedOffset - if applied, adds an additional offset to the notes, used
-     *                              for array that are missing the first note.
+     *                               for array that are missing the first note.
      */
     private void removeOffset(double additionalSyncedOffset) {
 

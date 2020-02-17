@@ -40,8 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.action_sign_out)
-        {
+        if (item.getItemId() == R.id.action_sign_out) {
             signOut();
             return true;
         }

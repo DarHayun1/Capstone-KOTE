@@ -12,12 +12,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import dar.games.music.capstonekote.R;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import dar.games.music.capstonekote.R;
 
 /**
  * A fragment displaying the finished round score.
@@ -53,7 +52,7 @@ public class KoteResultFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        }
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -83,7 +82,7 @@ public class KoteResultFragment extends Fragment {
 
         String resultLabelText = getResources().getString(R.string.round)
                 + " " + gameViewModel.getGame().getRound()
-                + " " +  getResources().getString(R.string.result);
+                + " " + getResources().getString(R.string.result);
         resultLabelTv.setText(resultLabelText);
 
         int score = gameViewModel.getGame().getCurrentScore();
@@ -95,8 +94,8 @@ public class KoteResultFragment extends Fragment {
         String rdyBtnText;
         if (gameViewModel.getGame().hasNextRound()) {
             rdyBtnText = getResources().getString(R.string.ready_btn_text) + " "
-                + (gameViewModel.getGame().getRound() + 1);
-        }else {
+                    + (gameViewModel.getGame().getRound() + 1);
+        } else {
             readyBtnLabelTv.setVisibility(View.GONE);
             rdyBtnText = getResources().getString(R.string.finish);
 

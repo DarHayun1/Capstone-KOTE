@@ -65,22 +65,22 @@ public class EndGameFragment extends Fragment {
 
         mViewModel.getHighScore(mViewModel.getGame().getDifficulty())
                 .observe(getViewLifecycleOwner(), score -> {
-            if (score > mViewModel.getGame().getTotalScore()) {
-                String highscoreText = getResources().getString(R.string.final_score_highscore)
-                       + " " + score;
-                highScoreTv.setText(highscoreText);
-            }
-        });
+                    if (score > mViewModel.getGame().getTotalScore()) {
+                        String highscoreText = getResources().getString(R.string.final_score_highscore)
+                                + " " + score;
+                        highScoreTv.setText(highscoreText);
+                    }
+                });
         finalResultTv.setText(String.valueOf(mViewModel.getGame().getTotalScore()));
     }
 
     @OnClick(R.id.play_again_btn)
-    void onPlayAgainClicked(){
+    void onPlayAgainClicked() {
         mCallback.onPlayAgain();
     }
 
     @OnClick(R.id.main_menu_btn)
-    void onMainMenuClicked(){
+    void onMainMenuClicked() {
         mCallback.onMainMenu();
     }
 

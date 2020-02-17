@@ -43,6 +43,7 @@ public class KoteGameViewModel extends AndroidViewModel {
 
     /**
      * Creating a new game if no game has started yet.
+     *
      * @param diff - the Difficulty.
      */
     void initiateGame(int diff) {
@@ -85,7 +86,7 @@ public class KoteGameViewModel extends AndroidViewModel {
     }
 
     /**
-     *  Creating a new game with the same difficulty.
+     * Creating a new game with the same difficulty.
      */
     void restartGame() {
         if (currentGame != null) {

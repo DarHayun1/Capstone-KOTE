@@ -33,6 +33,7 @@ public class WidgetUpdateService extends IntentService {
 
     /**
      * Handling the intent to update the highscore displayed
+     *
      * @param intent - The intent to handle
      */
     @Override
