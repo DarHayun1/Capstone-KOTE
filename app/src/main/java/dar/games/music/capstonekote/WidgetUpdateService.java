@@ -32,8 +32,8 @@ public class WidgetUpdateService extends IntentService {
     }
 
     /**
-     * An intent to update the highscore displayed
-     * @param intent
+     * Handling the intent to update the highscore displayed
+     * @param intent - The intent to handle
      */
     @Override
     protected void onHandleIntent(Intent intent) {
