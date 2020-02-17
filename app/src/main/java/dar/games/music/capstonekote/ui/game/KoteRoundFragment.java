@@ -110,7 +110,6 @@ public class KoteRoundFragment extends Fragment {
     TextView playsLeftTextView;
 
 
-
     static KoteRoundFragment newInstance() {
 
 //        Bundle args = new Bundle();
@@ -218,6 +217,7 @@ public class KoteRoundFragment extends Fragment {
     /**
      * Displaying a piano image with the given note highlighted + the note's name and octave below
      * the highlighted note.
+     *
      * @param note - The note to display.
      */
     private void showPianoNote(Note note) {
@@ -255,8 +255,7 @@ public class KoteRoundFragment extends Fragment {
                         {
                             final double detectProb = pitchDetectionResult.getProbability();
                             final double pitchInHz = pitchDetectionResult.getPitch();
-                            if (pitchInHz > 0 && isRecording)
-                            {
+                            if (pitchInHz > 0 && isRecording) {
                                 Objects.requireNonNull(getActivity()).runOnUiThread(() ->
                                 {
                                     Note note = Note.convertToNote(pitchInHz,
@@ -287,7 +286,7 @@ public class KoteRoundFragment extends Fragment {
 
     /**
      * Changes the display of the piano board.
-    */
+     */
     private void displayRecording() {
         pianoBoardConstraintPlayer.setVisibility(View.GONE);
         pianoBoardRecording.setVisibility(View.VISIBLE);
@@ -378,7 +377,7 @@ public class KoteRoundFragment extends Fragment {
         if (!isPlayingSample) {
             if (mPlaysLeft < 1) {
                 Toast.makeText(mContext, getString(R.string.no_more_plays_text),
-                         Toast.LENGTH_LONG).show();
+                        Toast.LENGTH_LONG).show();
             } else {
                 mGameViewModel.playSample();
                 releaseMediaPlayer();

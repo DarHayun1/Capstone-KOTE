@@ -40,7 +40,8 @@ public class KoteGame {
 
     /**
      * A simple constructor creating a new game with no more than 6 musical parts.
-     * @param difficulty - The game difficulty.
+     *
+     * @param difficulty        - The game difficulty.
      * @param musicalPartsPairs - The musical parts available for the game.
      */
     public KoteGame(int difficulty, ArrayList<Pair<String, Integer>> musicalPartsPairs) {
@@ -63,6 +64,7 @@ public class KoteGame {
     /**
      * The main method for the scoring process.
      * Cleaning and validating the array.
+     *
      * @param playerArray - The player's record NoteArrayList.
      */
     public void analyzePlayerAttempt(NoteArrayList playerArray) {
@@ -87,6 +89,7 @@ public class KoteGame {
 
     /**
      * Moving the game to the next round if available.
+     *
      * @return The New round or GAME_ENDED if there are not more rounds available.
      */
     public int nextRound() {
@@ -158,6 +161,7 @@ public class KoteGame {
     /**
      * Check if the player's recording has too many notes (trying to manipulate
      * the scoring algorithm).
+     *
      * @param syncedArray - The 2d melodies array.
      * @return true if the attempt length is invalid
      */
@@ -175,6 +179,7 @@ public class KoteGame {
 
     /**
      * evaluate a score for a single note in the original melody,
+     *
      * @param syncedArr - The 2D melodies array.
      * @param noteIndex - the inspected note's index
      * @return the score for the best match from the player's attempt.
@@ -182,20 +187,14 @@ public class KoteGame {
     private static int scoreSingleNote(Note[][] syncedArr, int noteIndex) {
 
         int bestMatch = 0;
-        for (int i = 0; i < syncedArr[1].length; i++)
-        {
-            if (syncedArr[1][i] != null && !syncedArr[1][i].isUsed())
-            {
-                if (syncedArr[1][i].equals(syncedArr[0][noteIndex]))
-                {
+        for (int i = 0; i < syncedArr[1].length; i++) {
+            if (syncedArr[1][i] != null && !syncedArr[1][i].isUsed()) {
+                if (syncedArr[1][i].equals(syncedArr[0][noteIndex])) {
                     int timingScore = checkAbsoluteTiming(syncedArr[0][noteIndex],
                             syncedArr[1][i]);
-                    if (timingScore > MAX_UNUSED_SCORE)
-                    {
+                    if (timingScore > MAX_UNUSED_SCORE) {
                         return timingScore;
-                    }
-                    else
-                    {
+                    } else {
                         int relativeScore = (int) (RELATIVE_SCORE_FACTOR *
                                 checkRelativePositioning(syncedArr, noteIndex, i));
                         bestMatch = Math.max(bestMatch, Math.max(timingScore, relativeScore));
@@ -240,10 +239,11 @@ public class KoteGame {
     /**
      * Check if there is a note in the player's array that has the same notes before and after
      * like the original note.
-     *
+     * <p>
      * A test made to handle un-synchronized arrays.
-     * @param syncedArray - The 2D melodies array.
-     * @param startIndex - The original note start index in the array.
+     *
+     * @param syncedArray  - The 2D melodies array.
+     * @param startIndex   - The original note start index in the array.
      * @param checkedIndex - The player's current checked note.
      * @return estimated score.
      */
@@ -313,8 +313,8 @@ public class KoteGame {
     }
 
     /**
-     * @param noteArr - The Melody Array.
-     * @param index - The relevant note index.
+     * @param noteArr       - The Melody Array.
+     * @param index         - The relevant note index.
      * @param backwardCheck - if true, looking for the previous notes.
      * @return A Pair containing the two nearby notes from the selected direction
      */
@@ -352,8 +352,9 @@ public class KoteGame {
     /**
      * Checks to see if the player's notes still getting a good score after the notes being
      * marked "used".
+     *
      * @param syncedArray - The 2D melodies array
-     * @param chkScore - The original generated score.
+     * @param chkScore    - The original generated score.
      * @return INVALID_SCORE if the record is invalid, otherwise, the calculated score.
      */
     private int validateDuplicates(Note[][] syncedArray, int chkScore) {
@@ -377,6 +378,7 @@ public class KoteGame {
 
     /**
      * Iterate through the Original notes and score them.
+     *
      * @param syncedArray - The 2D melodies array
      * @return The attempt score.
      */
@@ -395,6 +397,7 @@ public class KoteGame {
 
     /**
      * Looking for suspicious short notes that are not in the original array.
+     *
      * @param playerArray - the player's attempt.
      */
     private void checkForRecordBadNotes(NoteArrayList playerArray) {
@@ -416,9 +419,6 @@ public class KoteGame {
             }
         }
     }
-
-
-
 
 
 }

@@ -94,7 +94,7 @@ public class LogInActivity extends AppCompatActivity implements OnPbFinishedList
             signInClient = GoogleSignIn.getClient(this, signInOptions);
             signInSilently();
             silentAttempted = true;
-        }else {
+        } else {
             setTheme(R.style.AppTheme);
         }
     }
