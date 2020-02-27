@@ -78,6 +78,8 @@ public class MainMenuFragment extends Fragment {
     View lastGamesLayout;
     @BindView(R.id.results_rv)
     RecyclerView lastGamesRv;
+    @BindView(R.id.no_last_games_tv)
+    TextView noLastGamesTv;
     @BindView(R.id.player_name_tv)
     TextView playerNameTv;
 
@@ -122,8 +124,11 @@ public class MainMenuFragment extends Fragment {
                 highScoreTv.setText(String.valueOf(score)));
 
         mViewModel.getLastResults().observe(getViewLifecycleOwner(), gameResults -> {
-            if (gameResults != null)
+            if (gameResults != null) {
+                noLastGamesTv.setVisibility(View.INVISIBLE);
                 mResultsAdapter.setResultsData(gameResults);
+            } else
+                noLastGamesTv.setVisibility(View.VISIBLE);
         });
 
 

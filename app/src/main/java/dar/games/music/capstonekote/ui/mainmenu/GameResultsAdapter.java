@@ -9,11 +9,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,10 +64,12 @@ public class GameResultsAdapter extends RecyclerView.Adapter<GameResultsAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ResultsVH holder, int position) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
-        holder.dateView.setText(dateFormat.format(mResults.get(position).getTime()));
+        holder.dateView.setText(
+                DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+                        .format(mResults.get(position).getDate()));
 
-        holder.scoreView.setText(String.valueOf(mResults.get(position).getScore()));
+        holder.scoreView.setText(
+                String.valueOf(mResults.get(position).getScore()));
         switch (mResults.get(position).getDifficulty()) {
             case KoteGame.EASY_DIFFICULTY:
                 holder.diffView.setText(mContext.getResources().getString(R.string.easy_diff));
@@ -104,7 +106,7 @@ public class GameResultsAdapter extends RecyclerView.Adapter<GameResultsAdapter.
                 mResults.sort(Comparator.comparing(GameResultModel::getScore).reversed());
             }
             case SORT_BY_SCORE: {
-                mResults.sort(Comparator.comparing(GameResultModel::getTime).reversed());
+                mResults.sort(Comparator.comparing(GameResultModel::getDate).reversed());
             }
         }
     }

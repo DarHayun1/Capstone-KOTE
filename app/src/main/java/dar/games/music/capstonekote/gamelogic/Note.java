@@ -48,7 +48,6 @@ public class Note {
      * @param prob
      * @return A newly created Note object
      */
-    @SuppressWarnings("JavaDoc")
     public static Note convertToNote(double pitchInHz, double timeStamp, double prob) {
 
         if (pitchInHz < 0)
@@ -56,6 +55,21 @@ public class Note {
         int midiKey = PitchConverter.hertzToMidiKey(pitchInHz);
         return new Note(notesNamesArray[midiKey % 12], ((midiKey / 12) - 2), timeStamp,
                 prob, NoteArrayList.FRAME_INTERVAL);
+    }
+
+    /**
+     * Comparison method also allowing to compare two null objects as a success.
+     *
+     * @param noteA
+     * @param noteB
+     * @return true if both of the notes are null or getting true on the equals() method.
+     */
+    static boolean nullableEquals(Note noteA, Note noteB) {
+        if (noteA == null && noteB == null) {
+            return true;
+        } else if (noteA != null)
+            return noteA.equals(noteB);
+        else return false;
     }
 
     public int getAbsoluteNoteValue() {
@@ -237,22 +251,6 @@ public class Note {
         }
     }
 
-    /**
-     * Comparison method also allowing to compare two null objects as a success.
-     *
-     * @param noteA
-     * @param noteB
-     * @return true if both of the notes are null or getting true on the equals() method.
-     */
-    static boolean nullableEquals(Note noteA, Note noteB) {
-        if (noteA == null && noteB == null) {
-            return true;
-        } else if (noteA != null)
-            return noteA.equals(noteB);
-        else return false;
-    }
-
-
     boolean isSilence() {
         return this.name.equals(SILENCE_NOTE);
     }
@@ -284,11 +282,11 @@ public class Note {
         this.duration = duration;
     }
 
-    public double getTimeStamp() {
+    double getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(double timeStamp) {
+    void setTimeStamp(double timeStamp) {
         this.timeStamp = timeStamp;
     }
 
@@ -297,12 +295,13 @@ public class Note {
     }
 
     private int getNoteValue() {
-        if (!this.isSilence())
+        if (!this.isSilence()) {
             for (int i = 0; i < notesNamesArray.length; i++) {
                 if (this.getName().equals(notesNamesArray[i])) {
                     return i;
                 }
             }
+        }
         return SILENCE_NOTE_VALUE;
     }
 

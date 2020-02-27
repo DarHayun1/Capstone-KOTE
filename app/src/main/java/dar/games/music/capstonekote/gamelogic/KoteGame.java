@@ -5,10 +5,11 @@ import android.util.Pair;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import dar.games.music.capstonekote.repository.GameResultModel;
 
@@ -26,11 +27,11 @@ public class KoteGame {
 
     private static final int MAX_UNUSED_SCORE = 75;
     public static final int INVALID_SCORE = 102;
+    private static final int ROUND_MAX_LENGTH = 6;
 
     private int difficulty;
-    private List<Pair<String, Integer>> mMusicalParts;
+    private ArrayList<NoteArrayList> mMusicalParts;
     //Current melody of the round
-    private NoteArrayList currentSample;
     private int round;
     private MutableLiveData<Integer> playsLeft;
     //The current round score
@@ -42,19 +43,51 @@ public class KoteGame {
      * A simple constructor creating a new game with no more than 6 musical parts.
      *
      * @param difficulty        - The game difficulty.
-     * @param musicalPartsPairs - The musical parts available for the game.
+     * @param melodiesTextArray - Strings representing the notes and timing of the melodies - for
+     *                          the selected difficulty
      */
-    public KoteGame(int difficulty, ArrayList<Pair<String, Integer>> musicalPartsPairs) {
+    public KoteGame(int difficulty, String[] melodiesTextArray) {
         round = 1;
         playsLeft = new MutableLiveData<>(3);
         totalScore = 0;
         this.difficulty = difficulty;
-        Collections.shuffle(musicalPartsPairs);
-        if (musicalPartsPairs.size() > 6)
-            mMusicalParts = musicalPartsPairs.subList(0, 5);
-        else
-            mMusicalParts = musicalPartsPairs;
-        currentSample = NoteArrayList.samplePairToNoteArray(mMusicalParts.get(0), this.difficulty);
+        generateMusicalParts(melodiesTextArray);
+
+    }
+
+    public static String getDifficultyName(int diff) {
+        switch (diff) {
+            case EASY_DIFFICULTY:
+                return "easy";
+            case HARD_DIFFICULTY:
+                return "hard";
+            default:
+                return "extreme";
+        }
+    }
+
+    /**
+     * @param ansNote - The original melody note.
+     * @param plyNote - The player's note that being tested.
+     * @return Score based on how close the player's note to the original note in the meaning
+     * of timing.
+     */
+    private static int checkAbsoluteTiming(Note ansNote, Note plyNote) {
+        double startTime = ansNote.getTimeStamp();
+        double startDiff = plyNote.getTimeStamp() - startTime;
+        double endDiff = startDiff + (plyNote.getDuration() - ansNote.getDuration());
+        int startDiffScore = 0;
+        if (Math.abs(startDiff) < ansNote.getDuration()) {
+            startDiffScore = (Math.abs(startDiff) < ansNote.getDuration() / 2) ? 100 : 50;
+        }
+        int endDiffScore = 0;
+        if (Math.abs(endDiff) < ansNote.getDuration()) {
+            endDiffScore = (Math.abs(endDiff) < ansNote.getDuration() / 2) ? 100 : 50;
+        }
+        int totalScore = startDiffScore / 2 + endDiffScore / 2;
+        if (totalScore > MAX_UNUSED_SCORE)
+            plyNote.setUsed();
+        return totalScore;
     }
 
     // ***************
@@ -62,101 +95,79 @@ public class KoteGame {
     // ***************
 
     /**
-     * The main method for the scoring process.
-     * Cleaning and validating the array.
+     * Check if there is a note in the player's array that has the same notes before and after
+     * like the original note.
+     * <p>
+     * A test made to handle un-synchronized arrays.
      *
-     * @param playerArray - The player's record NoteArrayList.
+     * @param syncedArray  - The 2D melodies array.
+     * @param startIndex   - The original note start index in the array.
+     * @param checkedIndex - The player's current checked note.
+     * @return estimated score.
      */
-    public void analyzePlayerAttempt(NoteArrayList playerArray) {
-
-        this.checkForRecordBadNotes(playerArray);
-        if (playerArray.size() > 0) {
-            Note[][] syncedArray = playerArray.syncMusicalParts(currentSample, difficulty);
-            if (checkInvalidAttemptLength(syncedArray)) {
-                currentScore = INVALID_SCORE;
-                return;
+    private static int checkRelativePositioning(Note[][] syncedArray,
+                                                int startIndex, int checkedIndex) {
+        Pair<Note, Note> prevAnsNotes = getNearbyNotes(syncedArray[0],
+                startIndex, true);
+        Pair<Note, Note> nextAnsNotes = getNearbyNotes(syncedArray[0],
+                startIndex, false);
+        Pair<Note, Note> prevPlayerNotes = getNearbyNotes(syncedArray[1],
+                checkedIndex, true);
+        Pair<Note, Note> nextPlayerNotes = getNearbyNotes(syncedArray[1],
+                checkedIndex, false);
+        int prevScore = 0;
+        int prevNotesCounted = 0;
+        if (Note.nullableEquals(prevAnsNotes.first, prevPlayerNotes.first)) {
+            if (Note.nullableEquals(prevAnsNotes.second, prevPlayerNotes.second)) {
+                prevScore = 100;
+                prevNotesCounted = 2;
+            } else if (prevPlayerNotes.second != null) {
+                prevScore = 50;
+                prevNotesCounted = 2;
+            } else {
+                prevScore = 100;
+                prevNotesCounted = 1;
             }
-
-            int tempScore = analyzeOnce(syncedArray);
-            currentScore = validateDuplicates(syncedArray, tempScore);
-            if (currentScore == INVALID_SCORE)
-                return;
-
-            totalScore += currentScore;
-        } else
-            currentScore = INVALID_SCORE;
-    }
-
-    /**
-     * Moving the game to the next round if available.
-     *
-     * @return The New round or GAME_ENDED if there are not more rounds available.
-     */
-    public int nextRound() {
-        if (hasNextRound()) {
-            currentSample = NoteArrayList.samplePairToNoteArray(mMusicalParts.get(round), difficulty);
-            round++;
-            playsLeft.setValue(3);
-            return round;
-        } else {
-            return GAME_ENDED;
+        } else if (prevPlayerNotes.first != null) {
+            if (Note.nullableEquals(prevPlayerNotes.second, prevAnsNotes.second)) {
+                prevScore = 50;
+                prevNotesCounted = 2;
+            } else
+                prevNotesCounted = (prevPlayerNotes.second != null) ? 2 : 1;
         }
+        Integer nextScore = 0;
+        Integer nextNotesCounted = 0;
+        if (Note.nullableEquals(nextAnsNotes.first, nextPlayerNotes.first)) {
+            if (Note.nullableEquals(nextAnsNotes.second, nextPlayerNotes.second)) {
+                nextScore = 100;
+                nextNotesCounted = 2;
+            } else if (nextPlayerNotes.second != null) {
+                nextScore = 50;
+                nextNotesCounted = 2;
+            } else {
+                nextScore = 100;
+                nextNotesCounted = 1;
+            }
+        } else if (nextPlayerNotes.first != null) {
+            if (Note.nullableEquals(nextPlayerNotes.second, nextPlayerNotes.second)) {
+                nextScore = 50;
+                nextNotesCounted = 2;
+            } else if (nextPlayerNotes.second != null) {
+                nextNotesCounted = 2;
+            } else nextNotesCounted = 1;
+        }
+
+        if (prevNotesCounted + nextNotesCounted == 0)
+            return 0;
+        else {
+            int score = Math.round((prevScore * prevNotesCounted + nextScore * nextNotesCounted) /
+                    (prevNotesCounted + nextNotesCounted));
+            if (score >= 75)
+                syncedArray[1][checkedIndex].setUsed();
+            return score;
+        }
+
     }
-
-    public boolean hasNextRound() {
-        return round < mMusicalParts.size();
-    }
-
-    public void addSamplePlay() {
-        playsLeft.setValue(playsLeft.getValue() - 1);
-    }
-
-    public MutableLiveData<Integer> samplePlayesLeft() {
-        return playsLeft;
-    }
-
-    /*** Getters ***/
-
-    public int getDifficulty() {
-        return difficulty;
-    }
-
-    public int getCurrentScore() {
-        return currentScore;
-    }
-
-    public NoteArrayList getCurrentSample() {
-        return currentSample;
-    }
-
-    public int getRound() {
-        return round;
-    }
-
-    public double getSampleLength() {
-        return currentSample.getTotalDuration();
-    }
-
-    public int getTotalScore() {
-        return totalScore;
-    }
-
-    /**
-     * @return A newly created GameResultModel Ready for DB insertion.
-     */
-    public GameResultModel getGameResult() {
-        return new GameResultModel(new Date(), totalScore, difficulty);
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return round + "\n" + totalScore + "\n" + difficulty + "\n" + mMusicalParts.toString();
-    }
-
-    // ***************
-    // Private methods
-    // ***************
 
     /**
      * Check if the player's recording has too many notes (trying to manipulate
@@ -206,110 +217,115 @@ public class KoteGame {
     }
 
     /**
-     * @param ansNote - The original melody note.
-     * @param plyNote - The player's note that being tested.
-     * @return Score based on how close the player's note to the original note in the meaning
-     * of timing.
+     * Moving the game to the next round if available.
+     *
+     * @return The New round or GAME_ENDED if there are not more rounds available.
      */
-    private static int checkAbsoluteTiming(Note ansNote, Note plyNote) {
-        double startTime = ansNote.getTimeStamp();
-        double startDiff = plyNote.getTimeStamp() - startTime;
-        double endDiff = startDiff + (plyNote.getDuration() - ansNote.getDuration());
-        int startDiffScore = 0;
-        if (Math.abs(startDiff) < ansNote.getDuration()) {
-            if (Math.abs(startDiff) < ansNote.getDuration() / 2)
-                startDiffScore = 100;
-            else
-                startDiffScore = 50;
+    public int nextRound() {
+        if (hasNextRound()) {
+            round++;
+            playsLeft.setValue(3);
+            return round;
+        } else {
+            return GAME_ENDED;
         }
-        int endDiffScore = 0;
-        if (Math.abs(endDiff) < ansNote.getDuration()) {
-            if (Math.abs(endDiff) < ansNote.getDuration() / 2)
-                endDiffScore = 100;
-            else
-                endDiffScore = 50;
-        }
-        int totalScore = startDiffScore / 2 + endDiffScore / 2;
-        if (totalScore > MAX_UNUSED_SCORE)
-            plyNote.setUsed();
+    }
+
+    public boolean hasNextRound() {
+        return round < mMusicalParts.size();
+    }
+
+    public void addSamplePlay() {
+        playsLeft.setValue(playsLeft.getValue() - 1);
+    }
+
+    public MutableLiveData<Integer> samplePlayesLeft() {
+        return playsLeft;
+    }
+
+    /*** Getters ***/
+
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    public int getCurrentScore() {
+        return currentScore;
+    }
+
+    private void generateMusicalParts(String[] textArray) {
+        ArrayList<Integer> ints = new ArrayList<>(
+                IntStream.rangeClosed(1, textArray.length)
+                        .boxed().collect(Collectors.toList()));
+        Random rand = new Random();
+        mMusicalParts = new ArrayList<>(ROUND_MAX_LENGTH);
+        //Generating ROUND_MAX_LENGTH random numbers representing the melodies' numbers.
+        IntStream.range(0, ROUND_MAX_LENGTH)
+                .forEach(i -> {
+                    int randomMelodyNum = ints.remove(rand.nextInt(ints.size()));
+                    mMusicalParts.add(NoteArrayList
+                            .textToNoteArrayList(textArray[randomMelodyNum - 1],
+                                    randomMelodyNum, difficulty));
+                });
+    }
+
+    public int getRound() {
+        return round;
+    }
+
+    /**
+     * The main method for the scoring process.
+     * Cleaning and validating the array.
+     *
+     * @param playerArray - The player's record NoteArrayList.
+     */
+    public void analyzePlayerAttempt(NoteArrayList playerArray) {
+
+        this.checkForRecordBadNotes(playerArray);
+        if (playerArray.size() > 0) {
+            Note[][] syncedArray = playerArray.syncMusicalParts(mMusicalParts.get(round - 1), difficulty);
+            if (checkInvalidAttemptLength(syncedArray)) {
+                currentScore = INVALID_SCORE;
+                return;
+            }
+
+            int tempScore = analyzeOnce(syncedArray);
+            currentScore = validateDuplicates(syncedArray, tempScore);
+            if (currentScore == INVALID_SCORE)
+                return;
+
+            totalScore += currentScore;
+        } else
+            currentScore = INVALID_SCORE;
+    }
+
+    public int getTotalScore() {
         return totalScore;
     }
 
+    // ***************
+    // Private methods
+    // ***************
+
+    public NoteArrayList getCurrentSample() {
+        return mMusicalParts.get(round - 1);
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return round + "\n" + totalScore + "\n" + difficulty + "\n" + mMusicalParts.toString();
+    }
+
+    public double getSampleLength() {
+        return mMusicalParts.get(round - 1).getTotalDuration();
+    }
 
     /**
-     * Check if there is a note in the player's array that has the same notes before and after
-     * like the original note.
-     * <p>
-     * A test made to handle un-synchronized arrays.
-     *
-     * @param syncedArray  - The 2D melodies array.
-     * @param startIndex   - The original note start index in the array.
-     * @param checkedIndex - The player's current checked note.
-     * @return estimated score.
+     * @return A newly created GameResultModel Ready for DB insertion.
      */
-    private static int checkRelativePositioning(Note[][] syncedArray,
-                                                int startIndex, int checkedIndex) {
-        Pair<Note, Note> prevAnsNotes = getNearbyNotes(syncedArray[0],
-                startIndex, true);
-        Pair<Note, Note> nextAnsNotes = getNearbyNotes(syncedArray[0],
-                startIndex, false);
-        Pair<Note, Note> prevPlayerNotes = getNearbyNotes(syncedArray[1],
-                checkedIndex, true);
-        Pair<Note, Note> nextPlayerNotes = getNearbyNotes(syncedArray[1],
-                checkedIndex, false);
-        int prevScore = 0;
-        int prevNotesCounted = 0;
-        if (Note.nullableEquals(prevAnsNotes.first, prevPlayerNotes.first)) {
-            if (Note.nullableEquals(prevAnsNotes.second, prevPlayerNotes.second)) {
-                prevScore = 100;
-                prevNotesCounted = 2;
-            } else if (prevPlayerNotes.second != null) {
-                prevScore = 50;
-                prevNotesCounted = 2;
-            } else {
-                prevScore = 100;
-                prevNotesCounted = 1;
-            }
-        } else if (prevPlayerNotes.first != null) {
-            if (Note.nullableEquals(prevPlayerNotes.second, prevAnsNotes.second)) {
-                prevScore = 50;
-                prevNotesCounted = 2;
-            } else if (prevPlayerNotes.second != null) {
-                prevNotesCounted = 2;
-            } else prevNotesCounted = 1;
-        }
-        Integer nextScore = 0;
-        Integer nextNotesCounted = 0;
-        if (Note.nullableEquals(nextAnsNotes.first, nextPlayerNotes.first)) {
-            if (Note.nullableEquals(nextAnsNotes.second, nextPlayerNotes.second)) {
-                nextScore = 100;
-                nextNotesCounted = 2;
-            } else if (nextPlayerNotes.second != null) {
-                nextScore = 50;
-                nextNotesCounted = 2;
-            } else {
-                nextScore = 100;
-                nextNotesCounted = 1;
-            }
-        } else if (nextPlayerNotes.first != null) {
-            if (Note.nullableEquals(nextPlayerNotes.second, nextPlayerNotes.second)) {
-                nextScore = 50;
-                nextNotesCounted = 2;
-            } else if (nextPlayerNotes.second != null) {
-                nextNotesCounted = 2;
-            } else nextNotesCounted = 1;
-        }
-
-        if (prevNotesCounted + nextNotesCounted == 0)
-            return 0;
-        else {
-            int score = Math.round((prevScore * prevNotesCounted + nextScore * nextNotesCounted) /
-                    (prevNotesCounted + nextNotesCounted));
-            if (score >= 75)
-                syncedArray[1][checkedIndex].setUsed();
-            return score;
-        }
-
+    public GameResultModel getGameResult() {
+        return new GameResultModel(LocalDate.now(), totalScore, difficulty);
     }
 
     /**
@@ -368,10 +384,9 @@ public class KoteGame {
         //If there is another good score, take the lower score.
         if (chkScore > 70 && secondScore > 50) {
             //If there is a third good score it is an invalid record
-            if (analyzeOnce(syncedArray) > 50) {
-                return INVALID_SCORE;
-            }
-            return secondScore;
+            return (analyzeOnce(syncedArray) > 50)
+                    ? INVALID_SCORE
+                    : secondScore;
         }
         return chkScore;
     }
@@ -411,7 +426,7 @@ public class KoteGame {
                     continue;
                 }
                 //Checks if the note is in the current sample, if it is - continue to next note.
-                if (currentSample.contains(note) || note.getOctave() < 1 || note.getOctave() > 6)
+                if (mMusicalParts.get(round - 1).contains(note) || note.getOctave() < 1 || note.getOctave() > 6)
                     continue;
                 playerArray.remove(i);
                 i--;
@@ -421,4 +436,11 @@ public class KoteGame {
     }
 
 
+    public boolean hasAudioFile() {
+        return mMusicalParts.get(round - 1).getFileName() != null;
+    }
+
+    public String getFileName() {
+        return mMusicalParts.get(round - 1).getFileName();
+    }
 }

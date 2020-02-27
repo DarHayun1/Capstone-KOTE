@@ -17,19 +17,19 @@ public interface KoteDao {
     @Insert(onConflict = REPLACE)
     void insertGame(GameResultModel gameResultModel);
 
-    @Query("SELECT * FROM results ORDER BY time")
+    @Query("SELECT * FROM results ORDER BY date")
     LiveData<List<GameResultModel>> getAllGamesByTime();
 
-    @Query("SELECT * FROM results ORDER BY time ")
+    @Query("SELECT * FROM results ORDER BY date ")
     LiveData<List<GameResultModel>> getAllGames();
 
-    @Query("SELECT time, score, difficulty FROM results WHERE difficulty = 0 ORDER BY time ")
+    @Query("SELECT date, score, difficulty FROM results WHERE difficulty = 0 ORDER BY date ")
     LiveData<List<GameResultModel>> getEasyScores();
 
-    @Query("SELECT time, score, difficulty FROM results WHERE difficulty = 1 ORDER BY time ")
+    @Query("SELECT date, score, difficulty FROM results WHERE difficulty = 1 ORDER BY date ")
     LiveData<List<GameResultModel>> getHardScores();
 
-    @Query("SELECT time, score, difficulty FROM results WHERE difficulty = 2 ORDER BY time ")
+    @Query("SELECT date, score, difficulty FROM results WHERE difficulty = 2 ORDER BY date ")
     LiveData<List<GameResultModel>> getExtremeScores();
 
     @Query("SELECT max(score) FROM results WHERE difficulty = 0")

@@ -2,6 +2,7 @@ package dar.games.music.capstonekote.ui.game;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -140,7 +141,7 @@ public class KoteRoundFragment extends Fragment {
         mConstraintSet = new ConstraintSet();
         mConstraintSet.clone(pianoBoardConstraintPlayer);
 
-        mPlayerAttemptArr = new NoteArrayList(4000, NoteArrayList.PLAYER_ID);
+        mPlayerAttemptArr = new NoteArrayList(4000);
 
         /* If the app stopped while recording
          */
@@ -388,19 +389,19 @@ public class KoteRoundFragment extends Fragment {
     }
 
     private void playSample() {
-
-//        String uri1 = "android.resource://" + mContext.getPackageName() + "/raw/" + mGameViewModel.getGame().ge
-        mMediaPlayer = MediaPlayer.create(mContext, mGameViewModel.getGame()
-                .getCurrentSample().getSampleId());
-        seekBar.setMax(mMediaPlayer.getDuration());
-        mMediaPlayer.seekTo(mPlayerPos);
-        mMediaPlayer.setOnCompletionListener(mediaPlayer -> {
-            isPlayingSample = false;
-            mSeekbarUpdateHandler.removeCallbacks(mUpdateSeekbar);
-            releaseMediaPlayer();
-        });
-        mMediaPlayer.start();
-        mSeekbarUpdateHandler.post(mUpdateSeekbar);
-        isPlayingSample = true;
+        if (mGameViewModel.getGame().hasAudioFile()) {
+            String musicFileURI = "android.resource://" + mContext.getPackageName() + "/raw/" + mGameViewModel.getGame().getFileName();
+            mMediaPlayer = MediaPlayer.create(mContext, Uri.parse(musicFileURI));
+            seekBar.setMax(mMediaPlayer.getDuration());
+            mMediaPlayer.seekTo(mPlayerPos);
+            mMediaPlayer.setOnCompletionListener(mediaPlayer -> {
+                isPlayingSample = false;
+                mSeekbarUpdateHandler.removeCallbacks(mUpdateSeekbar);
+                releaseMediaPlayer();
+            });
+            mMediaPlayer.start();
+            mSeekbarUpdateHandler.post(mUpdateSeekbar);
+            isPlayingSample = true;
+        }
     }
 }

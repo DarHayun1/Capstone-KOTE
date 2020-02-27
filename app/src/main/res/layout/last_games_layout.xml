@@ -29,6 +29,14 @@
             android:layout_marginBottom="40dp"
             android:orientation="vertical"
             android:padding="6dp" />
+
+        <TextView
+            android:id="@+id/no_last_games_tv"
+            style="@style/instructionsHead2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_last_games"
+            android:visibility="invisible" />
     </LinearLayout>
 
     <Button

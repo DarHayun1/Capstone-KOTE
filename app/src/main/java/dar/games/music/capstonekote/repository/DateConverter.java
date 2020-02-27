@@ -2,20 +2,20 @@ package dar.games.music.capstonekote.repository;
 
 import androidx.room.TypeConverter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
- * Date converter for the Room database
+ * LocalDate converter for the Room database
  */
 public class DateConverter {
 
     @TypeConverter
-    public static Date toDate(Long timestamp) {
-        return timestamp == null ? null : new Date(timestamp);
+    public static LocalDate toLocalDate(Long epochDay) {
+        return epochDay == null ? null : LocalDate.ofEpochDay(epochDay);
     }
 
     @TypeConverter
-    public static Long toTimestamp(Date date) {
-        return date == null ? null : date.getTime();
+    public static Long toEpochDay(LocalDate date) {
+        return date == null ? null : date.toEpochDay();
     }
 }

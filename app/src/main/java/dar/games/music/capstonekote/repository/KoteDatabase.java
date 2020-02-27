@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 /**
  * The app's database, holding the last games played on the device.
  */
-@Database(entities = {GameResultModel.class}, version = 1, exportSchema = false)
+@Database(entities = {GameResultModel.class}, version = 2, exportSchema = false)
 public abstract class KoteDatabase extends RoomDatabase {
 
     private static final Object LOCK = new Object();

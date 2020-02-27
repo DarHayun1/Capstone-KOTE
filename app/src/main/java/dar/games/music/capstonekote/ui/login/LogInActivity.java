@@ -163,6 +163,7 @@ public class LogInActivity extends AppCompatActivity implements OnPbFinishedList
     }
 
     private void continueToMainActivity() {
+        setTheme(R.style.AppTheme);
         startActivity(new Intent(this, MainActivity.class));
         // Slide animation with the MainActivity
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

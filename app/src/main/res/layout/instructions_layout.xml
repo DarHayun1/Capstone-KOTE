@@ -24,7 +24,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:text="@string/intructions_label"
+                android:text="@string/instructions_label"
                 style="@style/instructionsHead1" />
 
             <TextView

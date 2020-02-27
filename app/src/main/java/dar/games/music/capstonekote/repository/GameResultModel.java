@@ -4,20 +4,20 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity(tableName = "results")
 public class GameResultModel {
 
     @TypeConverters(DateConverter.class)
     @PrimaryKey
-    private Date time;
+    private LocalDate date;
     private int score;
     private int difficulty;
 
-    public GameResultModel(Date time, int score, int difficulty) {
+    public GameResultModel(LocalDate date, int score, int difficulty) {
         this.score = score;
-        this.time = time;
+        this.date = date;
         this.difficulty = difficulty;
     }
 
@@ -25,8 +25,8 @@ public class GameResultModel {
         this.difficulty = difficulty;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public LocalDate getDate() {
+        return date;
     }
 
     public void setScore(int score) {
@@ -37,8 +37,8 @@ public class GameResultModel {
         return score;
     }
 
-    public Date getTime() {
-        return time;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public int getDifficulty() {
