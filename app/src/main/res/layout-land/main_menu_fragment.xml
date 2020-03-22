@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_menu_cl"
     tools:context="dar.games.music.capstonekote.ui.mainmenu.MainMenuFragment"
-    android:background="@drawable/backgroundnotes">
+    android:background="@color/backgroundColor">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/hor_guideline"
@@ -113,7 +113,7 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginEnd="@dimen/screen_shoulders_margin"
-        android:background="@drawable/backgroundnotes"
+        android:background="@android:color/transparent"
         android:clickable="true"
         android:focusable="true"
         android:scaleType="center"

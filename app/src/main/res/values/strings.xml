@@ -102,6 +102,7 @@
     <string name="signed_out_message">Signed Out!</string>
     <string name="sign_out_text">Sign Out</string>
     <string name="no_last_games">Couldn\'t find any previous games</string>
+    <string name="scale">Scale</string>
 
 
 </resources>

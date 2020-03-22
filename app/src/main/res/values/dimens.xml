@@ -20,13 +20,13 @@
     <dimen name="pian_marg_buttom">10dp</dimen>
     <dimen name="pian_marg_hor">30dp</dimen>
     <dimen name="log_in_margin_bottom">20dp</dimen>
-    <dimen name="log_in_btn_width">160dp</dimen>
+    <dimen name="log_in_btn_width">180dp</dimen>
     <dimen name="log_in_btn_height">50dp</dimen>
     <dimen name="widget_icon_height">32dp</dimen>
     <dimen name="widget_label_text">20sp</dimen>
     <dimen name="widget_text">26sp</dimen>
     <dimen name="close_btn_height">48dp</dimen>
-
+    <dimen name="top_drawer_menu_height">160dp</dimen>
 
 
 </resources>

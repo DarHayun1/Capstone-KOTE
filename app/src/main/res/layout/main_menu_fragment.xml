@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_menu_cl"
     tools:context="dar.games.music.capstonekote.ui.mainmenu.MainMenuFragment"
-    android:background="@drawable/backgroundnotes">
+    android:background="@color/backgroundColor">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/hor_guideline"
@@ -22,6 +22,63 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="@dimen/screen_shoulders_margin" />
+
+    <FrameLayout
+        android:id="@+id/login_top_drawer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_drawer_menu_height"
+        android:background="@drawable/top_drawer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/player_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/default_hello_text"
+            android:textColor="@android:color/white"
+            android:textSize="26sp" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="@dimen/screen_shoulders_margin"
+        android:layout_marginTop="31dp"
+        android:background="@drawable/plain_rounded_corners"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/login_top_drawer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_top_drawer">
+
+        <ImageButton
+            android:id="@+id/instruction_btn"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:contentDescription="@string/instructions_content_desc"
+            android:focusable="true"
+            android:scaleType="center"
+            android:src="@android:drawable/ic_dialog_info"
+            android:tint="@android:color/darker_gray" />
+
+        <FrameLayout
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray"/>
+
+
+    </LinearLayout>
+
 
     <include
         android:id="@+id/diff_layout"
@@ -84,14 +141,7 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/player_name_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/default_hello_text"
-        android:textSize="22sp"
-        app:layout_constraintStart_toEndOf="@+id/left_wall"
-        app:layout_constraintTop_toTopOf="@+id/top_guideline" />
+
 
     <include
         android:id="@+id/instructions_view"
@@ -112,19 +162,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <ImageButton
-        android:id="@+id/instruction_btn"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:background="@drawable/backgroundnotes"
-        android:scaleType="center"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@android:drawable/ic_dialog_info"
-        android:tint="@color/colorPrimary"
-        app:layout_constraintEnd_toEndOf="@id/menu_layout"
-        app:layout_constraintTop_toTopOf="@id/top_guideline"
-        android:contentDescription="@string/instructions_content_desc" />
+
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/top_guideline"
@@ -162,5 +200,7 @@
         android:contentDescription="@string/last_games_icon"
         app:layout_constraintEnd_toStartOf="@+id/leaderboard_btn"
         app:layout_constraintTop_toTopOf="@+id/top_guideline" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

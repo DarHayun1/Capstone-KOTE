@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 
 import be.tarsos.dsp.util.PitchConverter;
 import dar.games.music.capstonekote.R;
@@ -12,6 +13,8 @@ public class Note {
 
     private static final String[] notesNamesArray = {"C", "C#", "D", "D#", "E", "F", "F#",
             "G", "G#", "A", "A#", "B"};
+    private static final String[] formattedNotesArray = {"c", "db", "d", "eb", "e", "f", "gb",
+            "g", "ab", "a", "bb", "b"};
     private static final String SILENCE_NOTE = "S";
     private static final int SILENCE_NOTE_VALUE = -6;
 
@@ -305,6 +308,11 @@ public class Note {
         return SILENCE_NOTE_VALUE;
     }
 
+    private boolean isValidName(){
+
+        return Arrays.stream(notesNamesArray).anyMatch(n -> name.equals(n));
+    }
+
 
     @NonNull
     @Override
@@ -322,5 +330,10 @@ public class Note {
             return ((Note) obj).getName().equals(this.name);
         }
         return false;
+    }
+
+    public String getformattedName() {
+        return (isValidName()) ? formattedNotesArray[Arrays.asList(notesNamesArray).indexOf(name)]
+                                : "";
     }
 }

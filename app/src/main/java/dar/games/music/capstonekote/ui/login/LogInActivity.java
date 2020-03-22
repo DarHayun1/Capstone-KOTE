@@ -76,6 +76,8 @@ public class LogInActivity extends AppCompatActivity implements OnPbFinishedList
         logInViewModel = new ViewModelProvider(this).get(LogInViewModel.class);
         // Running a progressBar when the app runs for the first time.
         if (!logInViewModel.appStarted()) {
+            signInButton.setVisibility(View.INVISIBLE);
+            skipButton.setVisibility(View.INVISIBLE);
             loginProgressBar.setVisibility(View.VISIBLE);
             new ProgressBarAsyncTask(this).execute();
         } else {

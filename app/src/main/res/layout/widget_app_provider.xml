@@ -4,7 +4,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/widget_container"
-    android:background="@drawable/backgroundnotes"
+    android:background="@color/backgroundColor"
     android:padding="8dp">
 
     <LinearLayout

@@ -207,8 +207,7 @@ public class KoteRoundFragment extends Fragment {
             mMediaPlayer = MediaPlayer.create(mContext, firstNote.getSoundRes());
             mMediaPlayer.start();
             mMediaPlayer.setOnCompletionListener(mediaPlayer -> {
-                mSamplePianoIv.setImageDrawable(ContextCompat
-                        .getDrawable(mContext, R.drawable.pian_empty));
+                displayScale();
                 mNoteNameTv.setVisibility(View.INVISIBLE);
             });
             showPianoNote(firstNote);
@@ -335,7 +334,7 @@ public class KoteRoundFragment extends Fragment {
     }
 
     private void releaseMediaPlayer() {
-        mSamplePianoIv.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.pian_empty));
+        displayScale();
         mNoteNameTv.setVisibility(View.INVISIBLE);
         if (mMediaPlayer != null) {
             if (mMediaPlayer.isPlaying()) {
@@ -403,5 +402,21 @@ public class KoteRoundFragment extends Fragment {
             mSeekbarUpdateHandler.post(mUpdateSeekbar);
             isPlayingSample = true;
         }
+    }
+
+    private void displayScale(){
+        /*TODO: Waiting for graphic design
+        String scaleName = "pian_scale_" + mGameViewModel.getGame()
+                            .getCurrentSample().get(0).getformattedName();
+        int scaleDrawId = mContext.getResources().getIdentifier(scaleName, "drawable",
+                mContext.getPackageName());
+        mSamplePianoIv.setImageDrawable(ContextCompat.getDrawable(mContext, scaleDrawId));
+        String pianoContentDesc = scaleName + " " + getString(R.string.scale);
+        mSamplePianoIv.setContentDescription(pianoContentDesc);
+         */
+        mSamplePianoIv.setImageDrawable(ContextCompat
+                .getDrawable(mContext, R.drawable.pian_empty));
+        mSamplePianoIv.setContentDescription(getString(R.string.piano_image_content_desc));
+
     }
 }
