@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/mainmenu_bottom_drawer"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/bottom_drawer_def_height"
+    android:background="@drawable/bottom_drawer"
+    android:elevation="@dimen/drawer_elevation"
+    android:transitionName="@string/bottom_drawer_transition_name"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <dar.games.music.capstonekote.ui.customviews.KoteButton
+        android:id="@+id/start_game_btn"
+        android:layout_height="@dimen/main_menu_btn_height"
+        android:layout_width="match_parent"
+        android:layout_marginEnd="@dimen/screen_shoulders_margin"
+        android:layout_marginStart="@dimen/screen_shoulders_margin"
+        android:gravity="center"
+        android:elevation="@dimen/mm_button_elevation"
+        app:buttonText="@string/start_game"
+        app:layout_constraintBottom_toTopOf="@+id/mm_bottom_drawer_hor_gl"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.75" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/mm_bottom_drawer_hor_gl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <dar.games.music.capstonekote.ui.customviews.LabelAndDataView
+        android:id="@+id/highscore_ld"
+        app:label="@string/highscore_label"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_menu_btn_height"
+        android:layout_marginStart="@dimen/screen_shoulders_margin"
+        android:layout_marginEnd="@dimen/screen_shoulders_margin"
+        android:elevation="@dimen/mm_button_elevation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/mm_bottom_drawer_hor_gl"
+        app:layout_constraintVertical_bias="0.25"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +16,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import dar.games.music.capstonekote.R;
+import dar.games.music.capstonekote.ui.customviews.KoteButton;
+import dar.games.music.capstonekote.ui.customviews.LabelAndDataView;
 
 /**
  * A fragment displaying the finished round score.
@@ -29,14 +30,13 @@ public class KoteResultFragment extends Fragment {
     // ********
     // Views
     // ********
-    @BindView(R.id.score_tv)
-    TextView scoreTv;
-    @BindView(R.id.result_score_label)
-    TextView resultLabelTv;
-    @BindView(R.id.ready_btn_tv)
-    TextView readyBtnTv;
-    @BindView(R.id.ready_btn_label_tv)
-    TextView readyBtnLabelTv;
+    @BindView(R.id.round_container)
+    LabelAndDataView roundLad;
+    @BindView(R.id.result_container)
+    LabelAndDataView resultLad;
+    @BindView(R.id.ready_button)
+    KoteButton readyBtn;
+
 
     private KoteResultFragment() {
         // Required empty public constructor
@@ -80,30 +80,22 @@ public class KoteResultFragment extends Fragment {
         KoteGameViewModel gameViewModel =
                 new ViewModelProvider(getActivity()).get(KoteGameViewModel.class);
 
-        String resultLabelText = getResources().getString(R.string.round)
-                + " " + gameViewModel.getGame().getRound()
-                + " " + getResources().getString(R.string.result);
-        resultLabelTv.setText(resultLabelText);
-
         int score = gameViewModel.getGame().getCurrentScore();
         String scoreText = score + "/100";
-        scoreTv.setText(scoreText);
-        String contentDescText = getResources().getString(R.string.round_score_text) + score;
-        scoreTv.setContentDescription(contentDescText);
+        resultLad.setStringData(scoreText);
 
         String rdyBtnText;
         if (gameViewModel.getGame().hasNextRound()) {
-            rdyBtnText = getResources().getString(R.string.ready_btn_text) + " "
+            rdyBtnText = getResources().getString(R.string.ready_btn_label_text) + " "
                     + (gameViewModel.getGame().getRound() + 1);
         } else {
-            readyBtnLabelTv.setVisibility(View.GONE);
             rdyBtnText = getResources().getString(R.string.finish);
 
         }
-        readyBtnTv.setText(rdyBtnText);
+        readyBtn.setText(rdyBtnText);
     }
 
-    @OnClick(R.id.ready_btn)
+    @OnClick(R.id.ready_button)
     void onReadyClicked() {
         mCallback.onReadyClicked();
     }

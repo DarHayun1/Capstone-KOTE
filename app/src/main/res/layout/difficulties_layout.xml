@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/difficultis_height"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginStart="@dimen/diff_margin"
     android:layout_marginEnd="@dimen/diff_margin"
     android:gravity="center"
     android:layoutDirection="ltr"
     android:orientation="horizontal"
-    app:layout_constraintBottom_toTopOf="@+id/hor_guideline"
+    app:layout_constraintBottom_toTopOf="@+id/mainmenu_bottom_drawer"
+    app:layout_constraintTop_toBottomOf="@id/mainmenu_top_drawer"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent">
 
@@ -18,48 +19,22 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:adjustViewBounds="true"
+        android:contentDescription="@string/previous_difficulty_content_desc"
         android:scaleType="centerInside"
         android:src="@drawable/left"
-        android:contentDescription="@string/previous_difficulty_content_desc" />
+        android:tint="@color/colorPrimary" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ImageView
+        android:id="@+id/diff_iv"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="3">
-
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/diff_hor_guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.8" />
-
-        <TextView
-            android:id="@+id/diff_name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="casual"
-            android:text="@string/easy_diff"
-            android:textSize="@dimen/main_menu_text_size"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/diff_hor_guideline" />
-
-        <ImageView
-            android:id="@+id/diff_iv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="center"
-            android:src="@drawable/easy_diff_icon"
-            app:layout_constraintBottom_toTopOf="@id/diff_hor_guideline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/difficulty_easy_content_desc" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="3"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/difficulty_easy_content_desc"
+        android:scaleType="center"
+        android:src="@drawable/easy_diff_icon"
+        android:tint="@color/colorPrimary" />
 
     <ImageView
         android:id="@+id/next_diff_ib"
@@ -67,7 +42,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:adjustViewBounds="true"
+        android:contentDescription="@string/next_difficulty_content_desc"
         android:scaleType="centerInside"
         android:src="@drawable/right"
-        android:contentDescription="@string/next_difficulty_content_desc" />
+        android:tint="@color/colorPrimary" />
 </LinearLayout>

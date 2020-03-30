@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/round_bottom_drawer"
+    android:transitionName="@string/bottom_drawer_transition_name"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_drawer"
+    android:elevation="@dimen/drawer_elevation"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent">
+
+    <dar.games.music.capstonekote.ui.customviews.KoteButton
+        android:id="@+id/record_button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_menu_btn_height"
+        android:layout_marginStart="@dimen/screen_shoulders_margin"
+        android:layout_marginEnd="@dimen/screen_shoulders_margin"
+        android:layout_marginBottom="@dimen/vertical_margin_game_comp"
+        android:gravity="center"
+        android:elevation="@dimen/mm_button_elevation"
+        app:buttonText="@string/record_label"
+        app:buttonIcon="@drawable/record_circle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <SeekBar
+        android:id="@+id/seek_bar"
+        style="@style/Widget.AppCompat.SeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="@dimen/screen_shoulders_margin"
+        android:layout_marginEnd="@dimen/screen_shoulders_margin"
+        android:layout_marginBottom="@dimen/vertical_margin_game_comp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/record_button"/>
+
+    <FrameLayout
+        android:id="@+id/first_note_btn"
+        android:layout_width="@dimen/play_sample_height"
+        android:layout_height="@dimen/play_sample_height"
+        style="@style/roundButton"
+        android:layout_marginBottom="@dimen/vertical_margin_game_comp"
+        app:layout_constraintEnd_toEndOf="@id/seek_bar"
+        app:layout_constraintBottom_toTopOf="@id/seek_bar">
+
+        <ImageView
+            android:transitionName="@string/bottom_drawer_transition_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/play_1st_note_content_desc"
+            android:src="@drawable/play_1st_note_icon" />
+    </FrameLayout>
+
+
+
+    <FrameLayout
+        android:id="@+id/play_sample_btn"
+        android:layout_width="@dimen/play_sample_height"
+        android:layout_height="@dimen/play_sample_height"
+        android:layout_marginBottom="@dimen/vertical_margin_game_comp"
+        style="@style/roundButton"
+        app:layout_constraintBottom_toTopOf="@id/seek_bar"
+        app:layout_constraintStart_toStartOf="@id/seek_bar">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/play_melody_content_desc"
+            android:src="@drawable/play_icon" />
+    </FrameLayout>
+
+
+    <dar.games.music.capstonekote.ui.customviews.OctaveView
+        android:id="@+id/octave2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/vertical_margin_game_comp"
+        android:paddingTop="@dimen/vertical_margin_game_comp"
+        app:layout_constraintBottom_toTopOf="@+id/play_sample_btn"
+        app:layout_constraintStart_toStartOf="@+id/seek_bar" />
+
+    <dar.games.music.capstonekote.ui.customviews.OctaveView
+        android:id="@+id/octave3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/vertical_margin_game_comp"
+        android:paddingTop="@dimen/vertical_margin_game_comp"
+        app:layout_constraintStart_toEndOf="@id/octave2"
+        app:layout_constraintTop_toTopOf="@id/octave2"/>
+
+    <dar.games.music.capstonekote.ui.customviews.OctaveView
+        android:id="@+id/octave4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/vertical_margin_game_comp"
+        android:paddingTop="@dimen/vertical_margin_game_comp"
+        app:layout_constraintStart_toEndOf="@id/octave3"
+        app:layout_constraintTop_toTopOf="@id/octave3" />
+
+    <include layout="@layout/piano_layout"
+        android:visibility="gone"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

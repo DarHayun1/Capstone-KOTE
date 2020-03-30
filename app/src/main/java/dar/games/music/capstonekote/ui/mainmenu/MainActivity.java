@@ -38,9 +38,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.action_sign_out) {
-            signOut();
-            return true;
+        switch (item.getItemId()){
+            case R.id.action_sign_out:
+                signOut();
+                return true;
+            case android.R.id.home:
+                supportFinishAfterTransition();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -59,9 +63,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void finish() {
-        super.finish();
-        // Slide animation with the LogIn Activity
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    public void onBackPressed() {
+        finish();
     }
+
 }

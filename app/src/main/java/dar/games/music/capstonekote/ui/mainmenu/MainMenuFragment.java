@@ -1,9 +1,13 @@
 package dar.games.music.capstonekote.ui.mainmenu;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +32,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.games.Games;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +45,7 @@ import butterknife.Unbinder;
 import dar.games.music.capstonekote.R;
 import dar.games.music.capstonekote.WidgetUpdateService;
 import dar.games.music.capstonekote.gamelogic.KoteGame;
+import dar.games.music.capstonekote.ui.customviews.LabelAndDataView;
 import dar.games.music.capstonekote.ui.game.GamesActivity;
 
 import static dar.games.music.capstonekote.ui.login.LogInActivity.LOGIN_RESULT_KEY;
@@ -72,8 +82,6 @@ public class MainMenuFragment extends Fragment {
     ImageView diffIv;
     @BindView(R.id.instructions_view)
     View instructionsLayout;
-    @BindView(R.id.highscore_tv)
-    TextView highScoreTv;
     @BindView(R.id.last_games_view)
     View lastGamesLayout;
     @BindView(R.id.results_rv)
@@ -82,6 +90,14 @@ public class MainMenuFragment extends Fragment {
     TextView noLastGamesTv;
     @BindView(R.id.player_name_tv)
     TextView playerNameTv;
+    @BindView(R.id.player_icon_iv)
+    ImageView playerIconIv;
+    @BindView(R.id.mainmenu_top_drawer)
+    View topDrawer;
+    @BindView(R.id.mainmenu_bottom_drawer)
+    View bottomDrawer;
+    @BindView(R.id.highscore_ld)
+    LabelAndDataView highscoreLdV;
 
     public static MainMenuFragment newInstance() {
         return new MainMenuFragment();
@@ -121,7 +137,7 @@ public class MainMenuFragment extends Fragment {
         mResultsAdapter = new GameResultsAdapter(mContext);
 
         mViewModel.getHighScore(mDifficulty).observe(getViewLifecycleOwner(), score ->
-                highScoreTv.setText(String.valueOf(score)));
+                highscoreLdV.setValue(score));
 
         mViewModel.getLastResults().observe(getViewLifecycleOwner(), gameResults -> {
             if (gameResults != null) {
@@ -146,11 +162,23 @@ public class MainMenuFragment extends Fragment {
             playerNameTv.setText(welcomeText);
         });
 
+        mViewModel.getPlayerIcon().observe(getViewLifecycleOwner(), iconUrl ->
+                Picasso.with(mContext).load(iconUrl).into(playerIconIv, new Callback() {
+            @Override
+            public void onSuccess() {
+                playerIconIv.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onError() {
+                playerIconIv.setVisibility(View.GONE);
+            }
+        }));
+
     }
 
     @OnClick(R.id.start_game_btn)
     void startGameActivity() {
-
         Intent intent = new Intent(getActivity(), GamesActivity.class);
         intent.putExtra(DIFFICULTY_EXTRA, mDifficulty);
         startActivity(intent);
@@ -287,7 +315,7 @@ public class MainMenuFragment extends Fragment {
 
         mViewModel.getHighScore(mDifficulty).observe(getViewLifecycleOwner(), score ->
         {
-            highScoreTv.setText(String.valueOf(score));
+            highscoreLdV.setValue(score);
             WidgetUpdateService.startActionUpdateRecipeWidget(mContext, mDifficulty, score);
 
         });

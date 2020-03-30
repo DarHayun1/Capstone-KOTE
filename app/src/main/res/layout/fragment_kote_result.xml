@@ -7,91 +7,85 @@
     android:background="@color/backgroundColor"
     tools:context="dar.games.music.capstonekote.ui.game.KoteResultFragment">
 
-    <TextView
-        android:id="@+id/result_score_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/colorAccent"
-        android:fontFamily="cursive"
-        android:text="@string/result_label_def_text_"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/score_tv"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
-    <TextView
-        android:id="@+id/score_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="25dp"
-        android:fontFamily="cursive"
-        android:text="@string/default_round_text"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="42sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
-
-    <LinearLayout
-        android:id="@+id/ready_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/ready_button_size"
-        android:background="@color/colorPrimaryDark"
-        android:elevation="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <FrameLayout
+        android:id="@+id/result_top_drawer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_drawer_menu_height"
+        android:background="@drawable/top_drawer"
+        android:elevation="@dimen/drawer_elevation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/imageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@android:drawable/ic_media_play"
-            android:contentDescription="@string/play_content_desc" />
+    <FrameLayout
+        android:id="@+id/result_bottom_drawer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/large_margin_game_comp"
+        android:background="@drawable/bottom_drawer"
+        android:elevation="@dimen/drawer_elevation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <dar.games.music.capstonekote.ui.customviews.KoteButton
+            android:id="@+id/ready_button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_menu_btn_height"
+            android:layout_marginStart="@dimen/screen_shoulders_margin"
+            android:layout_marginEnd="@dimen/screen_shoulders_margin"
+            android:layout_marginBottom="@dimen/large_margin_game_comp"
+            android:gravity="center"
+            android:elevation="@dimen/mm_button_elevation"
+            app:buttonText="@string/ready_btn_label_text"
+            app:buttonIcon="@drawable/play_icon"/>
+
+    </FrameLayout>
+
+    <dar.games.music.capstonekote.ui.customviews.FixedRatioFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/screen_shoulders_margin"
+        android:layout_marginStart="@dimen/screen_shoulders_margin"
+        android:background="@drawable/data_circle_background"
+        android:elevation="@dimen/elevation_over_drawer"
+        app:layout_constraintBottom_toBottomOf="@+id/result_top_drawer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/result_top_drawer">
 
         <LinearLayout
-            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="6dp"
-            android:gravity="center_vertical"
-            android:minWidth="@dimen/difficultis_width"
+            android:layout_width="match_parent"
+            android:layout_margin="22dp"
+            android:background="@drawable/plain_round_button"
+            android:paddingBottom="@dimen/vertical_margin_game_comp"
+            android:paddingTop="@dimen/vertical_margin_game_comp"
+            android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/ready_btn_label_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:gravity="center_vertical"
-                android:text="@string/ready_btn_label_text"
-                android:textAlignment="center"
-                android:textColor="@android:color/white"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/ready_btn_tv"
+            <dar.games.music.capstonekote.ui.customviews.LabelAndDataView
+                android:id="@+id/round_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/ready_text_default"
-                android:textAlignment="center"
-                android:textColor="@android:color/white"
-                android:textSize="24sp" />
+                android:layout_height="@dimen/main_menu_btn_height"
+                android:layout_marginStart="@dimen/screen_shoulders_margin"
+                android:layout_marginEnd="@dimen/screen_shoulders_margin"
+                app:label="@string/round_label_text"
+                android:layout_marginBottom="10dp"/>
+
+            <dar.games.music.capstonekote.ui.customviews.LabelAndDataView
+                android:id="@+id/result_container"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/main_menu_btn_height"
+                android:layout_marginStart="@dimen/screen_shoulders_margin"
+                android:layout_marginEnd="@dimen/screen_shoulders_margin"
+                android:layout_marginTop="10dp"
+                app:label="@string/result"/>
+
         </LinearLayout>
 
-    </LinearLayout>
+    </dar.games.music.capstonekote.ui.customviews.FixedRatioFrameLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

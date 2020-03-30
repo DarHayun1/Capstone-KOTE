@@ -11,6 +11,7 @@
 
     <FrameLayout
         android:id="@+id/login_top_drawer"
+        android:transitionName="@string/top_drawer_transition_name"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/launch_screen"
@@ -22,8 +23,10 @@
     </FrameLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/login_bottom_drawer"
+        android:transitionName="@string/bottom_drawer_transition_name"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="@dimen/bottom_drawer_login_height"
         android:background="@drawable/bottom_drawer"
         android:elevation="16dp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -2,7 +2,9 @@ package dar.games.music.capstonekote.repository;
 
 import android.app.Application;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
@@ -41,10 +43,9 @@ public class GamesHistoryRepository {
     private final KoteDao mDao;
     private final Context mAppContext;
     private LiveData<List<GameResultModel>> gameResults;
-    private MutableLiveData<Integer> mEasyHighscore;
-    private MutableLiveData<Integer> mHardHighscore;
-    private MutableLiveData<Integer> mExtremeHighscore;
+    private MutableLiveData<Integer> mEasyHighscore, mHardHighscore, mExtremeHighscore;
     private MutableLiveData<String> playerName;
+    private MutableLiveData<Uri> playerIconUrl;
     private GoogleSignInAccount mGoogleAccount;
     private boolean mAppStarted;
 
@@ -94,6 +95,8 @@ public class GamesHistoryRepository {
                 });
         playerName = new MutableLiveData<>();
         playerName.setValue(mAppContext.getString(R.string.guest_name));
+
+        playerIconUrl = new MutableLiveData<>();
     }
 
     /**
@@ -225,8 +228,10 @@ public class GamesHistoryRepository {
      * Updating the player's name.
      */
     private void accountUpdated() {
-        if (mGoogleAccount != null)
+        if (mGoogleAccount != null) {
             playerName.postValue(mGoogleAccount.getDisplayName());
+            playerIconUrl.postValue(mGoogleAccount.getPhotoUrl());
+        }
         else
             playerName.setValue(mAppContext.getString(R.string.guest_name));
     }
@@ -251,5 +256,10 @@ public class GamesHistoryRepository {
         }
         mAppStarted = true;
         return false;
+    }
+
+    public MutableLiveData<Uri> getPlayerIconUri() {
+        accountUpdated();
+        return playerIconUrl;
     }
 }

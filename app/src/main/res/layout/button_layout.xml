@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/plain_rounded_corners"
+    android:orientation="horizontal"
+    android:gravity="center_horizontal"
+    android:elevation="@dimen/mm_button_elevation">
+
+    <ImageView
+        android:id="@+id/kote_button_image"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:visibility="gone"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="10dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:contentDescription="@string/kote_button_content_desc"/>
+
+    <TextView
+        android:id="@+id/kote_button_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/colorSecondaryText"
+        android:textSize="@dimen/main_menu_text_size" />
+
+</merge>

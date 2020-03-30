@@ -308,6 +308,15 @@ public class Note {
         return SILENCE_NOTE_VALUE;
     }
 
+    public static int getNoteValueByName(String name) {
+        for (int i = 0; i < notesNamesArray.length; i++) {
+            if (name.equals(notesNamesArray[i])) {
+                return i;
+            }
+        }
+        return SILENCE_NOTE_VALUE;
+    }
+
     private boolean isValidName(){
 
         return Arrays.stream(notesNamesArray).anyMatch(n -> name.equals(n));

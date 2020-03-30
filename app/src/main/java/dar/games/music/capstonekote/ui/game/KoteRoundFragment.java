@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -36,6 +37,9 @@ import dar.games.music.capstonekote.R;
 import dar.games.music.capstonekote.gamelogic.KoteGame;
 import dar.games.music.capstonekote.gamelogic.Note;
 import dar.games.music.capstonekote.gamelogic.NoteArrayList;
+import dar.games.music.capstonekote.ui.customviews.KoteButton;
+import dar.games.music.capstonekote.ui.customviews.LabelAndDataView;
+import dar.games.music.capstonekote.ui.customviews.OctaveView;
 import dar.games.music.capstonekote.utils.AppExecutors;
 
 /**
@@ -94,22 +98,25 @@ public class KoteRoundFragment extends Fragment {
     @BindView(R.id.seek_bar)
     SeekBar seekBar;
     @BindView(R.id.play_sample_btn)
-    ImageView playSampleBtn;
-    @BindView(R.id.record_button_image)
-    ImageView recordBtnIv;
-    @BindView(R.id.record_button_text)
-    TextView recordBtnTv;
+    View playSampleBtn;
+    @BindView(R.id.record_button)
+    KoteButton recordBtnKb;
     @BindView(R.id.piano_board_player)
     ConstraintLayout pianoBoardConstraintPlayer;
     @BindView(R.id.piano_board_recording)
     View pianoBoardRecording;
-    @BindView(R.id.round_tv)
-    TextView roundTv;
-    @BindView(R.id.total_score_round_tv)
-    TextView totalScoreTv;
+    @BindView(R.id.round_container)
+    LabelAndDataView roundView;
+    @BindView(R.id.score_container)
+    LabelAndDataView scoreView;
     @BindView(R.id.plays_left)
     TextView playsLeftTextView;
-
+    @BindView(R.id.octave2)
+    OctaveView piano2octave;
+    @BindView(R.id.octave3)
+    OctaveView piano3octave;
+    @BindView(R.id.octave4)
+    OctaveView piano4octave;
 
     static KoteRoundFragment newInstance() {
 
@@ -170,8 +177,9 @@ public class KoteRoundFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mGameViewModel = new ViewModelProvider(getActivity()).get(KoteGameViewModel.class);
-        totalScoreTv.setText(String.valueOf(mGameViewModel.getGame().getTotalScore()));
-        roundTv.setText(String.valueOf(mGameViewModel.getGame().getRound()));
+        roundView.setData(getString(R.string.round), mGameViewModel.getGame().getRound());
+        scoreView.setData(getString(R.string.score_label_text),
+                mGameViewModel.getGame().getTotalScore());
 
         //Updating every time the game plays the melody.
         mGameViewModel.getPlaysLeft().observe(getViewLifecycleOwner(), numOfPlays -> {
@@ -310,8 +318,8 @@ public class KoteRoundFragment extends Fragment {
      * Cancel the recordings and prompt a message.
      */
     private void invalidAttempt() {
-        recordBtnIv.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.record_circle));
-        recordBtnTv.setText(getResources().getString(R.string.record_btn_label));
+        recordBtnKb.setupButton(getResources().getString(R.string.record_btn_label),
+                ContextCompat.getDrawable(mContext, R.drawable.record_circle));
         pianoBoardRecording.setVisibility(View.GONE);
         pianoBoardConstraintPlayer.setVisibility(View.VISIBLE);
         mPlayerAttemptArr.clear();
@@ -365,9 +373,8 @@ public class KoteRoundFragment extends Fragment {
                 if (mMediaPlayer != null && mMediaPlayer.isPlaying())
                     mMediaPlayer.stop();
                 startRecordPlay();
-                recordBtnIv.setImageDrawable(
+                recordBtnKb.setupButton(getResources().getString(R.string.stop_player_record),
                         ContextCompat.getDrawable(mContext, R.drawable.stop_icn));
-                recordBtnTv.setText(getResources().getString(R.string.stop_player_record));
             }
         }
     }
@@ -414,6 +421,10 @@ public class KoteRoundFragment extends Fragment {
         String pianoContentDesc = scaleName + " " + getString(R.string.scale);
         mSamplePianoIv.setContentDescription(pianoContentDesc);
          */
+        String scaleName = mGameViewModel.getGame().getCurrentSample().get(0).getName();
+        piano2octave.highlightScale(scaleName);
+        piano3octave.highlightScale(scaleName);
+        piano4octave.highlightScale(scaleName);
         mSamplePianoIv.setImageDrawable(ContextCompat
                 .getDrawable(mContext, R.drawable.pian_empty));
         mSamplePianoIv.setContentDescription(getString(R.string.piano_image_content_desc));
