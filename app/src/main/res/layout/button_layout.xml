@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@drawable/plain_rounded_corners"
     android:orientation="horizontal"
-    android:gravity="center_horizontal"
+    android:gravity="center"
     android:elevation="@dimen/mm_button_elevation">
 
     <ImageView
@@ -22,7 +22,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:fontFamily="sans-serif-medium"
+        android:fontFamily="@font/poppins_medium"
+        android:paddingTop="@dimen/poppins_top_padd"
         android:textColor="@color/colorSecondaryText"
         android:textSize="@dimen/main_menu_text_size" />
 

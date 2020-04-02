@@ -36,5 +36,6 @@
         android:text="@string/default_score_txt"
         android:id="@+id/highscore_widget_tv"
         android:textSize="@dimen/widget_text"
-        android:fontFamily="sans-serif-black"/>
+        android:fontFamily="@font/poppins_bold"
+        android:paddingTop="@dimen/poppins_top_padd"/>
 </LinearLayout>

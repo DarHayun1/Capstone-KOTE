@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import be.tarsos.dsp.util.PitchConverter;
@@ -15,6 +16,7 @@ public class Note {
             "G", "G#", "A", "A#", "B"};
     private static final String[] formattedNotesArray = {"c", "db", "d", "eb", "e", "f", "gb",
             "g", "ab", "a", "bb", "b"};
+    private static final int[] MAJOR_SCALE_SPACES = {2,2,1,2,2,2};
     private static final String SILENCE_NOTE = "S";
     private static final int SILENCE_NOTE_VALUE = -6;
 
@@ -41,6 +43,14 @@ public class Note {
         this.timeStamp = timeStamp;
         this.probability = probability;
         this.duration = duration;
+    }
+
+    public Note(Note n) {
+        this.name = n.getName();
+        this.octave = n.getOctave();
+        this.timeStamp = n.getTimeStamp();
+        this.probability = n.getProbability();
+        this.duration = n.getDuration();
     }
 
     /**
@@ -344,5 +354,18 @@ public class Note {
     public String getformattedName() {
         return (isValidName()) ? formattedNotesArray[Arrays.asList(notesNamesArray).indexOf(name)]
                                 : "";
+    }
+
+    public ArrayList<String> getScaleNotes(){
+        ArrayList<String> notes = new ArrayList<>(7);
+        int index = this.getNoteValue();
+        notes.add(notesNamesArray[index]);
+        for (int space :
+                MAJOR_SCALE_SPACES) {
+            index += space;
+            index %= 12;
+            notes.add(notesNamesArray[index]);
+        }
+        return notes;
     }
 }

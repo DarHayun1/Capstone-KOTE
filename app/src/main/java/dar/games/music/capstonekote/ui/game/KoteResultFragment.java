@@ -34,8 +34,9 @@ public class KoteResultFragment extends Fragment {
     LabelAndDataView roundLad;
     @BindView(R.id.result_container)
     LabelAndDataView resultLad;
-    @BindView(R.id.ready_button)
+    @BindView(R.id.ready_btn)
     KoteButton readyBtn;
+    private KoteGameViewModel mGameViewModel;
 
 
     private KoteResultFragment() {
@@ -77,17 +78,19 @@ public class KoteResultFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        KoteGameViewModel gameViewModel =
-                new ViewModelProvider(getActivity()).get(KoteGameViewModel.class);
+        mGameViewModel = new ViewModelProvider(getActivity()).get(KoteGameViewModel.class);
 
-        int score = gameViewModel.getGame().getCurrentScore();
-        String scoreText = score + "/100";
-        resultLad.setStringData(scoreText);
+        inflateViewsData();
 
+    }
+
+    private void inflateViewsData() {
+        resultLad.setValue(mGameViewModel.getGame().getCurrentScore());
+        roundLad.setValue(mGameViewModel.getGame().getRound());
         String rdyBtnText;
-        if (gameViewModel.getGame().hasNextRound()) {
+        if (mGameViewModel.getGame().hasNextRound()) {
             rdyBtnText = getResources().getString(R.string.ready_btn_label_text) + " "
-                    + (gameViewModel.getGame().getRound() + 1);
+                    + (mGameViewModel.getGame().getRound() + 1);
         } else {
             rdyBtnText = getResources().getString(R.string.finish);
 
@@ -95,7 +98,7 @@ public class KoteResultFragment extends Fragment {
         readyBtn.setText(rdyBtnText);
     }
 
-    @OnClick(R.id.ready_button)
+    @OnClick(R.id.ready_btn)
     void onReadyClicked() {
         mCallback.onReadyClicked();
     }

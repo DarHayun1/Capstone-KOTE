@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/round_bottom_drawer"
-    android:transitionName="@string/bottom_drawer_transition_name"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bottom_drawer"
     android:elevation="@dimen/drawer_elevation"
+    android:transitionName="@string/bottom_drawer_transition_name"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent">
@@ -18,10 +19,10 @@
         android:layout_marginStart="@dimen/screen_shoulders_margin"
         android:layout_marginEnd="@dimen/screen_shoulders_margin"
         android:layout_marginBottom="@dimen/vertical_margin_game_comp"
-        android:gravity="center"
         android:elevation="@dimen/mm_button_elevation"
-        app:buttonText="@string/record_label"
+        android:gravity="center"
         app:buttonIcon="@drawable/record_circle"
+        app:buttonText="@string/record_label"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -31,41 +32,21 @@
         style="@style/Widget.AppCompat.SeekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginStart="@dimen/screen_shoulders_margin"
         android:layout_marginEnd="@dimen/screen_shoulders_margin"
         android:layout_marginBottom="@dimen/vertical_margin_game_comp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/record_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/record_button"/>
-
-    <FrameLayout
-        android:id="@+id/first_note_btn"
-        android:layout_width="@dimen/play_sample_height"
-        android:layout_height="@dimen/play_sample_height"
-        style="@style/roundButton"
-        android:layout_marginBottom="@dimen/vertical_margin_game_comp"
-        app:layout_constraintEnd_toEndOf="@id/seek_bar"
-        app:layout_constraintBottom_toTopOf="@id/seek_bar">
-
-        <ImageView
-            android:transitionName="@string/bottom_drawer_transition_name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/play_1st_note_content_desc"
-            android:src="@drawable/play_1st_note_icon" />
-    </FrameLayout>
-
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <FrameLayout
         android:id="@+id/play_sample_btn"
+        style="@style/roundButton"
         android:layout_width="@dimen/play_sample_height"
         android:layout_height="@dimen/play_sample_height"
         android:layout_marginBottom="@dimen/vertical_margin_game_comp"
-        style="@style/roundButton"
         app:layout_constraintBottom_toTopOf="@id/seek_bar"
         app:layout_constraintStart_toStartOf="@id/seek_bar">
 
@@ -78,35 +59,68 @@
             android:src="@drawable/play_icon" />
     </FrameLayout>
 
+    <FrameLayout
+        android:id="@+id/plays_left_icon"
+        style="@style/roundInfo"
+        android:layout_width="@dimen/playes_left_height"
+        android:layout_height="@dimen/playes_left_height"
+        app:layout_constraintBottom_toTopOf="@id/play_sample_btn"
+        app:layout_constraintEnd_toEndOf="@id/play_sample_btn"
+        app:layout_constraintStart_toEndOf="@+id/play_sample_btn"
+        app:layout_constraintTop_toTopOf="@+id/play_sample_btn">
 
-    <dar.games.music.capstonekote.ui.customviews.OctaveView
-        android:id="@+id/octave2"
+        <TextView
+            android:id="@+id/plays_left_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top"
+            android:text="@string/default_num_playes"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/plays_left_text_size" />
+    </FrameLayout>
+
+
+    <dar.games.music.capstonekote.ui.customviews.PianoView
+        android:id="@+id/game_piano"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/vertical_margin_game_comp"
+        android:elevation="6dp"
         android:paddingTop="@dimen/vertical_margin_game_comp"
         app:layout_constraintBottom_toTopOf="@+id/play_sample_btn"
-        app:layout_constraintStart_toStartOf="@+id/seek_bar" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:numOfOctaves="@integer/num_of_octaves" />
 
-    <dar.games.music.capstonekote.ui.customviews.OctaveView
-        android:id="@+id/octave3"
+    <include
+        layout="@layout/piano_layout"
+        android:visibility="gone" />
+
+    <dar.games.music.capstonekote.ui.customviews.LabelAndDataView
+        android:id="@+id/major_key_lad"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/vertical_margin_game_comp"
-        android:paddingTop="@dimen/vertical_margin_game_comp"
-        app:layout_constraintStart_toEndOf="@id/octave2"
-        app:layout_constraintTop_toTopOf="@id/octave2"/>
+        android:layout_height="@dimen/play_sample_height"
+        app:data="@string/default_scale_text"
+        app:label="@string/scale_label"
+        app:layout_constraintBottom_toBottomOf="@+id/play_sample_btn"
+        app:layout_constraintEnd_toEndOf="@+id/game_piano"
+        app:layout_constraintTop_toTopOf="@+id/play_sample_btn"
+        app:textSize="18" />
 
-    <dar.games.music.capstonekote.ui.customviews.OctaveView
-        android:id="@+id/octave4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/vertical_margin_game_comp"
-        android:paddingTop="@dimen/vertical_margin_game_comp"
-        app:layout_constraintStart_toEndOf="@id/octave3"
-        app:layout_constraintTop_toTopOf="@id/octave3" />
-
-    <include layout="@layout/piano_layout"
-        android:visibility="gone"/>
+    <ImageView
+        android:id="@+id/scale_btn"
+        style="@style/roundSmallButton"
+        android:layout_width="@dimen/scale_hint_size"
+        android:layout_height="@dimen/scale_hint_size"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/key_hint_btn_contentdesc"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@id/major_key_lad"
+        app:layout_constraintEnd_toEndOf="@id/major_key_lad"
+        app:layout_constraintStart_toEndOf="@+id/major_key_lad"
+        app:layout_constraintTop_toTopOf="@+id/major_key_lad"
+        app:srcCompat="@drawable/info_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

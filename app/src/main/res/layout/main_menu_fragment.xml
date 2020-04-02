@@ -33,7 +33,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:fontFamily="sans-serif-medium"
+            android:fontFamily="@font/poppins_medium"
+            android:paddingTop="@dimen/poppins_top_padd"
             android:text="@string/default_hello_text"
             android:textColor="@android:color/white"
             android:textSize="26sp" />
@@ -103,7 +104,7 @@
             android:cropToPadding="false"
             android:focusable="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/games_controller_grey"
+            android:src="@drawable/games_leaderboards"
             android:tint="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/right_separator"

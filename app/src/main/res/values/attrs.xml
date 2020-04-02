@@ -2,11 +2,18 @@
 <resources>
     <declare-styleable name="LabelAndDataView">
         <attr name="label" format="string"/>
+        <attr name="data" format="string"/>
+        <attr name="textSize" format="integer"/>
+
     </declare-styleable>
 
     <declare-styleable name="KoteButton">
         <attr name="buttonText" format="string"/>
         <attr name="buttonIcon" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="PianoView">
+        <attr name="numOfOctaves" format="integer"/>
     </declare-styleable>
 
 </resources>

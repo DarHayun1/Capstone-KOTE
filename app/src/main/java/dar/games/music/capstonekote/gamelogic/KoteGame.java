@@ -1,12 +1,14 @@
 package dar.games.music.capstonekote.gamelogic;
 
+import android.util.Log;
 import android.util.Pair;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -23,11 +25,11 @@ public class KoteGame {
 
     public static final int GAME_ENDED = 101;
 
-    private static final double RELATIVE_SCORE_FACTOR = 0.9;
+    private static final double RELATIVE_SCORE_FACTOR = 0.85;
 
     private static final int MAX_UNUSED_SCORE = 75;
     public static final int INVALID_SCORE = 102;
-    private static final int ROUND_MAX_LENGTH = 6;
+    private static final int ROUND_MAX_LENGTH = 5;
 
     private int difficulty;
     private ArrayList<NoteArrayList> mMusicalParts;
@@ -284,12 +286,16 @@ public class KoteGame {
         this.checkForRecordBadNotes(playerArray);
         if (playerArray.size() > 0) {
             Note[][] syncedArray = playerArray.syncMusicalParts(mMusicalParts.get(round - 1), difficulty);
+            Log.i("SCORETEST", "synced array: " + Arrays.deepToString(syncedArray));
+
             if (checkInvalidAttemptLength(syncedArray)) {
                 currentScore = INVALID_SCORE;
                 return;
             }
 
             int tempScore = analyzeOnce(syncedArray);
+            Log.i("SCORETEST", "tempScore: " + tempScore);
+
             currentScore = validateDuplicates(syncedArray, tempScore);
             if (currentScore == INVALID_SCORE)
                 return;
@@ -325,7 +331,7 @@ public class KoteGame {
      * @return A newly created GameResultModel Ready for DB insertion.
      */
     public GameResultModel getGameResult() {
-        return new GameResultModel(LocalDate.now(), totalScore, difficulty);
+        return new GameResultModel(LocalDateTime.now(), totalScore, difficulty);
     }
 
     /**
@@ -403,6 +409,8 @@ public class KoteGame {
         for (int i = 0; i < syncedArray[0].length; i++) {
             if (syncedArray[0][i] != null) {
                 resultSum += scoreSingleNote(syncedArray, i);
+                Log.i("SCORETEST", "note:" + syncedArray[0][i].toString()
+                        + resultSum);
                 notesCounted++;
             }
         }

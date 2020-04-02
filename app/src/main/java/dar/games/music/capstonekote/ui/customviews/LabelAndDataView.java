@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ public class LabelAndDataView extends LinearLayout {
     private TextView mLabelTv, mDataTv;
     private String mLabel;
     private String mValue;
+    private int mTextSize;
 
     public LabelAndDataView(Context context) {
         this(context, null);
@@ -53,6 +55,8 @@ public class LabelAndDataView extends LinearLayout {
 
         try {
             mLabel = ta.getString(R.styleable.LabelAndDataView_label);
+            mValue = ta.getString(R.styleable.LabelAndDataView_data);
+            mTextSize = ta.getInt(R.styleable.LabelAndDataView_textSize, 22);
         } catch (NullPointerException e){e.printStackTrace();}
         finally {
             ta.recycle();
@@ -61,10 +65,16 @@ public class LabelAndDataView extends LinearLayout {
     }
 
     private void initTypeface(Context context) {
-        if (mLabel != null){
-            mLabelTv.setText(mLabel);
-        }
-        else mLabelTv.setText(context.getString(R.string.data_label));
+        if (mLabel == null)
+            mLabel = context.getString(R.string.data_label);
+        if (mValue == null)
+            mValue = context.getString(R.string.data_value);
+        if (mTextSize == 0)
+            mTextSize = 22;
+        mLabelTv.setText(mLabel);
+        mLabelTv.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize);
+        mDataTv.setText(mValue);
+        mDataTv.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize);
     }
 
     public void setData(String label, int value){

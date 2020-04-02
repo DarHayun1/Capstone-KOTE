@@ -7,18 +7,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
+    android:elevation="@dimen/drawer_elevation"
     tools:context="dar.games.music.capstonekote.ui.game.KoteRoundFragment">
 
-    <include
-        layout="@layout/game_top_drawer_layout"/>
+    <include layout="@layout/game_top_drawer_layout" />
 
     <View
         android:id="@+id/data_views_location"
         android:layout_width="match_parent"
         android:layout_height="@dimen/top_drawer_data_offset"
-        android:visibility="invisible"
         android:background="@android:color/transparent"
-        app:layout_constraintTop_toBottomOf="@id/round_top_drawer"/>
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@id/round_top_drawer" />
 
     <LinearLayout
         android:id="@+id/floating_info_board"
@@ -52,8 +52,34 @@
 
     </LinearLayout>
 
+    <FrameLayout
+        android:id="@+id/first_note_btn"
+        style="@style/roundButton"
+        android:layout_width="@dimen/play_sample_height"
+        android:layout_height="@dimen/play_sample_height"
+        android:layout_marginStart="@dimen/screen_shoulders_margin"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_drawer_include"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bottom_drawer_include">
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="26dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/play_1st_note_content_desc"
+            android:src="@drawable/firstnote" />
+    </FrameLayout>
 
     <include
-        layout="@layout/game_bottom_drawer_layout"/>
+        android:id="@+id/bottom_drawer_include"
+        layout="@layout/game_bottom_drawer_layout"
+        tools:layout_editor_absoluteY="262dp" />
+
+    <include
+        layout="@layout/scale_hint_layout"
+        android:id="@+id/scale_layout"
+        android:visibility="invisible"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

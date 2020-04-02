@@ -10,4 +10,7 @@
 
     <color name="colorAccent">#65349F</color>
     <color name="colorBtnText">#6B6B6B</color>
+
+    <color name="blackTileColor">#484848</color>
+    <color name="whiteTileColor">#EBEBEB</color>
 </resources>

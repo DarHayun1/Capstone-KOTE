@@ -10,7 +10,7 @@
     <FrameLayout
         android:id="@+id/result_top_drawer"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/top_drawer_menu_height"
+        android:layout_height="@dimen/top_drawer_result_height"
         android:background="@drawable/top_drawer"
         android:elevation="@dimen/drawer_elevation"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,16 +29,16 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <dar.games.music.capstonekote.ui.customviews.KoteButton
-            android:id="@+id/ready_button"
+            android:id="@+id/ready_btn"
             android:layout_width="match_parent"
             android:layout_height="@dimen/main_menu_btn_height"
             android:layout_marginStart="@dimen/screen_shoulders_margin"
             android:layout_marginEnd="@dimen/screen_shoulders_margin"
             android:layout_marginBottom="@dimen/large_margin_game_comp"
-            android:gravity="center"
             android:elevation="@dimen/mm_button_elevation"
-            app:buttonText="@string/ready_btn_label_text"
-            app:buttonIcon="@drawable/play_icon"/>
+            android:gravity="center"
+            app:buttonIcon="@drawable/play_icon"
+            app:buttonText="@string/ready_btn_label_text" />
 
     </FrameLayout>
 
@@ -68,8 +68,8 @@
                 android:id="@+id/round_container"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/main_menu_btn_height"
-                android:layout_marginStart="@dimen/screen_shoulders_margin"
-                android:layout_marginEnd="@dimen/screen_shoulders_margin"
+                android:layout_marginStart="@dimen/in_circle_hor_margin"
+                android:layout_marginEnd="@dimen/in_circle_hor_margin"
                 app:label="@string/round_label_text"
                 android:layout_marginBottom="10dp"/>
 
@@ -77,8 +77,8 @@
                 android:id="@+id/result_container"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/main_menu_btn_height"
-                android:layout_marginStart="@dimen/screen_shoulders_margin"
-                android:layout_marginEnd="@dimen/screen_shoulders_margin"
+                android:layout_marginStart="@dimen/in_circle_hor_margin"
+                android:layout_marginEnd="@dimen/in_circle_hor_margin"
                 android:layout_marginTop="10dp"
                 app:label="@string/result"/>
 

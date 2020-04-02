@@ -108,6 +108,15 @@
     <string name="bottom_drawer_transition_name">bottom_drawer</string>
     <string name="data_label">Data</string>
     <string name="kote_button_content_desc">button_icon</string>
+    <string name="data_value">0</string>
+    <string name="scale_label">Major key</string>
+    <string name="default_num_playes">3</string>
+    <string name="default_scale_text">C#</string>
+    <string name="key_hint_btn_contentdesc">Major scale hint button</string>
+    <string name="scale_image_hint">scale image hint</string>
+    <string name="guitar_file_ext">guitar</string>
+    <string name="piano_file_ext">piano</string>
+
 
 
 </resources>

@@ -13,7 +13,7 @@
         <item name="android:layout_height">@dimen/main_menu_btn_height</item>
         <item name="android:background">@drawable/plain_rounded_corners</item>
         <item name="android:elevation">@dimen/mm_button_elevation</item>
-        <item name="android:fontFamily">sans-serif-medium"</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_marginStart">@dimen/screen_shoulders_margin</item>
         <item name="android:layout_marginEnd">@dimen/screen_shoulders_margin</item>
@@ -29,7 +29,7 @@
 
     <style name="lastgamesHead1">
         <item name="android:textSize">28sp</item>
-        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:fontFamily">@font/poppins_bold</item>
         <item name="android:layout_marginBottom">12dp</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:layout_width">match_parent</item>
@@ -39,7 +39,8 @@
 
     <style name="instructionsHead1">
         <item name="android:textSize">28sp</item>
-        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="android:paddingTop">@dimen/poppins_top_padd</item>
         <item name="android:layout_marginBottom">12dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -48,7 +49,8 @@
 
     <style name="instructionsHead2">
         <item name="android:textSize">22sp</item>
-        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="android:paddingTop">@dimen/poppins_top_padd</item>
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -56,7 +58,8 @@
 
     <style name="instructionsBody">
         <item name="android:textSize">14sp</item>
-        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="android:paddingTop">@dimen/poppins_top_padd</item>
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -65,7 +68,8 @@
     <style name="instructionsBoldBody">
         <item name="android:textSize">16sp</item>
         <item name="android:textAlignment">center</item>
-        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="android:paddingTop">@dimen/poppins_top_padd</item>
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -73,8 +77,28 @@
 
     <style name="roundButton">
         <item name="android:elevation">10dp</item>
-        <item name="android:padding">12dp</item>
+        <item name="android:padding">10dp</item>
         <item name="android:background">@drawable/plain_round_button</item>
+    </style>
+
+    <style name="roundSmallButton">
+        <item name="android:elevation">6dp</item>
+        <item name="android:background">@drawable/plain_round_button</item>
+    </style>
+
+    <style name="roundInfo">
+        <item name="android:elevation">6dp</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:background">@drawable/gradient_round</item>
+    </style>
+
+    <style name="noteNameForScale">
+        <item name="android:background">@drawable/rounded_corners_dark_layout</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:gravity">center</item>
     </style>
 
 </resources>

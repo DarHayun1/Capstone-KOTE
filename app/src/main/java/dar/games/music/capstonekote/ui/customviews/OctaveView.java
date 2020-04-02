@@ -2,12 +2,22 @@ package dar.games.music.capstonekote.ui.customviews;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.core.content.ContextCompat;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import dar.games.music.capstonekote.R;
@@ -15,8 +25,11 @@ import dar.games.music.capstonekote.gamelogic.Note;
 
 public class OctaveView extends ConstraintLayout {
 
-    private final static int[] MAJOR_SCALE_SEQUENCE = {2,2,1,2,2,2};
+    private final static List<Integer> BLACK_TILES = Arrays.asList(1,3,6,8,10);
+
     private ImageView[] tiles = new ImageView[12];
+    private TextView noteNameTv;
+    private ConstraintSet mConstraintSet;
 
     public OctaveView(Context context) {
         this(context, null, 0);
@@ -28,12 +41,15 @@ public class OctaveView extends ConstraintLayout {
 
     public OctaveView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(context);
     }
 
-    private void init() {
-        inflate(getContext(), R.layout.c_to_b_tiles, this);
+    private void init(Context context) {
+        inflate(context, R.layout.c_to_b_tiles, this);
         bindViews();
+
+        mConstraintSet = new ConstraintSet();
+        mConstraintSet.clone(this);
 
     }
 
@@ -50,20 +66,33 @@ public class OctaveView extends ConstraintLayout {
         tiles[9] = findViewById(R.id.a_tile);
         tiles[10] = findViewById(R.id.bb_tile);
         tiles[11] = findViewById(R.id.b_tile);
+        noteNameTv = findViewById(R.id.note_name_tv);
     }
 
-    public void highlightScale(String noteName){
-        int noteValue = Note.getNoteValueByName(noteName);
-        highlightTile(noteValue);
-        for (int pitchDiff : MAJOR_SCALE_SEQUENCE){
-            noteValue = (noteValue+pitchDiff)%11;
-            highlightTile(noteValue);
-        }
-    }
-
-    private void highlightTile(int noteValue) {
+    void highlightTile(Note note) {
+        int noteValue = note.getAbsoluteNoteValue() % 12;
         tiles[noteValue].setImageTintList(
                 ColorStateList.valueOf(getContext().getColor(R.color.colorPrimaryLight)));
+        mConstraintSet.setHorizontalBias(noteNameTv.getId(), (float) noteValue/12);
+        mConstraintSet.applyTo(this);
+        noteNameTv.setText(note.getName());
+        noteNameTv.setVisibility(VISIBLE);
+
+    }
+
+    void clearOctave(){
+        Drawable blackTile = ContextCompat.getDrawable(getContext(), R.drawable.black_tile);
+        Log.d("AAAA", blackTile != null ? blackTile.toString() : "");
+        for (int i=0;i<tiles.length;i++){
+            int colorId;
+            if (BLACK_TILES.contains(i))
+                colorId = R.color.blackTileColor;
+            else
+                colorId = R.color.whiteTileColor;
+            tiles[i].setImageTintList(
+                    ColorStateList.valueOf(getContext().getColor(colorId)));
+            noteNameTv.setVisibility(INVISIBLE);
+        }
     }
 
 }

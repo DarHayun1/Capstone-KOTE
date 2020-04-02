@@ -24,17 +24,12 @@
         android:src="@drawable/left"
         android:tint="@color/colorPrimary" />
 
-    <ImageView
-        android:id="@+id/diff_iv"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/diff_vp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_weight="3"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/difficulty_easy_content_desc"
-        android:scaleType="center"
-        android:src="@drawable/easy_diff_icon"
-        android:tint="@color/colorPrimary" />
+        android:layout_weight="3" />
 
     <ImageView
         android:id="@+id/next_diff_ib"
