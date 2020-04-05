@@ -1,7 +1,9 @@
 package dar.games.music.capstonekote.ui.login;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -50,6 +52,10 @@ public class LogInActivity extends AppCompatActivity implements OnPbFinishedList
     View skipButton;
     @BindView(R.id.sign_in_btn)
     View signInButton;
+    @BindView(R.id.login_top_drawer)
+    View topDrawer;
+    @BindView(R.id.login_bottom_drawer)
+    View bottomDrawer;
     @BindView(R.id.login_pb)
     ProgressBar loginProgressBar;
 
@@ -61,6 +67,7 @@ public class LogInActivity extends AppCompatActivity implements OnPbFinishedList
     private Unbinder mUnbinder;
     private LogInViewModel logInViewModel;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private boolean shouldContinueToMainActivity = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,14 +75,28 @@ public class LogInActivity extends AppCompatActivity implements OnPbFinishedList
         setContentView(R.layout.activity_log_in);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mUnbinder = ButterKnife.bind(this);
+        logInViewModel = new ViewModelProvider(this).get(LogInViewModel.class);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        logInViewModel = new ViewModelProvider(this).get(LogInViewModel.class);
         // Running a progressBar when the app runs for the first time.
+        showLoader();
+        continueToMainActivityIfNeeded();
+    }
+
+    private void continueToMainActivityIfNeeded() {
+        if (shouldContinueToMainActivity) {
+            shouldContinueToMainActivity = false;
+            continueToMainActivity();
+        }
+    }
+
+    private void showLoader() {
         if (!logInViewModel.appStarted()) {
+            signInButton.setVisibility(View.INVISIBLE);
+            skipButton.setVisibility(View.INVISIBLE);
             loginProgressBar.setVisibility(View.VISIBLE);
             new ProgressBarAsyncTask(this).execute();
         } else {
@@ -136,9 +157,8 @@ public class LogInActivity extends AppCompatActivity implements OnPbFinishedList
                 bundle.putString(LOGIN_RESULT_KEY, getResources().getString(R.string.log_success));
                 mFirebaseAnalytics.logEvent(LOG_IN_EVENT, bundle);
                 logInViewModel.setAccount(result.getSignInAccount());
-                continueToMainActivity();
+                shouldContinueToMainActivity = true;
             } else {
-
                 //Logging a FireBase Analytics unsuccessful connection event.
                 bundle.putString(LOGIN_RESULT_KEY, getResources().getString(R.string.log_failure));
                 mFirebaseAnalytics.logEvent(LOG_IN_EVENT, bundle);
@@ -164,9 +184,19 @@ public class LogInActivity extends AppCompatActivity implements OnPbFinishedList
 
     private void continueToMainActivity() {
         setTheme(R.style.AppTheme);
-        startActivity(new Intent(this, MainActivity.class));
+        // Drawers shared elements transition
+        final String bottomDrawerTrans = getString(R.string.bottom_drawer_transition_name);
+        final String topDrawerTrans = getString(R.string.top_drawer_transition_name);
+        final ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
+                this,
+                Pair.create(bottomDrawer, bottomDrawerTrans),
+                Pair.create(topDrawer, topDrawerTrans));
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent, options.toBundle());
         // Slide animation with the MainActivity
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        overridePendingTransition(R.anim.fragment_fade_enter, R.anim.fragment_fade_exit);
     }
 
     @OnClick(R.id.sign_in_btn)
@@ -174,6 +204,17 @@ public class LogInActivity extends AppCompatActivity implements OnPbFinishedList
         Intent intent = signInClient.getSignInIntent();
         startActivityForResult(intent, RC_SIGN_IN);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
 
     @Override
     protected void onDestroy() {

@@ -40,6 +40,7 @@ public class GamesActivity extends AppCompatActivity implements OnGameFragIntera
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.games_activity);
 

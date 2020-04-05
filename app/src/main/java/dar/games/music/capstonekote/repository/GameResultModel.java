@@ -1,21 +1,22 @@
 package dar.games.music.capstonekote.repository;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity(tableName = "results")
 public class GameResultModel {
 
     @TypeConverters(DateConverter.class)
     @PrimaryKey
-    private LocalDate date;
+    private LocalDateTime date;
     private int score;
     private int difficulty;
 
-    public GameResultModel(LocalDate date, int score, int difficulty) {
+    public GameResultModel(LocalDateTime date, int score, int difficulty) {
         this.score = score;
         this.date = date;
         this.difficulty = difficulty;
@@ -25,7 +26,7 @@ public class GameResultModel {
         this.difficulty = difficulty;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
@@ -37,7 +38,7 @@ public class GameResultModel {
         return score;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
@@ -45,4 +46,9 @@ public class GameResultModel {
         return difficulty;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "Date: " + getDate().toString() + "score: " + getScore() + "diff: " + getDifficulty();
+    }
 }

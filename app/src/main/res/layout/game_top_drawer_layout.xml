@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/round_top_drawer"
+    android:transitionName="@string/top_drawer_transition_name"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/top_drawer_menu_height"
+    android:background="@drawable/top_drawer"
+    android:elevation="@dimen/drawer_elevation"
+    android:gravity="center"
+    android:orientation="horizontal"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+</FrameLayout>

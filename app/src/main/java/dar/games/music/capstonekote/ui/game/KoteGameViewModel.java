@@ -86,6 +86,11 @@ public class KoteGameViewModel extends AndroidViewModel {
             initiateGame(KoteGame.EASY_DIFFICULTY);
     }
 
+
+    MutableLiveData<Integer> getHighScore() {
+        return getHighScore(getGame().getDifficulty());
+    }
+
     MutableLiveData<Integer> getHighScore(int difficulty) {
         return mGamesHistoryRepo.getHighScore(difficulty);
     }
@@ -102,4 +107,5 @@ public class KoteGameViewModel extends AndroidViewModel {
     LiveData<Integer> getPlaysLeft() {
         return currentGame.samplePlayesLeft();
     }
+
 }
