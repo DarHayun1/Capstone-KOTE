@@ -69,7 +69,6 @@ public class EndGameFragment extends Fragment {
 
         mViewModel.getHighScore()
                 .observe(getViewLifecycleOwner(), highscore -> {
-                    Log.i("HIGHSCORE", String.valueOf(highscore));
                     highscoreLad.setValue(highscore);
                     if (highscore == mViewModel.getGame().getTotalScore()) {
                         newHighscoreTv.setVisibility(View.VISIBLE);

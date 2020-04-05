@@ -51,8 +51,8 @@
         app:layout_constraintStart_toStartOf="@id/seek_bar">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:background="@android:color/transparent"
             android:contentDescription="@string/play_melody_content_desc"
@@ -101,10 +101,11 @@
         android:id="@+id/major_key_lad"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/play_sample_height"
+        android:layout_marginEnd="@dimen/screen_shoulders_margin"
         app:data="@string/default_scale_text"
         app:label="@string/scale_label"
         app:layout_constraintBottom_toBottomOf="@+id/play_sample_btn"
-        app:layout_constraintEnd_toEndOf="@+id/game_piano"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/play_sample_btn"
         app:textSize="18" />
 

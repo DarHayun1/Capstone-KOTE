@@ -7,18 +7,15 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
-import java.util.Stack;
 
 import dar.games.music.capstonekote.R;
 import dar.games.music.capstonekote.gamelogic.Note;
 
 public class PianoView extends LinearLayout {
 
-    private int mNumOfOctaves;
     OctaveView[] octaves = new OctaveView[4];
+    private int mNumOfOctaves;
     private HashSet<Integer> highlightedOctaves = new HashSet<>(4);
 
     public PianoView(Context context) {
@@ -47,8 +44,9 @@ public class PianoView extends LinearLayout {
 
         try {
             mNumOfOctaves = ta.getInt(R.styleable.PianoView_numOfOctaves, 2);
-        } catch (NullPointerException e){e.printStackTrace();}
-        finally {
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } finally {
             ta.recycle();
         }
 
@@ -63,7 +61,7 @@ public class PianoView extends LinearLayout {
     }
 
     private void displayOctaves() {
-        switch (mNumOfOctaves){
+        switch (mNumOfOctaves) {
             case 2:
                 octaves[2].setVisibility(VISIBLE);
                 octaves[1].setVisibility(VISIBLE);
@@ -90,17 +88,16 @@ public class PianoView extends LinearLayout {
         }
     }
 
-    public void highlightNote(Note note){
+    public void highlightNote(Note note) {
         int octave = note.getOctave();
         if (0 < octave && octave < octaves.length
-            && octaves[octave-1].getVisibility()==VISIBLE){
+                && octaves[octave - 1].getVisibility() == VISIBLE) {
             highlightedOctaves.add(octave);
-            octaves[octave-1].highlightTile(note);
-        }
-        else {
+            octaves[octave - 1].highlightTile(note);
+        } else {
             int closestOctave = findClosestOctave(octave);
             highlightedOctaves.add(closestOctave);
-            octaves[closestOctave-1].highlightTile(note);
+            octaves[closestOctave - 1].highlightTile(note);
         }
     }
 
@@ -110,14 +107,14 @@ public class PianoView extends LinearLayout {
     private int findClosestOctave(int octave) {
         if (octave == 4 || octave == 2)
             return 3;
-        if (octaves[1].getVisibility()==VISIBLE) return 2;
+        if (octaves[1].getVisibility() == VISIBLE) return 2;
         return 3;
     }
 
     public void clearHighlight() {
         for (int i = 0; i < 4; i++) {
             if (highlightedOctaves.remove(i))
-                octaves[i-1].clearOctave();
+                octaves[i - 1].clearOctave();
         }
     }
 }

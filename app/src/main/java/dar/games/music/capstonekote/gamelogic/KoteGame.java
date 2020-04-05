@@ -286,7 +286,6 @@ public class KoteGame {
         this.checkForRecordBadNotes(playerArray);
         if (playerArray.size() > 0) {
             Note[][] syncedArray = playerArray.syncMusicalParts(mMusicalParts.get(round - 1), difficulty);
-            Log.i("SCORETEST", "synced array: " + Arrays.deepToString(syncedArray));
 
             if (checkInvalidAttemptLength(syncedArray)) {
                 currentScore = INVALID_SCORE;
@@ -294,7 +293,6 @@ public class KoteGame {
             }
 
             int tempScore = analyzeOnce(syncedArray);
-            Log.i("SCORETEST", "tempScore: " + tempScore);
 
             currentScore = validateDuplicates(syncedArray, tempScore);
             if (currentScore == INVALID_SCORE)
@@ -409,8 +407,6 @@ public class KoteGame {
         for (int i = 0; i < syncedArray[0].length; i++) {
             if (syncedArray[0][i] != null) {
                 resultSum += scoreSingleNote(syncedArray, i);
-                Log.i("SCORETEST", "note:" + syncedArray[0][i].toString()
-                        + resultSum);
                 notesCounted++;
             }
         }

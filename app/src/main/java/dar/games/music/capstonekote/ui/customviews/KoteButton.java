@@ -57,8 +57,7 @@ public class KoteButton extends LinearLayout {
         try {
             mText = ta.getString(R.styleable.KoteButton_buttonText);
             mDrawable = ta.getDrawable(R.styleable.KoteButton_buttonIcon);
-        }
-        finally {
+        } finally {
             ta.recycle();
         }
         setupView();
@@ -66,26 +65,24 @@ public class KoteButton extends LinearLayout {
 
     private void setupView() {
         mTextTv.setText(mText);
-        if (mDrawable != null){
+        if (mDrawable != null) {
             miconIv.setImageDrawable(mDrawable);
             miconIv.setVisibility(VISIBLE);
-        }
-
-        else
+        } else
             miconIv.setVisibility(GONE);
     }
 
-    public void setupButton(String text, Drawable drawable){
+    public void setupButton(String text, Drawable drawable) {
         mText = text;
         mDrawable = drawable;
         setupView();
     }
 
-    public String getText(){
+    public String getText() {
         return (String) mTextTv.getText();
     }
 
-    public Drawable getDrawable(){
+    public Drawable getDrawable() {
         return miconIv.getDrawable();
     }
 

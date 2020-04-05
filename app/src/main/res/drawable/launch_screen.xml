@@ -13,11 +13,11 @@
         </shape>
     </item>
 
-    <item>
-
-        <bitmap
-            android:src="@drawable/kote_temp_3dlogov3"
-            android:gravity="center"/>
-    </item>
+    <item android:drawable="@drawable/ic_monkeylogowhitetext"
+            android:gravity="center"
+        android:top="48dp"
+        android:bottom="48dp"
+        android:start="48dp"
+        android:end="48dp"/>
 
 </layer-list>

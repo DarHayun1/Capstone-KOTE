@@ -11,10 +11,11 @@
 
     <FrameLayout
         android:id="@+id/login_top_drawer"
-        android:transitionName="@string/top_drawer_transition_name"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/top_drawer_login_bottom_marg"
         android:background="@drawable/launch_screen"
+        android:transitionName="@string/top_drawer_transition_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

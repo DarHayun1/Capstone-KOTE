@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="vertical_margin_game_comp">50dp</dimen>
+    <dimen name="vert_padding_info_board">20dp</dimen>
+    <dimen name="main_menu_btn_height">50dp</dimen>
+    <dimen name="main_menu_text_size">24sp</dimen>
+</resources>

@@ -3,7 +3,6 @@ package dar.games.music.capstonekote.ui.login;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -73,7 +72,6 @@ public class LogInActivity extends AppCompatActivity implements OnPbFinishedList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("SHAHARRRR", "onCreate ***");
         setContentView(R.layout.activity_log_in);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mUnbinder = ButterKnife.bind(this);
@@ -83,7 +81,6 @@ public class LogInActivity extends AppCompatActivity implements OnPbFinishedList
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i("SHAHARRRR", "onResume ***");
         // Running a progressBar when the app runs for the first time.
         showLoader();
         continueToMainActivityIfNeeded();
@@ -160,7 +157,6 @@ public class LogInActivity extends AppCompatActivity implements OnPbFinishedList
                 bundle.putString(LOGIN_RESULT_KEY, getResources().getString(R.string.log_success));
                 mFirebaseAnalytics.logEvent(LOG_IN_EVENT, bundle);
                 logInViewModel.setAccount(result.getSignInAccount());
-                Log.d("SHAHARRRR", "onActivityResult ***");
                 shouldContinueToMainActivity = true;
             } else {
                 //Logging a FireBase Analytics unsuccessful connection event.
@@ -212,13 +208,11 @@ public class LogInActivity extends AppCompatActivity implements OnPbFinishedList
     @Override
     protected void onStart() {
         super.onStart();
-        Log.i("SHAHARRRR", "onStart ***");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.i("SHAHARRRR", "onRestart ***");
     }
 
 

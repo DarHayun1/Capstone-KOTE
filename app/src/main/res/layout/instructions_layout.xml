@@ -53,6 +53,14 @@
                 style="@style/instructionsBody"
                 android:text="@string/scoring_system_text" />
 
+            <TextView
+                style="@style/instructionsHead2"
+                android:text="@string/about_header" />
+
+            <TextView
+                style="@style/instructionsBody"
+                android:text="@string/about_text" />
+
 
         </LinearLayout>
     </ScrollView>

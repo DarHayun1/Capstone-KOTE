@@ -29,8 +29,8 @@
         android:background="@drawable/plain_rounded_corners"
         android:elevation="@dimen/elevation_over_drawer"
         android:orientation="vertical"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
+        android:paddingTop="@dimen/vert_padding_info_board"
+        android:paddingBottom="@dimen/vert_padding_info_board"
         app:layout_constraintBottom_toBottomOf="@+id/data_views_location"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -77,9 +77,9 @@
         tools:layout_editor_absoluteY="262dp" />
 
     <include
-        layout="@layout/scale_hint_layout"
         android:id="@+id/scale_layout"
-        android:visibility="invisible"/>
+        layout="@layout/scale_hint_layout"
+        android:visibility="invisible" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

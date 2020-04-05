@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
@@ -22,7 +21,6 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import java.util.ArrayList;
@@ -69,6 +67,7 @@ public class KoteRoundFragment extends Fragment {
 
     private Context mContext;
     private OnGameFragInteractionListener mCallback;
+    private int shortAnimationDuration;
 
     private KoteGameViewModel mGameViewModel;
 
@@ -81,7 +80,7 @@ public class KoteRoundFragment extends Fragment {
             if (mMediaPlayer != null) {
                 seekBar.setProgress(mMediaPlayer.getCurrentPosition());
                 mSeekbarUpdateHandler.postDelayed(this, 50);
-            } else{
+            } else {
                 mSeekbarUpdateHandler.removeCallbacks(mUpdateSeekbar);
             }
 
@@ -140,9 +139,6 @@ public class KoteRoundFragment extends Fragment {
     TextView noteNameNum6;
     @BindView(R.id.note_num_7)
     TextView noteNameNum7;
-
-    private int shortAnimationDuration;
-
 
     static KoteRoundFragment newInstance() {
 
@@ -214,7 +210,6 @@ public class KoteRoundFragment extends Fragment {
         majorKeyLad.setStringData(mGameViewModel.getGame().getCurrentSample().get(0).getName());
         //Updating every time the game plays the melody.
         mGameViewModel.getPlaysLeft().observe(getViewLifecycleOwner(), numOfPlays -> {
-            Log.d("TESTTEST", String.valueOf(numOfPlays));
             mPlaysLeft = numOfPlays;
             playsLeftTv.setText(String.valueOf(mPlaysLeft));
         });
@@ -316,7 +311,7 @@ public class KoteRoundFragment extends Fragment {
         fadeInViews(playSampleBtn, playsLeftContainer, firstNoteButton);
     }
 
-    private void fadeInViews(View... views){
+    private void fadeInViews(View... views) {
         Arrays.stream(views).forEach(view -> {
             view.setAlpha(0);
             view.setVisibility(View.VISIBLE);
@@ -324,7 +319,7 @@ public class KoteRoundFragment extends Fragment {
         });
     }
 
-    private void fadeOutViews(View... views){
+    private void fadeOutViews(View... views) {
         Arrays.stream(views).forEach(view -> view.animate()
                 .alpha(0f)
                 .setDuration(shortAnimationDuration)
@@ -342,7 +337,6 @@ public class KoteRoundFragment extends Fragment {
         releaseDispatcher();
         isRecording = false;
         //Sending the player attempt to the game to analyze
-        Log.i("SCORETEST", mPlayerAttemptArr.toString());
         mGameViewModel.getGame().analyzePlayerAttempt(mPlayerAttemptArr);
         if (mGameViewModel.getGame().getCurrentScore() != KoteGame.INVALID_SCORE) {
             mCallback.onRoundFinished();
@@ -449,7 +443,7 @@ public class KoteRoundFragment extends Fragment {
         }
     }
 
-    private void setupScales(){
+    private void setupScales() {
         Note firstNote = mGameViewModel.getGame().getCurrentSample()
                 .get(0);
         ScaleVpAdapter scaleAdapter = new ScaleVpAdapter(mContext, firstNote.getformattedName());
@@ -465,12 +459,12 @@ public class KoteRoundFragment extends Fragment {
     }
 
     @OnClick(R.id.scale_btn)
-    void displayScale(){
+    void displayScale() {
         fadeInViews(scaleLayout);
     }
 
     @OnClick(R.id.close_scales_iv)
-    void closeScalesWindow(){
+    void closeScalesWindow() {
         fadeOutViews(scaleLayout);
     }
     /*

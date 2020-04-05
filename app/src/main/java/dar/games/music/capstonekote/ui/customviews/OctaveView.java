@@ -5,20 +5,15 @@ import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.ColorInt;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.ContextCompat;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import dar.games.music.capstonekote.R;
 import dar.games.music.capstonekote.gamelogic.Note;
@@ -82,7 +77,6 @@ public class OctaveView extends ConstraintLayout {
 
     void clearOctave(){
         Drawable blackTile = ContextCompat.getDrawable(getContext(), R.drawable.black_tile);
-        Log.d("AAAA", blackTile != null ? blackTile.toString() : "");
         for (int i=0;i<tiles.length;i++){
             int colorId;
             if (BLACK_TILES.contains(i))

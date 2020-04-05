@@ -8,24 +8,20 @@ import android.widget.FrameLayout;
 public class FixedRatioFrameLayout extends FrameLayout {
 
 
-    public FixedRatioFrameLayout(Context context)
-    {
+    public FixedRatioFrameLayout(Context context) {
         super(context);
     }
 
-    public FixedRatioFrameLayout(Context context, AttributeSet attrs)
-    {
+    public FixedRatioFrameLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public FixedRatioFrameLayout(Context context, AttributeSet attrs, int defStyle)
-    {
+    public FixedRatioFrameLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
     @Override
-    protected void onMeasure (int widthMeasureSpec, int heightMeasureSpec)
-    {
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int originalWidth = MeasureSpec.getSize(widthMeasureSpec);
 
         super.onMeasure(

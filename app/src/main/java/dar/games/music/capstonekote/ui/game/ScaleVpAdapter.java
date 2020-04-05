@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dar.games.music.capstonekote.R;
-import dar.games.music.capstonekote.gamelogic.Note;
 
 public class ScaleVpAdapter extends RecyclerView.Adapter<ScaleVpAdapter.ScaleVh> {
     private static final int NUM_OF_INSTRUMENTS = 2;
@@ -47,7 +46,7 @@ public class ScaleVpAdapter extends RecyclerView.Adapter<ScaleVpAdapter.ScaleVh>
 
     private Drawable findDrawable(int position) {
         String instrumentFormattedName;
-        switch (position){
+        switch (position) {
             case 0:
                 instrumentFormattedName = mContext.getString(R.string.guitar_file_ext);
                 break;

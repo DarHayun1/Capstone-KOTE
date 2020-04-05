@@ -66,6 +66,11 @@
     <string name="scoring_system_text">
         The main 2 components of the scoring system is TIMING and NOTE ACCURACY
         \nDifferent tempo is considered OK if the timing of the notes relative to the tempo remains the same.
+        \n\nicons by https://icons8.com
+    </string>
+    <string name="about_text">
+        Designed by Dar Hayun dar.hayun1@gmail.com
+        \nicons by https://icons8.com
     </string>
     <string name="default_highscore" translatable="false">0</string>
     <string name="leaderboard_content_desc">Leaderboard icon</string>
@@ -116,7 +121,7 @@
     <string name="scale_image_hint">scale image hint</string>
     <string name="guitar_file_ext">guitar</string>
     <string name="piano_file_ext">piano</string>
-
+    <string name="about_header">About</string>
 
 
 </resources>

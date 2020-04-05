@@ -1,5 +1,7 @@
 package dar.games.music.capstonekote.ui.mainmenu;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,6 +33,8 @@ import com.google.android.gms.games.Games;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,6 +70,8 @@ public class MainMenuFragment extends Fragment {
     private GameResultsAdapter mResultsAdapter;
     private Context mContext;
     private Unbinder mUnbinder;
+    private int shortAnimationDuration;
+
 
     // *****************
     // Views
@@ -113,7 +119,8 @@ public class MainMenuFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.main_menu_fragment, container, false);
 
         mUnbinder = ButterKnife.bind(this, rootView);
-
+        shortAnimationDuration = getResources().getInteger(
+                android.R.integer.config_shortAnimTime);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(mContext);
         return rootView;
     }
@@ -151,7 +158,6 @@ public class MainMenuFragment extends Fragment {
 
         mViewModel.getLastResults().observe(getViewLifecycleOwner(), gameResults -> {
             if (gameResults != null) {
-                gameResults.forEach(result -> Log.d("lastgames", result.toString()));
                 noLastGamesTv.setVisibility(View.INVISIBLE);
                 mResultsAdapter.setResultsData(gameResults);
             } else
@@ -175,16 +181,16 @@ public class MainMenuFragment extends Fragment {
 
         mViewModel.getPlayerIcon().observe(getViewLifecycleOwner(), iconUrl ->
                 Picasso.with(mContext).load(iconUrl).into(playerIconIv, new Callback() {
-            @Override
-            public void onSuccess() {
-                playerIconIv.setVisibility(View.VISIBLE);
-            }
+                    @Override
+                    public void onSuccess() {
+                        playerIconIv.setVisibility(View.VISIBLE);
+                    }
 
-            @Override
-            public void onError() {
-                playerIconIv.setVisibility(View.GONE);
-            }
-        }));
+                    @Override
+                    public void onError() {
+                        playerIconIv.setVisibility(View.GONE);
+                    }
+                }));
     }
 
     @OnClick(R.id.start_game_btn)
@@ -198,22 +204,43 @@ public class MainMenuFragment extends Fragment {
 
     @OnClick(R.id.last_games_btn)
     void showLastGames() {
-        lastGamesLayout.setVisibility(View.VISIBLE);
+        fadeInViews(lastGamesLayout);
     }
 
     @OnClick(R.id.close_last_games_btn)
     void closeLastGames() {
-        lastGamesLayout.setVisibility(View.INVISIBLE);
+        fadeOutViews(lastGamesLayout);
     }
 
     @OnClick(R.id.instruction_btn)
     void showInstructions() {
-        instructionsLayout.setVisibility(View.VISIBLE);
+        fadeInViews(instructionsLayout);
     }
 
     @OnClick(R.id.close_instructions_btn)
     void closeInstructions() {
-        instructionsLayout.setVisibility(View.INVISIBLE);
+        fadeOutViews(instructionsLayout);
+    }
+
+    private void fadeInViews(View... views) {
+        Arrays.stream(views).forEach(view -> {
+            view.setAlpha(0);
+            view.setVisibility(View.VISIBLE);
+            view.animate().alpha(1f).setDuration(shortAnimationDuration).setListener(null);
+        });
+    }
+
+    private void fadeOutViews(View... views) {
+        Arrays.stream(views).forEach(view -> view.animate()
+                .alpha(0f)
+                .setDuration(shortAnimationDuration)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        view.setVisibility(View.INVISIBLE);
+                    }
+                })
+        );
     }
 
     @OnClick(R.id.leaderboard_btn)
@@ -324,7 +351,6 @@ public class MainMenuFragment extends Fragment {
         mViewModel.updateDiff(mDifficulty);
 
 
-
     }
 
     private void difficultyChanged(int position) {
@@ -338,6 +364,7 @@ public class MainMenuFragment extends Fragment {
         displayDifficulty();
 
     }
+
 
     private void displayDifficulty() {
         switch (mDifficulty) {

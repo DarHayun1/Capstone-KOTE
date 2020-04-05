@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -57,8 +56,9 @@ public class LabelAndDataView extends LinearLayout {
             mLabel = ta.getString(R.styleable.LabelAndDataView_label);
             mValue = ta.getString(R.styleable.LabelAndDataView_data);
             mTextSize = ta.getInt(R.styleable.LabelAndDataView_textSize, 22);
-        } catch (NullPointerException e){e.printStackTrace();}
-        finally {
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } finally {
             ta.recycle();
         }
         initTypeface(context);
@@ -77,7 +77,7 @@ public class LabelAndDataView extends LinearLayout {
         mDataTv.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize);
     }
 
-    public void setData(String label, int value){
+    public void setData(String label, int value) {
         mLabel = label;
         mValue = String.valueOf(value);
         setupView();

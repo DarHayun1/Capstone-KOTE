@@ -43,7 +43,7 @@ public class DiffVpAdapter extends RecyclerView.Adapter<DiffVpAdapter.DiffVH> {
 
     private Drawable findDrawable(int position) {
         int drawId;
-        switch (position){
+        switch (position) {
             case 2:
                 drawId = R.drawable.extreme_diff_icon;
                 break;
