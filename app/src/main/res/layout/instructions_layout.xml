@@ -1,66 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
+    android:background="@android:color/transparent"
     android:layout_height="match_parent"
-    android:background="@drawable/rounded_corners_layout"
-    android:layout_marginStart="@dimen/instruct_hor_margin"
-    android:layout_marginEnd="@dimen/instruct_hor_margin"
-    android:layout_marginTop="@dimen/instruct_vert_margin"
-    android:layout_marginBottom="@dimen/instruct_vert_margin"
-    android:padding="6dp"
-    android:elevation="25dp"
-    android:id="@+id/instructions_Rl">
+    android:layout_marginStart="@dimen/popup_hor_margin"
+    android:layout_marginEnd="@dimen/popup_hor_margin"
+    android:layout_marginTop="@dimen/popup_vert_margin"
+    android:layout_marginBottom="@dimen/popup_vert_margin"
+    android:elevation="@dimen/elevation_over_drawer2"
+    android:id="@+id/instructions_Cl">
 
     <ScrollView
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/close_btn_height"
-        android:scrollbars="vertical">
+        android:layout_margin="12dp"
+        android:background="@drawable/rounded_corners_layout"
+        android:padding="8dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
-                android:text="@string/instructions_label"
-                style="@style/instructionsHead1" />
+                style="@style/instructionsHead1"
+                android:text="@string/instructions_label" />
 
             <TextView
-            android:text="@string/general_label"
-            style="@style/instructionsHead2" />
+                style="@style/instructionsHead2"
+                android:text="@string/general_label" />
 
             <TextView
-                android:text="@string/general_instructions_text"
-                style="@style/instructionsBody" />
+                style="@style/instructionsBody"
+                android:text="@string/general_instructions_text" />
 
             <TextView
-                android:text="@string/use_headphones_instructions_text"
-                style="@style/instructionsBoldBody" />
+                style="@style/instructionsBoldBody"
+                android:text="@string/use_headphones_instructions_text" />
 
             <TextView
-                android:text="@string/scoring_system_label"
-                style="@style/instructionsHead2" />
+                style="@style/instructionsHead2"
+                android:text="@string/scoring_system_label" />
 
             <TextView
-                android:text="@string/scoring_system_text"
-                style="@style/instructionsBody" />
+                style="@style/instructionsBody"
+                android:text="@string/scoring_system_text" />
+
+            <TextView
+                style="@style/instructionsHead2"
+                android:text="@string/about_header" />
+
+            <TextView
+                style="@style/instructionsBody"
+                android:text="@string/about_text" />
 
 
         </LinearLayout>
     </ScrollView>
 
 
-    <Button
+    <ImageView
         android:id="@+id/close_instructions_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/close_btn_height"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/close_button"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="@dimen/scale_hint_size"
+        android:layout_height="@dimen/scale_hint_size"
+        android:src="@drawable/red_x_btn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,8 +2,8 @@
 <resources>
     <string name="app_id">694109626378</string>
 
-    <string name="leaderboard_easy" translatable="false">CgkIisCh4ZkUEAIQBA</string>
-    <string name="leaderboard_hard" translatable="false">CgkIisCh4ZkUEAIQAg</string>
-    <string name="leaderboard_extreme" translatable="false">CgkIisCh4ZkUEAIQAw</string>
+    <string name="leaderboard_easy" translatable="false">CgkIisCh4ZkUEAIQBQ</string>
+    <string name="leaderboard_hard" translatable="false">CgkIisCh4ZkUEAIQBg</string>
+    <string name="leaderboard_extreme" translatable="false">CgkIisCh4ZkUEAIQBw</string>
 
 </resources>

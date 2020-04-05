@@ -9,37 +9,82 @@
     tools:context="dar.games.music.capstonekote.ui.login.LogInActivity">
 
 
-    <Button
-        android:id="@+id/skip_log_in_btn"
-        android:layout_width="@dimen/log_in_btn_width"
-        android:layout_height="@dimen/log_in_btn_height"
-        android:layout_marginBottom="@dimen/log_in_margin_bottom"
-        android:backgroundTint="@color/colorPrimary"
-        android:text="@string/skip_sign_in_btn"
-        android:textColor="@android:color/white"
-        android:visibility="invisible"
+    <FrameLayout
+        android:id="@+id/login_top_drawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/top_drawer_login_bottom_marg"
+        android:background="@drawable/launch_screen"
+        android:transitionName="@string/top_drawer_transition_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/sign_in_btn"
-        android:layout_width="@dimen/log_in_btn_width"
-        android:layout_height="@dimen/log_in_btn_height"
-        android:visibility="invisible"
-        android:layout_marginBottom="@dimen/log_in_margin_bottom"
-        app:layout_constraintBottom_toTopOf="@id/skip_log_in_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    </FrameLayout>
 
-    <ProgressBar
-        android:id="@+id/login_pb"
-        style="?android:attr/progressBarStyle"
-        android:visibility="invisible"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/skip_log_in_btn"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/login_bottom_drawer"
+        android:transitionName="@string/bottom_drawer_transition_name"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_drawer_login_height"
+        android:background="@drawable/bottom_drawer"
+        android:elevation="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <FrameLayout
+            android:layout_width="@dimen/log_in_btn_width"
+            android:layout_height="@dimen/log_in_btn_height"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline2"
+            app:layout_constraintVertical_bias="0.33">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/skip_log_in_btn"
+                android:background="@drawable/rounded_corners_gradient_btn"
+                android:text="@string/skip_sign_in_btn"
+                android:textColor="@android:color/white"
+                android:layout_margin="6dp" />
+        </FrameLayout>
+
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_btn"
+            android:layout_width="@dimen/log_in_btn_width"
+            android:layout_height="@dimen/log_in_btn_height"
+            app:layout_constraintBottom_toTopOf="@+id/guideline2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.66" />
+
+        <ProgressBar
+            android:id="@+id/login_pb"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

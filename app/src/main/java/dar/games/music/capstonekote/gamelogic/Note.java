@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import be.tarsos.dsp.util.PitchConverter;
 import dar.games.music.capstonekote.R;
@@ -12,6 +14,9 @@ public class Note {
 
     private static final String[] notesNamesArray = {"C", "C#", "D", "D#", "E", "F", "F#",
             "G", "G#", "A", "A#", "B"};
+    private static final String[] formattedNotesArray = {"c", "db", "d", "eb", "e", "f", "gb",
+            "g", "ab", "a", "bb", "b"};
+    private static final int[] MAJOR_SCALE_SPACES = {2,2,1,2,2,2};
     private static final String SILENCE_NOTE = "S";
     private static final int SILENCE_NOTE_VALUE = -6;
 
@@ -38,6 +43,14 @@ public class Note {
         this.timeStamp = timeStamp;
         this.probability = probability;
         this.duration = duration;
+    }
+
+    public Note(Note n) {
+        this.name = n.getName();
+        this.octave = n.getOctave();
+        this.timeStamp = n.getTimeStamp();
+        this.probability = n.getProbability();
+        this.duration = n.getDuration();
     }
 
     /**
@@ -305,6 +318,20 @@ public class Note {
         return SILENCE_NOTE_VALUE;
     }
 
+    public static int getNoteValueByName(String name) {
+        for (int i = 0; i < notesNamesArray.length; i++) {
+            if (name.equals(notesNamesArray[i])) {
+                return i;
+            }
+        }
+        return SILENCE_NOTE_VALUE;
+    }
+
+    private boolean isValidName(){
+
+        return Arrays.stream(notesNamesArray).anyMatch(n -> name.equals(n));
+    }
+
 
     @NonNull
     @Override
@@ -322,5 +349,23 @@ public class Note {
             return ((Note) obj).getName().equals(this.name);
         }
         return false;
+    }
+
+    public String getformattedName() {
+        return (isValidName()) ? formattedNotesArray[Arrays.asList(notesNamesArray).indexOf(name)]
+                                : "";
+    }
+
+    public ArrayList<String> getScaleNotes(){
+        ArrayList<String> notes = new ArrayList<>(7);
+        int index = this.getNoteValue();
+        notes.add(notesNamesArray[index]);
+        for (int space :
+                MAJOR_SCALE_SPACES) {
+            index += space;
+            index %= 12;
+            notes.add(notesNamesArray[index]);
+        }
+        return notes;
     }
 }

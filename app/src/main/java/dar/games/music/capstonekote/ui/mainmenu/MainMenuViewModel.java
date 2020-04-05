@@ -1,6 +1,8 @@
 package dar.games.music.capstonekote.ui.mainmenu;
 
 import android.app.Application;
+import android.net.Uri;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -50,4 +52,9 @@ public class MainMenuViewModel extends AndroidViewModel {
     MutableLiveData<String> getPlayerName() {
         return mGamesHistoryRepository.getPlayerName();
     }
+
+    MutableLiveData<Uri> getPlayerIcon() {
+        return mGamesHistoryRepository.getPlayerIconUri();
+    }
+
 }

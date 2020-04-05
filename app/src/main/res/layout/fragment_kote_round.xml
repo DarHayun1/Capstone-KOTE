@@ -1,83 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/game_const_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backgroundnotes"
-    android:clickable="false"
+    android:background="@color/backgroundColor"
+    android:elevation="@dimen/drawer_elevation"
     tools:context="dar.games.music.capstonekote.ui.game.KoteRoundFragment">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/top_guideline"
-        android:layout_width="wrap_content"
+    <include layout="@layout/game_top_drawer_layout" />
+
+    <View
+        android:id="@+id/data_views_location"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_drawer_data_offset"
+        android:background="@android:color/transparent"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@id/round_top_drawer" />
+
+    <LinearLayout
+        android:id="@+id/floating_info_board"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="32dp" />
+        android:layout_marginStart="@dimen/screen_shoulders_margin"
+        android:layout_marginEnd="@dimen/screen_shoulders_margin"
+        android:background="@drawable/plain_rounded_corners"
+        android:elevation="@dimen/elevation_over_drawer"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/vert_padding_info_board"
+        android:paddingBottom="@dimen/vert_padding_info_board"
+        app:layout_constraintBottom_toBottomOf="@+id/data_views_location"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <include layout="@layout/record_btn_layout"
-        android:id="@+id/record_button" />
+        <dar.games.music.capstonekote.ui.customviews.LabelAndDataView
+            android:id="@+id/round_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_menu_btn_height"
+            android:layout_marginStart="@dimen/screen_shoulders_margin"
+            android:layout_marginEnd="@dimen/screen_shoulders_margin"
+            android:layout_marginBottom="20dp" />
 
+        <dar.games.music.capstonekote.ui.customviews.LabelAndDataView
+            android:id="@+id/score_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_menu_btn_height"
+            android:layout_marginStart="@dimen/screen_shoulders_margin"
+            android:layout_marginEnd="@dimen/screen_shoulders_margin" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/first_note_btn"
+        style="@style/roundButton"
+        android:layout_width="@dimen/play_sample_height"
+        android:layout_height="@dimen/play_sample_height"
+        android:layout_marginStart="@dimen/screen_shoulders_margin"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_drawer_include"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bottom_drawer_include">
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="26dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/play_1st_note_content_desc"
+            android:src="@drawable/firstnote" />
+    </FrameLayout>
 
     <include
-        android:id="@+id/piano_layout"
-        layout="@layout/piano_layout" />
+        android:id="@+id/bottom_drawer_include"
+        layout="@layout/game_bottom_drawer_layout"
+        tools:layout_editor_absoluteY="262dp" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/game_hor_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
+    <include
+        android:id="@+id/scale_layout"
+        layout="@layout/scale_hint_layout"
+        android:visibility="invisible" />
 
-
-    <TextView
-        android:id="@+id/round_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
-        android:layout_marginStart="@dimen/screen_shoulders_margin"
-        android:text="@string/round_label_text"
-        android:textAllCaps="true"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/top_guideline" />
-
-    <TextView
-        android:id="@+id/score_label"
-        android:layout_marginEnd="@dimen/screen_shoulders_margin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
-        android:text="@string/score_label_text"
-        android:textAllCaps="true"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/top_guideline" />
-
-    <TextView
-        android:id="@+id/round_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:fontFamily="sans-serif-black"
-        android:text="@string/default_round_text"
-        app:layout_constraintEnd_toEndOf="@id/round_label"
-        app:layout_constraintStart_toStartOf="@id/round_label"
-        app:layout_constraintTop_toBottomOf="@id/round_label"
-        android:textSize="24sp"/>
-
-    <TextView
-        android:id="@+id/total_score_round_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:fontFamily="sans-serif-black"
-        android:text="@string/default_round_text"
-        app:layout_constraintEnd_toEndOf="@id/score_label"
-        app:layout_constraintStart_toStartOf="@id/score_label"
-        app:layout_constraintTop_toBottomOf="@id/score_label"
-        android:textSize="24sp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

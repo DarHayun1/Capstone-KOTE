@@ -3,6 +3,7 @@ package dar.games.music.capstonekote.ui.game;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import dar.games.music.capstonekote.R;
+import dar.games.music.capstonekote.ui.customviews.LabelAndDataView;
 
 /**
  * A fragment displaying the finished game summary.
@@ -29,8 +31,10 @@ public class EndGameFragment extends Fragment {
 
     @BindView(R.id.final_result_tv)
     TextView finalResultTv;
-    @BindView(R.id.final_result_highscore_tv)
-    TextView highScoreTv;
+    @BindView(R.id.highscore_container)
+    LabelAndDataView highscoreLad;
+    @BindView(R.id.new_highscore_tv)
+    TextView newHighscoreTv;
     private OnGameFragInteractionListener mCallback;
 
     public EndGameFragment() {
@@ -63,12 +67,11 @@ public class EndGameFragment extends Fragment {
 
         mViewModel = new ViewModelProvider(getActivity()).get(KoteGameViewModel.class);
 
-        mViewModel.getHighScore(mViewModel.getGame().getDifficulty())
-                .observe(getViewLifecycleOwner(), score -> {
-                    if (score > mViewModel.getGame().getTotalScore()) {
-                        String highscoreText = getResources().getString(R.string.final_score_highscore)
-                                + " " + score;
-                        highScoreTv.setText(highscoreText);
+        mViewModel.getHighScore()
+                .observe(getViewLifecycleOwner(), highscore -> {
+                    highscoreLad.setValue(highscore);
+                    if (highscore == mViewModel.getGame().getTotalScore()) {
+                        newHighscoreTv.setVisibility(View.VISIBLE);
                     }
                 });
         finalResultTv.setText(String.valueOf(mViewModel.getGame().getTotalScore()));

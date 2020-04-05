@@ -8,7 +8,7 @@
     <string name="start_game">START GAME</string>
     <string name="resulttextHint">resultText</string>
     <string name="difficulty_label">Difficulty:</string>
-    <string name="highscore_label">Highscore:</string>
+    <string name="highscore_label">Highscore</string>
     <string name="highscore_hint">Highscore</string>
     <string name="instructions_label">Instructions</string>
     <string name="leaderboard_label">Leaderboard</string>
@@ -22,7 +22,7 @@
     <string name="stop_player_record">STOP</string>
 
     <string name="record_btn_label">Record</string>
-    <string name="ready_btn_label_text">Ready for</string>
+    <string name="ready_btn_label_text">Ready for Round</string>
     <string name="ready_btn_text">Round </string>
     <string name="easy_diff">EASY</string>
     <string name="hard_diff">HARD</string>
@@ -66,6 +66,11 @@
     <string name="scoring_system_text">
         The main 2 components of the scoring system is TIMING and NOTE ACCURACY
         \nDifferent tempo is considered OK if the timing of the notes relative to the tempo remains the same.
+        \n\nicons by https://icons8.com
+    </string>
+    <string name="about_text">
+        Designed by Dar Hayun dar.hayun1@gmail.com
+        \nicons by https://icons8.com
     </string>
     <string name="default_highscore" translatable="false">0</string>
     <string name="leaderboard_content_desc">Leaderboard icon</string>
@@ -87,7 +92,7 @@
     <string name="quit_game_dialog_yes">Yes</string>
     <string name="quit_game_dialog_not">Omg, No!</string>
     <string name="round">Round </string>
-    <string name="result"> Result</string>
+    <string name="result">Result </string>
     <string name="round_score_text">The score is: </string>
     <string name="finish">Finish</string>
     <string name="record_interrupted_message">Record interrupted\nTry again.</string>
@@ -102,6 +107,21 @@
     <string name="signed_out_message">Signed Out!</string>
     <string name="sign_out_text">Sign Out</string>
     <string name="no_last_games">Couldn\'t find any previous games</string>
+    <string name="scale">Scale</string>
+    <string name="player_icon_content_desc">player icon</string>
+    <string name="top_drawer_transition_name">top_drawer</string>
+    <string name="bottom_drawer_transition_name">bottom_drawer</string>
+    <string name="data_label">Data</string>
+    <string name="kote_button_content_desc">button_icon</string>
+    <string name="data_value">0</string>
+    <string name="scale_label">Major key</string>
+    <string name="default_num_playes">3</string>
+    <string name="default_scale_text">C#</string>
+    <string name="key_hint_btn_contentdesc">Major scale hint button</string>
+    <string name="scale_image_hint">scale image hint</string>
+    <string name="guitar_file_ext">guitar</string>
+    <string name="piano_file_ext">piano</string>
+    <string name="about_header">About</string>
 
 
 </resources>

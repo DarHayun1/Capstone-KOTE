@@ -7,8 +7,7 @@
     android:layout_marginEnd="@dimen/screen_shoulders_margin"
     android:maxWidth="@dimen/max_piano_width"
     android:layout_height="wrap_content"
-    app:layout_constraintBottom_toBottomOf="@id/game_hor_guideline"
-    app:layout_constraintTop_toTopOf="@id/game_hor_guideline"
+    app:layout_constraintBottom_toTopOf="@id/record_button"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent">
 

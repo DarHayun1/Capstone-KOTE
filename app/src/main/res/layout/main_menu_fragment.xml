@@ -6,15 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_menu_cl"
     tools:context="dar.games.music.capstonekote.ui.mainmenu.MainMenuFragment"
-    android:background="@drawable/backgroundnotes">
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/hor_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.50" />
-
+    android:background="@color/backgroundColor">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/left_wall"
@@ -23,75 +15,166 @@
         android:orientation="vertical"
         app:layout_constraintGuide_begin="@dimen/screen_shoulders_margin" />
 
-    <include
-        android:id="@+id/diff_layout"
-
-        layout="@layout/difficulties_layout"
-        android:elevation="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/top_guideline" />
-
-    <Button
-        android:id="@+id/start_game_btn"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/main_menu_btn_height"
-        android:background="@drawable/rounded_corners_button"
-        android:text="@string/start_game"
-        android:textSize="@dimen/main_menu_text_size"
-        android:textAllCaps="false"
-        android:layout_marginStart="@dimen/screen_shoulders_margin"
-        android:layout_marginEnd="@dimen/screen_shoulders_margin"
-        app:layout_constraintEnd_toEndOf="@+id/diff_layout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/hor_guideline" />
-
     <LinearLayout
-        android:id="@+id/menu_layout"
+        android:id="@+id/mainmenu_top_drawer"
+        android:transitionName="@string/top_drawer_transition_name"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginStart="@dimen/screen_shoulders_margin"
-        android:layout_marginEnd="@dimen/screen_shoulders_margin"
+        android:layout_height="@dimen/top_drawer_menu_height"
+        android:background="@drawable/top_drawer"
         android:orientation="horizontal"
-        android:paddingTop="6dp"
-        android:gravity="center_vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="center"
+        android:elevation="@dimen/drawer_elevation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start_game_btn">
+        app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="@string/highscore_label"
-                android:textAlignment="textEnd"
-                android:textSize="@dimen/main_menu_text_size" />
+        <TextView
+            android:id="@+id/player_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/poppins_medium"
+            android:paddingTop="@dimen/poppins_top_padd"
+            android:text="@string/default_hello_text"
+            android:textColor="@android:color/white"
+            android:textSize="26sp" />
 
-            <TextView
-                android:id="@+id/highscore_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:fontFamily="sans-serif-black"
-                android:hint="@string/highscore_hint"
-                android:text="@string/default_highscore"
-                android:textAlignment="textStart"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/main_menu_text_size" />
+        <ImageView
+            android:id="@+id/player_icon_iv"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/player_icon_content_desc"
+            android:focusable="true"
+            android:visibility="gone"
+            android:scaleType="center"/>
 
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/player_name_tv"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/floating_menu_bar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="@dimen/screen_shoulders_margin"
+        android:background="@drawable/plain_rounded_corners"
+        android:elevation="@dimen/elevation_over_drawer"
+        android:orientation="horizontal"
+        android:paddingStart="20dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/mainmenu_top_drawer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainmenu_top_drawer">
+
+        <ImageButton
+            android:id="@+id/instruction_btn"
+            android:layout_width="36dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:contentDescription="@string/instructions_content_desc"
+            android:focusable="true"
+            android:scaleType="center"
+            android:src="@android:drawable/ic_dialog_info"
+            android:tint="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/left_separator"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <FrameLayout
+            android:id="@+id/left_separator"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.33"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/leaderboard_btn"
+            android:layout_width="36dp"
+            android:layout_height="32dp"
+            android:clickable="true"
+            android:contentDescription="@string/leaderboard_content_desc"
+            android:cropToPadding="false"
+            android:focusable="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/games_leaderboards"
+            android:tint="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/right_separator"
+            app:layout_constraintStart_toEndOf="@+id/left_separator"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <FrameLayout
+            android:id="@+id/right_separator"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.66"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/last_games_btn"
+            android:layout_width="36dp"
+            android:layout_height="32dp"
+            android:clickable="true"
+            android:contentDescription="@string/last_games_icon"
+            android:cropToPadding="false"
+            android:focusable="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/last_games_icon"
+            android:tint="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/right_separator"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <include
+        android:id="@+id/diff_layout"
+        layout="@layout/difficulties_layout" />
+
+    <FrameLayout
+        android:id="@+id/diff_name_container"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/default_hello_text"
-        android:textSize="22sp"
-        app:layout_constraintStart_toEndOf="@+id/left_wall"
-        app:layout_constraintTop_toTopOf="@+id/top_guideline" />
+        android:layout_height="@dimen/log_in_btn_height"
+        android:background="@drawable/extended_rounded_corners_gradient_btn"
+        android:elevation="@dimen/elevation_over_drawer"
+        app:layout_constraintBottom_toTopOf="@+id/mainmenu_bottom_drawer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/mainmenu_bottom_drawer">
+
+        <TextView
+            android:id="@+id/diff_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:fontFamily="casual"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/easy_diff"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/main_menu_text_size"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <include
+        layout="@layout/mm_bottom_drawer_layout"
+        tools:layout_editor_absoluteY="471dp" />
 
     <include
         android:id="@+id/instructions_view"
@@ -108,59 +191,8 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <ImageButton
-        android:id="@+id/instruction_btn"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:background="@drawable/backgroundnotes"
-        android:scaleType="center"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@android:drawable/ic_dialog_info"
-        android:tint="@color/colorPrimary"
-        app:layout_constraintEnd_toEndOf="@id/menu_layout"
-        app:layout_constraintTop_toTopOf="@id/top_guideline"
-        android:contentDescription="@string/instructions_content_desc" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/top_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="32dp" />
-
-    <ImageView
-        android:id="@+id/leaderboard_btn"
-        android:layout_width="36dp"
-        android:layout_height="32dp"
-        android:layout_marginEnd="6dp"
-        android:cropToPadding="false"
-        android:scaleType="centerCrop"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/games_controller_grey"
-        android:tint="@color/colorPrimary"
-        app:layout_constraintEnd_toStartOf="@+id/instruction_btn"
-        app:layout_constraintTop_toTopOf="@+id/top_guideline"
-        android:contentDescription="@string/leaderboard_content_desc" />
-
-    <ImageView
-        android:id="@+id/last_games_btn"
-        android:layout_width="36dp"
-        android:layout_height="32dp"
-        android:layout_marginEnd="6dp"
-        android:cropToPadding="false"
-        android:scaleType="centerCrop"
-        android:src="@drawable/last_games_icon"
-        android:tint="@color/colorPrimary"
-        android:clickable="true"
-        android:focusable="true"
-        android:contentDescription="@string/last_games_icon"
-        app:layout_constraintEnd_toStartOf="@+id/leaderboard_btn"
-        app:layout_constraintTop_toTopOf="@+id/top_guideline" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
